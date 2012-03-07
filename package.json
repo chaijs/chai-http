@@ -4,7 +4,8 @@
   "description": "Extend Chai Assertion library with tests for http apis",
   "version": "0.0.1",
   "repository": {
-    "url": ""
+    "type": "git",
+    "url": "git://github.com/logicalparadox/chai-http.git"
   },
   "main": "./index",
   "scripts": {
