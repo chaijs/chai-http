@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/logicalparadox/chai-http.git"
+    "url": "git@github.com:chaijs/chai-http.git"
   },
   "main": "./index",
   "scripts": {
