@@ -15,11 +15,12 @@ chai.use(http);
  * Support.
  */
 var expect = chai.expect;
+var Err = chai.AssertionError;
 
 function err(fn, msg) {
   try {
     fn();
-    throw new Error('expected an error');
+    throw new Err({message: 'expected an error'});
   } catch (err) {
     expect(msg).to.equal(err.message);
   }
@@ -49,6 +50,7 @@ suite('chai-http', function() {
     };
 
     expect(req).to.have.header('foo', 'bar');
+
     expect(res).to.have.header('bar', 'foo');
 
     err(function() {
@@ -58,5 +60,65 @@ suite('chai-http', function() {
     err(function() {
       expect(res).not.to.have.header('bar', 'foo');
     }, 'expected header bar to not have value foo');
+  });
+
+  test('Assertion#json', function() {
+    var req = {headers: {'content-type': ['application/json']}};
+    var res = {
+      getHeader: function(key) {
+        return 'application/json'
+      }
+    };
+
+    expect(req).to.be.json;
+    expect(res).to.be.json;
+
+    err(function() {
+      expect(req).not.to.be.json;
+    }, 'expected [ \'application/json\' ] to not include \'application/json\'');
+
+    err(function() {
+      expect(res).not.to.be.json;
+    }, 'expected \'application/json\' to not include \'application/json\'');
+  });
+
+  test('Assertion#text', function() {
+    var req = {headers: {'content-type': ['text/plain']}};
+    var res = {
+      getHeader: function(key) {
+        return 'text/plain'
+      }
+    };
+
+    expect(req).to.be.text;
+    expect(res).to.be.text;
+
+    err(function() {
+      expect(req).not.to.be.text;
+    }, 'expected [ \'text/plain\' ] to not include \'text/plain\'');
+
+    err(function() {
+      expect(res).not.to.be.text;
+    }, 'expected \'text/plain\' to not include \'text/plain\'');
+  });
+
+  test('Assertion#html', function() {
+    var req = {headers: {'content-type': ['text/html']}};
+    var res = {
+      getHeader: function(key) {
+        return 'text/html'
+      }
+    };
+
+    expect(req).to.be.html;
+    expect(res).to.be.html;
+
+    err(function() {
+      expect(req).not.to.be.html;
+    }, 'expected [ \'text/html\' ] to not include \'text/html\'');
+
+    err(function() {
+      expect(res).not.to.be.html;
+    }, 'expected \'text/html\' to not include \'text/html\'');
   });
 });
