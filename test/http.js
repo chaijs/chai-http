@@ -50,7 +50,6 @@ suite('chai-http', function() {
     };
 
     expect(req).to.have.header('foo', 'bar');
-
     expect(res).to.have.header('bar', 'foo');
 
     err(function() {
@@ -60,6 +59,26 @@ suite('chai-http', function() {
     err(function() {
       expect(res).not.to.have.header('bar', 'foo');
     }, 'expected header bar to not have value foo');
+  });
+
+  test('Assertion#headers', function() {
+    var req = {headers: {foo: 'bar'}};
+    var res = {
+      getHeader: function(key) {
+        return 'foo';
+      }
+    };
+
+    expect(req).to.have.headers;
+    expect(res).to.have.headers;
+
+    err(function() {
+      expect(req).not.to.have.headers;
+    }, 'expected { headers: { foo: \'bar\' } } to not have headers or getHeader method');
+
+    err(function() {
+      expect(res).not.to.have.headers;
+    }, 'expected { getHeader: [Function] } to not have headers or getHeader method');
   });
 
   test('Assertion#json', function() {
