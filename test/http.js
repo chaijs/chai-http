@@ -41,6 +41,19 @@ suite('chai-http', function() {
     }, "expected {} to have a property 'statusCode'");
   });
 
+  test('Assertion#ip', function() {
+    expect('127.0.0.1').to.be.an.ip;
+    expect('2001:0db8:85a3:0000:0000:8a2e:0370:7334').to.be.an.ip;
+
+    err(function() {
+      expect('127.0.0.1').not.to.be.an.ip;
+    }, 'expected \'127.0.0.1\' to not be an ip');
+
+    err(function() {
+      expect('2001:0db8:85a3:0000:0000:8a2e:0370:7334').to.not.be.an.ip;
+    }, 'expected \'2001:0db8:85a3:0000:0000:8a2e:0370:7334\' to not be an ip');
+  });
+
   test('Assertion#header', function() {
     var req = {headers: {foo: 'bar'}};
     var res = {
