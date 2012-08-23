@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/chaijs/chai-http.png)](http://travis-ci.org/chaijs/chai-http)
 # Chai HTTP
 
 
