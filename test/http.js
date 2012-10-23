@@ -26,7 +26,30 @@ describe('assertions', function () {
     }).should.throw('expected \'2001:0db8:85a3:0000:0000:8a2e:0370:7334\' to not be an ip');
   });
 
-  it('#header', function () {
+  it('#header test existence', function () {
+    var req = { headers: { foo: 'bar' }};
+    var res = {
+      getHeader: function (key) {
+        return key == 'foo' ? 'bar' : undefined;
+      }
+    };
+
+    req.should.have.header('foo');
+    req.should.not.have.header('bar');
+
+    res.should.have.header('foo');
+    res.should.not.have.header('bar');
+
+    (function () {
+      req.should.have.header('bar');
+    }).should.throw('expected header \'bar\' to exist');
+
+    (function () {
+      res.should.have.header('bar');
+    }).should.throw('expected header \'bar\' to exist');
+  });
+
+  it('#header test value', function () {
     var req = { headers: { foo: 'bar' }};
     var res = {
       getHeader: function (key) {
@@ -39,11 +62,11 @@ describe('assertions', function () {
 
     (function () {
       req.should.not.have.header('foo', 'bar');
-    }, 'expected header foo to not have value bar');
+    }, 'expected header \'foo\' to not have value bar');
 
     (function () {
       res.should.not.have.header('bar', 'foo');
-    }).should.throw('expected header bar to not have value foo');
+    }).should.throw('expected header \'bar\' to not have value foo');
   });
 
   it('#headers', function() {
