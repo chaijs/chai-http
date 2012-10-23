@@ -14,7 +14,12 @@
   "engines": {
     "node": ">= 0.6.0"
   },
-  "dependencies": {},
+  "dependencies": {
+      "harbor": "0.2.x"
+    , "methods": "0.0.x"
+    , "pauli": "0.0.x"
+    , "superagent": "0.9.x"
+  },
   "devDependencies": {
     "mocha": "*",
     "chai": "*"
