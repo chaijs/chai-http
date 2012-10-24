@@ -21,8 +21,9 @@
     , "superagent": "0.9.x"
   },
   "devDependencies": {
-    "mocha": "*",
-    "chai": "*"
+      "mocha": "*"
+    , "chai": "*"
+    , "dox": "*"
   },
   "optionalDependencies": {}
 }

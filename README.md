@@ -61,7 +61,7 @@ chai.request('http://localhost:8080')
 
 ### .req (cb)
 
-* *@param* _{Function}_ callback 
+* **@param** _{Function}_ callback 
 * *@cb* {Request} object
 * *@cb* {Function} next (optional)
 * *@returns* {this} for chaining
@@ -84,7 +84,7 @@ chai.request(app)
 
 ### .res (cb)
 
-* *@param* _{Function}_ callback 
+* **@param** _{Function}_ callback 
 * *@cb* {Response}
 
 Invoke the request to to the server. The response
@@ -106,14 +106,9 @@ chai.request(app)
 The Chai HTTP module provides a number of assertions
 for the `expect` and `should` interfaces.
 
-module.exports = function (chai, _) {
-
-  /*!
-Module dependencies.
-
 ### .status (code)
 
-* *@param* _{Number}_ status number
+* **@param** _{Number}_ status number
 
 Assert that a response has a supplied status.
 
@@ -124,8 +119,8 @@ expect(res).to.have.status(200);
 
 ### .header (key[, value])
 
-* *@param* _{String}_ header key
-* *@param* _{String}_ header value (optional)
+* **@param** _{String}_ header key
+* **@param** _{String}_ header value (optional)
 
 Assert that an object has a header. If a value is
 provided, equality to value will be asserted.
