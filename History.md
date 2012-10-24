@@ -1,4 +1,22 @@
 
+0.3.0 / 2012-10-24 
+==================
+
+  * minor tweak to http docs
+  * Readme auto generation support
+  * readme preview
+  * improve readme code comments
+  * add readme
+  * documentation for request api
+  * update http assertion docs
+  * add request test for existing url
+  * support and tests for header existence
+  * improve type detection error message
+  * add support for superagent based testing
+  * code cleanup
+  * convert to tdd
+  * clean up test runner
+
 0.2.0 / 2012-05-15 
 ==================
 
