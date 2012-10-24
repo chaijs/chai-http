@@ -29,9 +29,6 @@ chai.use(chaiHttp);
 
 ## Integration Testing
 
-* *@param* _{Mixed}_ function or server
-* *@returns* {Object} API
-
 Chai HTTP provides and interface for live integration
 testing via [superagent](https://github.com/visionmedia/superagent).
 To do this, you must first
@@ -48,14 +45,17 @@ or a node.js http(s) server as the foundation for your request.
 If the server is not running, chai-http will find a suitable
 to listen on for tha given test.
 
-      chai.request(app).get('/')
+```js
+chai.request(app).get('/')
+```
 
 #### URL
 
 You may also use a base url as the foundation of your request.
 
-      chai.request('http://localhost:8080').get('/')
-
+```js
+chai.request('http://localhost:8080').get('/')
+```
 
 ### .req (cb)
 
@@ -71,11 +71,13 @@ or querystring parameters, attach a file for
 upload, or any other operation that superagent
 provides.
 
-    chai.request(app)
-      .get('/')
-      .req(function (req) {
-        req.set('x-api-key', 'abc123');
-      })
+```js
+chai.request(app)
+  .get('/')
+  .req(function (req) {
+    req.set('x-api-key', 'abc123');
+  })
+```
 
 
 ### .res (cb)
@@ -88,11 +90,13 @@ will be passed as a paramter to this function so
 that further testing may be done. Use the `chai-http`
 assertions for testing.
 
-    chai.request(app)
-      .get('/')
-      .res(function (res) {
-        expect(res).to.have.status(200);
-      });
+```js
+chai.request(app)
+  .get('/')
+  .res(function (res) {
+    expect(res).to.have.status(200);
+  });
+```
 
 
 ### .status (code)
