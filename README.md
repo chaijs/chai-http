@@ -46,7 +46,8 @@ If the server is not running, chai-http will find a suitable
 to listen on for tha given test.
 
 ```js
-chai.request(app).get('/')
+chai.request(app)
+  .get('/')
 ```
 
 #### URL
@@ -54,7 +55,8 @@ chai.request(app).get('/')
 You may also use a base url as the foundation of your request.
 
 ```js
-chai.request('http://localhost:8080').get('/')
+chai.request('http://localhost:8080')
+  .get('/')
 ```
 
 ### .req (cb)
@@ -99,13 +101,25 @@ chai.request(app)
 ```
 
 
+## Assertions
+
+The Chai HTTP module provides a number of assertions
+for the `expect` and `should` interfaces.
+
+module.exports = function (chai, _) {
+
+  /*!
+Module dependencies.
+
 ### .status (code)
 
 * *@param* _{Number}_ status number
 
 Assert that a response has a supplied status.
 
-     expect(res).to.have.status(200);
+```js
+expect(res).to.have.status(200);
+```
 
 
 ### .header (key[, value])
@@ -116,8 +130,10 @@ Assert that a response has a supplied status.
 Assert that an object has a header. If a value is
 provided, equality to value will be asserted.
 
-    expect(req).to.have.header('x-api-key');
-    expect(req).to.have.header('content-type', 'text/plain');
+```js
+expect(req).to.have.header('x-api-key');
+expect(req).to.have.header('content-type', 'text/plain');
+```
 
 
 ### .headers
@@ -125,7 +141,9 @@ provided, equality to value will be asserted.
 
 Assert that an object has headers.
 
-    expect(req).to.have.headers;
+```js
+expect(req).to.have.headers;
+```
 
 
 ### .ip
@@ -133,8 +151,10 @@ Assert that an object has headers.
 
 Assert that a string represents valid ip address.
 
-    expect('127.0.0.1').to.be.an.ip;
-    expect('2001:0db8:85a3:0000:0000:8a2e:0370:7334').to.be.an.ip;
+```js
+expect('127.0.0.1').to.be.an.ip;
+expect('2001:0db8:85a3:0000:0000:8a2e:0370:7334').to.be.an.ip;
+```
 
 
 ### .json
@@ -144,9 +164,11 @@ Assert that a string represents valid ip address.
 
 Assert that a `Response` or `Request` object has a given content-type.
 
-    expect(req).to.be.json;
-    expect(req).to.be.html;
-    expect(req).to.be.text;
+```js
+expect(req).to.be.json;
+expect(req).to.be.html;
+expect(req).to.be.text;
+```
 
 
 ## License
