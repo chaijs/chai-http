@@ -22,4 +22,27 @@ describe('request', function () {
       });
   });
 
+  it('can request an already existing url', function (done) {
+    var server = require('http').createServer(function (req, res) {
+      req.headers['x-api-key'].should.equal('test2');
+      res.writeHeader(200, { 'content-type' : 'text/plain' });
+      res.end('hello world');
+    });
+
+    server.listen(4000, function () {
+      chai.request('http://127.0.0.1:4000')
+        .get('/')
+        .req(function (req) {
+          req.set('X-API-Key', 'test2')
+        })
+        .res(function (res) {
+          res.should.have.status(200);
+          res.text.should.equal('hello world');
+          server.once('close', done);
+          server.close();
+        });
+    });
+
+  });
+
 });
