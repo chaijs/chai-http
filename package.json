@@ -18,7 +18,7 @@
       "harbor": "0.2.x"
     , "methods": "0.0.x"
     , "pauli": "0.0.x"
-    , "superagent": "0.9.x"
+    , "superagent": "0.13.x"
   },
   "devDependencies": {
       "mocha": "*"
