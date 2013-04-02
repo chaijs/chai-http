@@ -43,7 +43,7 @@ that you wish to invoke.
 You may use a function (such as an express or connect app)
 or a node.js http(s) server as the foundation for your request.
 If the server is not running, chai-http will find a suitable
-to listen on for tha given test.
+port to listen on for tha given test.
 
 ```js
 chai.request(app)
