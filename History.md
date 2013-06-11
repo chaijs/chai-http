@@ -1,5 +1,9 @@
+NEXT /
+==================
 
-0.3.0 / 2012-10-24 
+  * bumped required superagent version
+
+0.3.0 / 2012-10-24
 ==================
 
   * minor tweak to http docs
