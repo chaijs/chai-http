@@ -24,9 +24,10 @@ function parseDocs (docs) {
             case 'param':
               line('* **@param** _{' + tag.types.join('|') + '}_ ' + tag.name + ' ' + tag.description);
               break;
+            case 'return':
             case 'returns':
             case 'cb':
-              line('* *@' + tag.type + '* ' + tag.string);
+              line('* **@' + tag.type + '** ' + tag.string);
               break;
           }
         });

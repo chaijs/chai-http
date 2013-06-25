@@ -43,7 +43,7 @@ that you wish to invoke.
 You may use a function (such as an express or connect app)
 or a node.js http(s) server as the foundation for your request.
 If the server is not running, chai-http will find a suitable
-port to listen on for tha given test.
+to listen on for tha given test.
 
 ```js
 chai.request(app)
@@ -62,9 +62,9 @@ chai.request('http://localhost:8080')
 ### .req (cb)
 
 * **@param** _{Function}_ callback 
-* *@cb* {Request} object
-* *@cb* {Function} next (optional)
-* *@returns* {this} for chaining
+* **@cb** {Request} object
+* **@cb** {Function} next (optional)
+* **@returns** {this} for chaining
 
 You may optionally use `.req` chainable to hook
 into the the request preperation invocation. Use
@@ -85,7 +85,7 @@ chai.request(app)
 ### .res (cb)
 
 * **@param** _{Function}_ callback 
-* *@cb* {Response}
+* **@cb** {Response}
 
 Invoke the request to to the server. The response
 will be passed as a paramter to this function so
