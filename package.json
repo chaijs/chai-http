@@ -2,7 +2,7 @@
   "author": "Jake Luer <jake@alogicalparadox.com>",
   "name": "chai-http",
   "description": "Extend Chai Assertion library with tests for http apis",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:chaijs/chai-http.git"

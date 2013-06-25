@@ -1,4 +1,15 @@
 
+0.4.0 / 2013-06-25 
+==================
+
+  * support: [readme] cleanup
+  * Merge pull request #7 from pezra/newer-superagent
+  * remove previous additions to the history
+  * bump superagent version dependency
+  * Merge pull request #5 from wookiehangover/patch-1
+  * Fixing typo in Readme
+  * readme typo
+
 0.3.0 / 2012-10-24 
 ==================
 
