@@ -148,4 +148,48 @@ describe('assertions', function () {
       res.should.not.be.html;
     }).should.throw('expected \'text/html\' to not include \'text/html\'');
   });
+
+  it('#redirect', function () {
+    var res = { statusCode: 200 };
+    res.should.not.redirect;
+
+    [301, 302, 303].forEach(function (statusCode) {
+      var res = { statusCode: statusCode };
+      res.should.redirect;
+    });
+
+    res = { statusCode: 302 };
+    res.should.redirect;
+
+    res = { statusCode: 303 };
+    res.should.redirect;
+
+    (function () {
+      var res = { statusCode: 200 };
+      res.should.redirect;
+    }).should.throw('expected redirect with 30{1-3} status code but got 200');
+
+    (function () {
+      var res = { statusCode: 301 };
+      res.should.not.redirect;
+    }).should.throw('expected not to redirect but got 301 status');
+  });
+
+  it('#redirectTo', function () {
+    var res = { statusCode: 301, headers: { location: 'foo' } };
+    res.should.redirectTo('foo');
+
+    var res = { statusCode: 301, headers: { location: 'bar' } };
+    res.should.not.redirectTo('foo');
+
+    (function () {
+      var res = { statusCode: 301, headers: { location: 'foo' } };
+      res.should.not.redirectTo('foo');
+    }).should.throw('expected header \'location\' to not have value foo');
+
+    (function () {
+      var res = { statusCode: 301, headers: { location: 'bar' } };
+      res.should.redirectTo('foo');
+    }).should.throw('expected header \'location\' to have value foo');
+  });
 });
