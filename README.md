@@ -61,7 +61,7 @@ chai.request('http://localhost:8080')
 
 ### .req (cb)
 
-* **@param** _{Function}_ callback 
+* **@param** _{Function}_ callback
 * **@cb** {Request} object
 * **@cb** {Function} next (optional)
 * **@returns** {this} for chaining
@@ -84,7 +84,7 @@ chai.request(app)
 
 ### .res (cb)
 
-* **@param** _{Function}_ callback 
+* **@param** _{Function}_ callback
 * **@cb** {Response}
 
 Invoke the request to to the server. The response
@@ -163,6 +163,15 @@ expect(req).to.be.html;
 expect(req).to.be.text;
 ```
 
+
+### .redirect / .redirectTo(url)
+
+Assert that a `Response` redirects, optionally to a given url.
+
+```js
+expect(res).to.redirect;
+expect(res).to.redirectTo('http://example.com');
+```
 
 ## License
 
