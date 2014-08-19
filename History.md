@@ -1,4 +1,12 @@
 
+0.5.0 / 2014-08-19 
+==================
+
+  * Merge pull request #9 from hurrymaplelad/assert_redirect
+  * Add redirect assertions
+  * Merge pull request #8 from lxanders/improveReadme
+  * Fixed missing word and improved wording in documentation
+
 0.4.0 / 2013-06-25 
 ==================
 
