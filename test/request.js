@@ -33,8 +33,8 @@ describe('request', function () {
       res.end('hello world');
     });
 
-    server.listen(4000, function () {
-      chai.request('http://127.0.0.1:4000')
+    server.listen(0, function () {
+      request('http://127.0.0.1:' + server.address().port)
         .get('/')
         .set('X-API-Key', 'test2')
         .end(function (err, res) {
