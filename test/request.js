@@ -72,4 +72,27 @@ describe('request', function () {
       .then(done, done);
   });
 
+  it('agent can be used to persist cookies', function (done) {
+    var app = function (req, res) {
+      res.setHeader('Set-Cookie', 'mycookie=test');
+      res.writeHeader(200, { 'content-type' : 'text/plain' });
+      res.end('your cookie: ' + req.headers.cookie);
+    };
+    var agent = request.agent(app);
+
+    agent
+      .get('/')
+      .then(function (res) {
+        res.headers['set-cookie'][0].should.equal('mycookie=test');
+        res.text.should.equal('your cookie: undefined');
+      })
+      .then(function () {
+        return agent.get('/');
+      })
+      .then(function (res) {
+        res.text.should.equal('your cookie: mycookie=test');
+      })
+      .then(done, done);
+  });
+
 });
