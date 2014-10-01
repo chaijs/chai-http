@@ -1,6 +1,7 @@
 describe('request', function () {
   var request = require('../lib/request');
   var superagent = require('superagent');
+  request.addPromises(global.Promise);
 
   it('is present on chai', function () {
     chai.expect(chai).to.respondTo('request');
@@ -45,6 +46,30 @@ describe('request', function () {
         });
     });
 
+  });
+
+  it('can be augmented with promises', function (done) {
+    var app = function (req, res) {
+      req.headers['x-api-key'].should.equal('test3');
+      res.writeHeader(200, { 'content-type' : 'text/plain' });
+      res.end('hello universe');
+    };
+    request(app)
+      .get('/')
+      .set('X-API-Key', 'test3')
+      .then(function (res) {
+        res.should.have.status(200);
+        res.text.should.equal('hello universe');
+        throw new Error('Testing catch');
+      })
+      .then(function () {
+        throw new Error('This should not have fired');
+      }, function (err) {
+        if (err.message !== 'Testing catch') {
+          throw err;
+        }
+      })
+      .then(done, done);
   });
 
 });
