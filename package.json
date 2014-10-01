@@ -16,7 +16,7 @@
   },
   "dependencies": {
       "methods": "0.0.x"
-    , "superagent": "0.14.x"
+    , "superagent": "0.19.x"
   },
   "devDependencies": {
       "mocha": "*"
