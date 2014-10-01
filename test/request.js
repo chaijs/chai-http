@@ -1,7 +1,13 @@
 describe('request', function () {
+  var request = require('../lib/request');
+  var superagent = require('superagent');
 
   it('is present on chai', function () {
     chai.expect(chai).to.respondTo('request');
+  });
+
+  it('request method returns instanceof superagent', function () {
+    request('').get('/').should.be.instanceof(superagent.Request);
   });
 
   it('can request a functioned "app"', function (done) {
@@ -9,16 +15,14 @@ describe('request', function () {
       req.headers['x-api-key'].should.equal('testing');
       res.writeHeader(200, { 'content-type' : 'text/plain' });
       res.end('hello universe');
-    }
+    };
 
-    chai.request(app).get('/')
-      .req(function (req) {
-        req.set('X-API-Key', 'testing')
-      })
-      .res(function (res) {
+    request(app).get('/')
+      .set('X-API-Key', 'testing')
+      .end(function (err, res) {
         res.should.have.status(200);
         res.text.should.equal('hello universe');
-        done();
+        done(err);
       });
   });
 
@@ -32,13 +36,11 @@ describe('request', function () {
     server.listen(4000, function () {
       chai.request('http://127.0.0.1:4000')
         .get('/')
-        .req(function (req) {
-          req.set('X-API-Key', 'test2')
-        })
-        .res(function (res) {
+        .set('X-API-Key', 'test2')
+        .end(function (err, res) {
           res.should.have.status(200);
           res.text.should.equal('hello world');
-          server.once('close', done);
+          server.once('close', function () { done(err); });
           server.close();
         });
     });
