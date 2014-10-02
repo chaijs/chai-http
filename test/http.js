@@ -192,4 +192,45 @@ describe('assertions', function () {
       res.should.redirectTo('foo');
     }).should.throw('expected header \'location\' to have value foo');
   });
+
+  it('#param', function () {
+    var req = { url: '/test?x=y&foo=bar' };
+    req.should.have.param('x');
+    req.should.have.param('foo');
+    req.should.have.param('x', 'y');
+    req.should.have.param('foo', 'bar');
+    req.should.not.have.param('bar');
+    req.should.not.have.param('y');
+    req.should.not.have.param('x', 'z');
+    req.should.not.have.param('foo', 'baz');
+
+    (function () {
+      req.should.not.have.param('foo');
+    }).should.throw(/expected .* to not have property \'foo\'/);
+
+    (function () {
+      req.should.not.have.param('foo', 'bar');
+    }).should.throw(/expected .* to not have a property \'foo\' of \'bar\'/);
+  });
+
+  it('#param (deep)', function () {
+    var req = { url: '/test?form[name]=jim&form[lastName]=bob' };
+    req.should.have.param('form');
+    req.should.have.deep.param('form.name');
+    req.should.have.deep.param('form.name', 'jim');
+    req.should.have.deep.param('form.lastName');
+    req.should.have.deep.param('form.lastName', 'bob');
+    req.should.not.have.param('bar');
+    req.should.not.have.deep.param('form.bar');
+    req.should.not.have.deep.param('form.name', 'sue');
+
+    (function () {
+      req.should.not.have.deep.param('form.name');
+    }).should.throw(/expected .* to not have deep property \'form.name\'/);
+
+    (function () {
+      req.should.not.have.deep.param('form.lastName', 'bob');
+    }).should.throw(/expected .* to not have a deep property \'form.lastName\' of \'bob\'/);
+  });
+
 });
