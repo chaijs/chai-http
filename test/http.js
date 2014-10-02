@@ -233,4 +233,67 @@ describe('assertions', function () {
     }).should.throw(/expected .* to not have a deep property \'form.lastName\' of \'bob\'/);
   });
 
+  it('#cookie', function () {
+    var res = {
+      headers: {
+        'set-cookie': [
+          'name=value',
+          'name2=value2; Expires=Wed, 09 Jun 2021 10:18:14 GMT'
+        ]
+      }
+    };
+    res.should.have.cookie('name');
+    res.should.have.cookie('name2');
+    res.should.have.cookie('name', 'value');
+    res.should.have.cookie('name2', 'value2');
+    res.should.not.have.cookie('bar');
+    res.should.not.have.cookie('name2', 'bar');
+
+    (function () {
+      res.should.not.have.cookie('name');
+    }).should.throw('expected cookie \'name\' to not exist');
+
+    (function () {
+      res.should.have.cookie('foo');
+    }).should.throw('expected cookie \'foo\' to exist');
+
+    (function () {
+      res.should.not.have.cookie('name', 'value');
+    }).should.throw('expected cookie \'name\' to not have value \'value\'');
+
+    (function () {
+      res.should.have.cookie('name2', 'value');
+    }).should.throw('expected cookie \'name2\' to have value \'value\' but got \'value2\'');
+  });
+
+  it('#cookie (request)', function () {
+    var req = {
+      headers: {
+        'cookie': 'name=value;name2=value2;'
+      }
+    };
+    req.should.have.cookie('name');
+    req.should.have.cookie('name2');
+    req.should.have.cookie('name', 'value');
+    req.should.have.cookie('name2', 'value2');
+    req.should.not.have.cookie('bar');
+    req.should.not.have.cookie('name2', 'bar');
+
+    (function () {
+      req.should.not.have.cookie('name');
+    }).should.throw('expected cookie \'name\' to not exist');
+
+    (function () {
+      req.should.have.cookie('foo');
+    }).should.throw('expected cookie \'foo\' to exist');
+
+    (function () {
+      req.should.not.have.cookie('name', 'value');
+    }).should.throw('expected cookie \'name\' to not have value \'value\'');
+
+    (function () {
+      req.should.have.cookie('name2', 'value');
+    }).should.throw('expected cookie \'name2\' to have value \'value\' but got \'value2\'');
+
+  });
 });

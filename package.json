@@ -17,6 +17,7 @@
   "dependencies": {
       "methods": "0.0.x"
     , "superagent": "0.19.x"
+    , "cookiejar": "2.0.x"
     , "qs": "2.0.x"
   },
   "devDependencies": {
