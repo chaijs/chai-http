@@ -3,6 +3,15 @@
   "name": "chai-http",
   "description": "Extend Chai Assertion library with tests for http apis",
   "version": "0.5.0",
+  "contributors": [
+    "Jake Luer <jake@alogicalparadox.com>",
+    "Veselin Todorov <hi@vesln.com>",
+    "Peter Williams",
+    "Sam Breed",
+    "Adam Hull",
+    "Alexander Schmidt",
+    "Keith Cirkel <oss@keithcirkel.co.uk> (http://keithcirkel.co.uk)"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:chaijs/chai-http.git"
