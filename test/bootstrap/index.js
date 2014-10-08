@@ -1,7 +1,7 @@
 /*!
  * Attach ES6 Shim
  */
-if (!Promise) {
+if (typeof Promise === 'undefined') {
   require('es6-shim');
 }
 
