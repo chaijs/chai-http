@@ -1,4 +1,4 @@
-# Chai HTTP
+# Chai HTTP [![Build Status](https://travis-ci.org/chaijs/chai-http.svg?branch=master)](https://travis-ci.org/chaijs/chai-http)
 
 > HTTP integration testing with Chai assertions.
 
@@ -117,7 +117,7 @@ chai.request(app)
   });
 ```
 
-#### Dealing with the response - traditional
+#### Dealing with the response - Promises
 
 If `Promise` is available, `request()` becomes a Promise capable library -
 and chaining of `then`s becomes possible:
