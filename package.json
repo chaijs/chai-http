@@ -3,6 +3,15 @@
   "name": "chai-http",
   "description": "Extend Chai Assertion library with tests for http apis",
   "version": "0.5.0",
+  "contributors": [
+    "Jake Luer <jake@alogicalparadox.com>",
+    "Veselin Todorov <hi@vesln.com>",
+    "Peter Williams",
+    "Sam Breed",
+    "Adam Hull",
+    "Alexander Schmidt",
+    "Keith Cirkel <oss@keithcirkel.co.uk> (http://keithcirkel.co.uk)"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:chaijs/chai-http.git"
@@ -15,15 +24,16 @@
     "node": ">= 0.6.0"
   },
   "dependencies": {
-      "harbor": "0.2.x"
-    , "methods": "0.0.x"
-    , "pauli": "0.0.x"
-    , "superagent": "0.14.x"
+      "methods": "0.0.x"
+    , "superagent": "0.19.x"
+    , "cookiejar": "2.0.x"
+    , "qs": "2.0.x"
   },
   "devDependencies": {
       "mocha": "*"
     , "chai": "*"
     , "dox": "*"
+    , "es6-shim": "*"
   },
   "optionalDependencies": {}
 }

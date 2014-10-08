@@ -59,44 +59,139 @@ chai.request('http://localhost:8080')
   .get('/')
 ```
 
-### .req (cb)
+#### Setting up requests
 
-* **@param** _{Function}_ callback
-* **@cb** {Request} object
-* **@cb** {Function} next (optional)
-* **@returns** {this} for chaining
+Once a request is created with a given VERB, it can have headers, form data,
+json, or even file attachments added to it, all with a simple API:
 
-You may optionally use `.req` chainable to hook
-into the the request preperation invocation. Use
-this to modify the request object to include post
-or querystring parameters, attach a file for
-upload, or any other operation that superagent
-provides.
+```js
+// Send some JSON
+chai.request(app)
+  .put('/user/me')
+  .set('X-API-Key', 'foobar')
+  .send({ passsword: '123', confirmPassword: '123' })
+```
+
+```js
+// Send some Form Data
+chai.request(app)
+  .post('/user/me')
+  .field('_method', 'put')
+  .field('password', '123')
+  .field('confirmPassword', '123')
+```
+
+```js
+// Attach a file
+chai.request(app)
+  .post('/user/avatar')
+  .attach(fs.readFileSync('avatar.png'), 'avatar.png')
+```
+
+```js
+// Authenticate with Basic authentication
+chai.request(app)
+  .auth('user', 'pass')
+  .get('/protected')
+```
+
+```js
+// Chain some GET query parameters
+chai.request(app)
+  .get('/search')
+  .query('name', 'foo')
+  .query('limit', '10') // /search?name=foo&limit=10
+```
+
+#### Dealing with the response - traditional
+
+To make the request and assert on its response, the `end` method can be used:
 
 ```js
 chai.request(app)
-  .get('/')
-  .req(function (req) {
-    req.set('x-api-key', 'abc123');
+  .put('/user/me')
+  .send({ passsword: '123', confirmPassword: '123' })
+  .end(function (err, res) {
+     expect(err).to.be.null;
+     expect(res).to.have.status(200);
+  });
+```
+
+#### Dealing with the response - traditional
+
+If `Promise` is available, `request()` becomes a Promise capable library -
+and chaining of `then`s becomes possible:
+
+```js
+chai.request(app)
+  .put('/user/me')
+  .send({ passsword: '123', confirmPassword: '123' })
+  .then(function (res) {
+     expect(res).to.have.status(200);
+  })
+  .catch(function (err) {
+     throw err;
   })
 ```
 
+#### Retaining cookies with each request
 
-### .res (cb)
+Sometimes you need to keep cookies from one request, and send them with the
+next. For this, `.request.agent()` is available:
 
-* **@param** _{Function}_ callback
+```js
+// Log in
+var agent = chai.request.agent(app)
+agent
+  .post('/session')
+  .send({ username: 'me', password: '123' })
+  .then(function (res) {
+    expect(res).to.have.cookie('sessionid');
+    // The `agent` now has the sessionid cookie saved, and will send it
+    // back to the server in the next request:
+    return agent.get('/user/me')
+      .then(function (res) {
+         expect(res).to.have.status(200);
+      })
+  })
+```
+
+### .then (resolveCb, rejectCb)
+
+* **@param** _{Function}_ resolveCB 
 * **@cb** {Response}
+* **@param** _{Function}_ rejectCB 
+* **@cb** {Error}
 
 Invoke the request to to the server. The response
-will be passed as a paramter to this function so
-that further testing may be done. Use the `chai-http`
-assertions for testing.
+will be passed as a parameter to the resolveCb,
+while any errors will be passed to rejectCb.
 
 ```js
 chai.request(app)
   .get('/')
-  .res(function (res) {
+  .then(function (res) {
     expect(res).to.have.status(200);
+  }, function (err) {
+     throw err;
+  });
+```
+
+
+### .catch (rejectCb)
+
+* **@param** _{Function}_ rejectCB 
+* **@cb** {Error}
+
+Invoke the request to to the server, catching any
+errors with this callback. Behaves the same as
+Promises.
+
+```js
+chai.request(app)
+  .get('/')
+  .catch(function (err) {
+    throw err;
   });
 ```
 
@@ -164,14 +259,59 @@ expect(req).to.be.text;
 ```
 
 
-### .redirect / .redirectTo(url)
+### .redirect
 
-Assert that a `Response` redirects, optionally to a given url.
+
+Assert that a `Response` object has a redirect status code.
 
 ```js
 expect(res).to.redirect;
+```
+
+
+### .redirectTo
+
+* **@param** _{String}_ location url
+
+Assert that a `Response` object has a redirects to the supplied location.
+
+```js
 expect(res).to.redirectTo('http://example.com');
 ```
+
+
+### .param
+
+* **@param** _{String}_ parameter name
+* **@param** _{String}_ parameter value
+
+Assert that a `Request` object has a query string parameter with a given
+key, (optionally) equal to value
+
+```js
+expect(req).to.have.param('orderby');
+expect(req).to.have.param('orderby', 'date');
+expect(req).to.not.have.param('limit');
+```
+
+
+### .cookie
+
+* **@param** _{String}_ parameter name
+* **@param** _{String}_ parameter value
+
+Assert that a `Request` or `Response` object has a cookie header with a
+given key, (optionally) equal to value
+
+```js
+expect(req).to.have.cookie('session_id');
+expect(req).to.have.cookie('session_id', '1234');
+expect(req).to.not.have.cookie('PHPSESSID');
+expect(res).to.have.cookie('session_id');
+expect(res).to.have.cookie('session_id', '1234');
+expect(res).to.not.have.cookie('PHPSESSID');
+```
+
 
 ## License
 

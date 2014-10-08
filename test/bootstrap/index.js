@@ -1,4 +1,11 @@
 /*!
+ * Attach ES6 Shim
+ */
+if (!Promise) {
+  require('es6-shim');
+}
+
+/*!
  * Attach chai to global should
  */
 
