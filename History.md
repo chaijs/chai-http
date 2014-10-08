@@ -1,4 +1,30 @@
 
+1.0.0 / 2014-10-08 
+==================
+
+ * update readme
+ * Merge pull request #14 from keithamus/fix-master
+ * Fix #13: Convert unroutable addresses to localhost
+ * Fix #13: Add proper detection of Promise capabilities in tests
+ * Merge pull request #12 from keithamus/patch-1
+ * add travis badge
+ * add travis support
+ * Fix typo
+ * Merge pull request #11 from keithamus/refactor-agent
+ * (chore) Regenerate README.md
+ * Add list of contributors to package.json
+ * Add simple usage docs for request api
+ * Fix typo in readme
+ * Add cookie assertions
+ * Add URL query string parameter assertions
+ * Add request.agent() which allows persisting of cookies
+ * Add Promises support
+ * Listen on random port in tests - not 4000 which may be taken
+ * Add Test class to exports, to enable extending
+ * Drastically simplify chai.request() by inheriting superagent
+ * Update SuperAgent to v0.19.x
+ * Drop harbor and pauli deps.
+
 0.5.0 / 2014-08-19 
 ==================
 
