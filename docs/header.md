@@ -1,4 +1,4 @@
-# Chai HTTP
+# Chai HTTP [![Build Status](https://travis-ci.org/chaijs/chai-http.svg?branch=master)](https://travis-ci.org/chaijs/chai-http)
 
 > HTTP integration testing with Chai assertions.
 
