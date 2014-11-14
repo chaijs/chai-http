@@ -91,8 +91,8 @@ chai.request(app)
 ```js
 // Authenticate with Basic authentication
 chai.request(app)
-  .auth('user', 'pass')
   .get('/protected')
+  .auth('user', 'pass')
 ```
 
 ```js
