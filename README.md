@@ -134,6 +134,18 @@ chai.request(app)
   })
 ```
 
+Since Node.js version 0.10.x and lower does not have native promise support you can use [kriskowal/q](https://github.com/kriskowal/q) for them. Use the `addPromise` function to do this. For example:
+```js
+var chai = require('chai');
+chai.use(require('chai-http'));
+
+// Add promise support if this does not exist natively.
+if (!global.Promise) {
+  var q = require('q');
+  chai.request.addPromises(q.Promise);
+}
+```
+
 #### Retaining cookies with each request
 
 Sometimes you need to keep cookies from one request, and send them with the
