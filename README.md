@@ -85,7 +85,7 @@ chai.request(app)
 // Attach a file
 chai.request(app)
   .post('/user/avatar')
-  .attach(fs.readFileSync('avatar.png'), 'avatar.png')
+  .attach('imageField', fs.readFileSync('avatar.png'), 'avatar.png')
 ```
 
 ```js
@@ -170,9 +170,9 @@ agent
 
 ### .then (resolveCb, rejectCb)
 
-* **@param** _{Function}_ resolveCB 
+* **@param** _{Function}_ resolveCB
 * **@cb** {Response}
-* **@param** _{Function}_ rejectCB 
+* **@param** _{Function}_ rejectCB
 * **@cb** {Error}
 
 Invoke the request to to the server. The response
@@ -192,7 +192,7 @@ chai.request(app)
 
 ### .catch (rejectCb)
 
-* **@param** _{Function}_ rejectCB 
+* **@param** _{Function}_ rejectCB
 * **@cb** {Error}
 
 Invoke the request to to the server, catching any
