@@ -226,7 +226,7 @@ expect(res).to.have.status(200);
 
 ### .header (key[, value])
 
-* **@param** _{String}_ header key
+* **@param** _{String}_ header key (case insensitive)
 * **@param** _{String}_ header value (optional)
 
 Assert that an object has a header. If a value is
