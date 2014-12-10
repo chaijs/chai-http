@@ -285,7 +285,7 @@ expect(res).to.redirect;
 
 * **@param** _{String}_ location url
 
-Assert that a `Response` object has a redirects to the supplied location.
+Assert that a `Response` object redirects to the supplied location.
 
 ```js
 expect(res).to.redirectTo('http://example.com');

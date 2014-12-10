@@ -158,11 +158,15 @@ describe('assertions', function () {
       res.should.redirect;
     });
 
-    res = { statusCode: 302 };
-    res.should.redirect;
+    ({
+      statusCode: 200,
+      redirects: ['http://example.com']
+    }).should.redirect;
 
-    res = { statusCode: 303 };
-    res.should.redirect;
+    ({
+      statusCode: 200,
+      redirects: []
+    }).should.not.redirect;
 
     (function () {
       var res = { statusCode: 200 };
@@ -179,7 +183,13 @@ describe('assertions', function () {
     var res = { statusCode: 301, headers: { location: 'foo' } };
     res.should.redirectTo('foo');
 
-    var res = { statusCode: 301, headers: { location: 'bar' } };
+    res = { statusCode: 301, headers: { location: 'bar' } };
+    res.should.not.redirectTo('foo');
+
+    res = { statusCode: 200, redirects: ['bar'] };
+    res.should.redirectTo('bar');
+
+    res = { statusCode: 200, redirects: ['bar'] };
     res.should.not.redirectTo('foo');
 
     (function () {
@@ -191,6 +201,11 @@ describe('assertions', function () {
       var res = { statusCode: 301, headers: { location: 'bar' } };
       res.should.redirectTo('foo');
     }).should.throw('expected header \'location\' to have value foo');
+
+    (function () {
+      var res = { statusCode: 200, redirects: ['bar', 'baz'] };
+      res.should.redirectTo('foo');
+    }).should.throw('expected redirect to foo but got bar then baz');
   });
 
   it('#param', function () {
