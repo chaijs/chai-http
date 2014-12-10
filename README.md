@@ -227,14 +227,15 @@ expect(res).to.have.status(200);
 ### .header (key[, value])
 
 * **@param** _{String}_ header key (case insensitive)
-* **@param** _{String}_ header value (optional)
+* **@param** _{String|RegExp}_ header value (optional)
 
 Assert that an object has a header. If a value is
-provided, equality to value will be asserted.
+provided, equality to value will be asserted. You may also pass a regular expression to check.
 
 ```js
 expect(req).to.have.header('x-api-key');
 expect(req).to.have.header('content-type', 'text/plain');
+expect(req).to.have.header('content-type', /^text/);
 ```
 
 

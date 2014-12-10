@@ -59,6 +59,7 @@ describe('assertions', function () {
 
     req.should.have.header('foo', 'bar');
     res.should.have.header('bar', 'foo');
+    res.should.have.header('bar', /^fo/);
 
     (function () {
       req.should.not.have.header('foo', 'bar');
@@ -67,6 +68,10 @@ describe('assertions', function () {
     (function () {
       res.should.not.have.header('bar', 'foo');
     }).should.throw('expected header \'bar\' to not have value foo');
+
+    (function () {
+      res.should.not.have.header('bar', /^fo/);
+    }).should.throw('expected header \'bar\' not to match /^fo/ but got \'foo\'');
   });
 
   it('#header case insensitive', function () {
