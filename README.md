@@ -129,10 +129,29 @@ chai.request(app)
   .then(function (res) {
      expect(res).to.have.status(200);
   })
-  .catch(function (err) {
-     throw err;
-  })
+  .then(done, done); // where `done` is the callback function from your testing library
 ```
+
+When using a testing library like Mocha that relies on a `done` callback for asynchronous
+tests, always make sure to finish the promise chain by invoking the `done` callback. For instance,
+
+```js
+describe('when testing asynchronous code', function () {
+  it('is essential to invoke the callback function', function (done) { // async callback passed in as parameter
+    chai.request(app).get('/')
+    .then(function (response) {
+      // ...
+    })
+    .then(done, done); // done will get called on both success and failure
+  });
+});
+```
+
+If the error path doesn't call the `done` function, then errors -- including assertion failures -- will
+happen completely silently. 
+
+Note that `throw`ing an error from within a promise chain, even inside a `.catch(...)` block, will not
+be propagated outside of the promise chain.
 
 Since Node.js version 0.10.x and lower does not have native promise support you can use [kriskowal/q](https://github.com/kriskowal/q) for them. Use the `addPromise` function to do this. For example:
 ```js
