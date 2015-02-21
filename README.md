@@ -133,21 +133,7 @@ chai.request(app)
 ```
 
 When using a testing library like Mocha that relies on a `done` callback for asynchronous
-tests, always make sure to finish the promise chain by invoking the `done` callback. For instance,
-
-```js
-describe('when testing asynchronous code', function () {
-  it('is essential to invoke the callback function', function (done) { // async callback passed in as parameter
-    chai.request(app).get('/')
-    .then(function (response) {
-      // ...
-    })
-    .then(done, done); // done will get called on both success and failure
-  });
-});
-```
-
-If the error path doesn't call the `done` function, then errors -- including assertion failures -- will
+tests, always make sure to finish the promise chain by invoking the `done` callback. If the error path doesn't call the `done` function, then errors -- including assertion failures -- will
 happen completely silently. 
 
 Note that `throw`ing an error from within a promise chain, even inside a `.catch(...)` block, will not
