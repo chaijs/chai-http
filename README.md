@@ -99,8 +99,7 @@ chai.request(app)
 // Chain some GET query parameters
 chai.request(app)
   .get('/search')
-  .query('name', 'foo')
-  .query('limit', '10') // /search?name=foo&limit=10
+  .query({name: 'foo', limit: 10}) // /search?name=foo&limit=10
 ```
 
 #### Dealing with the response - traditional
