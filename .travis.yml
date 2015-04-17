@@ -2,3 +2,14 @@ language: node_js
 node_js:
   - 0.10
   - 0.11
+
+deploy:
+  provider: npm
+  email:
+    secure: "O5Zs28RbWGOnyhlE8MoyUhjUF+oAhaxsO9m7T9isLLuMl3PpIiiaqjv/yEVBotCpWbdpi+qOSNfpqWZjB1v2nQoS6jxaErrgoZmkT/Fj4YMr8eYt9izG7bDZjY6w1sH6OHqVXineNMb5AKwozmyUjQjbbxBFZ+pFjPWwUhe9fTQ="
+  api_key:
+    secure: "e6bJsxjTY79jsZn0v+9pmXpp+63Q9WrC7RacRyXMWo5qD3GP64iw/A4BPSPZqLkiee15hVDJV10DYHIDS6/e1T3VvEJh5TjpJ57ayqr0rgSDnLFScrv6TZfBaNFzVRjipSnmJEAWBgVdwP5hVcY7b9dUguyog6ln6cUuqnFoHfs="
+  on:
+    tags: true
+    repo: chaijs/chai-http
+    all_branches: true
