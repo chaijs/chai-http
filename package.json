@@ -21,7 +21,7 @@
   },
   "dependencies": {
       "methods": "0.0.x"
-    , "superagent": "1.0.x"
+    , "superagent": "1.2.x"
     , "cookiejar": "2.0.x"
     , "qs": "2.0.x"
   },
