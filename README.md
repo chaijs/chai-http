@@ -29,7 +29,7 @@ chai.use(chaiHttp);
 
 ## Integration Testing
 
-Chai HTTP provides and interface for live integration
+Chai HTTP provides an interface for live integration
 testing via [superagent](https://github.com/visionmedia/superagent).
 To do this, you must first
 construct a request to an application or url.
