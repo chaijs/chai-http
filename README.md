@@ -325,7 +325,7 @@ expect(res).to.not.have.cookie('PHPSESSID');
 ```
 
 ## Usage Examples
-#### Mocha
+### Mocha
 Chai-Http is commonly used in conjunction with the [Mocha test framework](http://mochajs.org/) 
 and the Chai Assertion Library.
 
@@ -339,7 +339,7 @@ callback has been called from within the test.
 Failure to pass in the `done` function and call it, will result in a test that always passes
 regardless of result returned from the HTTP call.
 
-##### Example
+#### Example
 ```js
 var chai = require('chai');
 var should = chai.should();
