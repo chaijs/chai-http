@@ -337,7 +337,10 @@ each test.  Mocha will then refrain from evaluating the condition of the test un
 callback has been called from within the test.
 
 Failure to pass in the `done` function and call it, will result in a test that always passes
-regardless of result returned from the HTTP call.
+regardless of the results of the HTTP call.  
+
+Further documentation may be found in the Mocha documentation under 
+[Asynchronous Code](http://mochajs.org/#asynchronous-code).
 
 #### Example
 ```js
