@@ -324,6 +324,54 @@ expect(res).to.have.cookie('session_id', '1234');
 expect(res).to.not.have.cookie('PHPSESSID');
 ```
 
+## Usage Examples
+### Mocha
+Chai-Http is commonly used in conjunction with the [Mocha test framework](http://mochajs.org/) 
+and the Chai Assertion Library.
+
+Mocha expects that the tests you write will return results synchronously.  Due to the nature
+of HTTP server calls, Chai-Http returns results *asynchronously*.  
+
+To facilitate asynchronous tests, Mocha allows you to pass a callback function, `done`, into
+each test.  Mocha will then refrain from evaluating the condition of the test until the 
+callback has been called from within the test.
+
+Failure to pass in the `done` function and call it, will result in a test that always passes
+regardless of the results of the HTTP call.  
+
+Further documentation may be found in the Mocha documentation under 
+[Asynchronous Code](http://mochajs.org/#asynchronous-code).
+
+#### Example
+```js
+var chai = require('chai');
+var should = chai.should();
+var chaiHttp = require('chai-http');
+var server = require('../src/server');
+
+chai.use(chaiHttp);
+
+describe('POST', function () {
+    it('should respond successfully', function (done) {
+        chai.request(server)
+            .post('/api/equation')
+            .end(function (res) {
+                res.should.have.status(200);
+                done();
+            });
+
+    });
+});
+```
+
+In the above example, Mocha uses `describe()` to group together a set of tests (in this case,
+there's only one test) and `it()` is used to describe a single logical test.  The `done` function
+is passed into the function that creates the test, and Chai-Http is used to POST to the server.
+Once the results are returned, the `end` function is called, the results are tested and we
+call `done()`.  Calling the `done` function signals to Mocha that the results of
+the HTTP call have returned and the test can be evaluated.
+
+
 
 ## License
 
