@@ -368,7 +368,7 @@ In the above example, Mocha uses `describe()` to group together a set of tests (
 there's only one test) and `it()` is used to describe a single logical test.  The `done` function
 is passed into the function that creates the test, and Chai-Http is used to POST to the server.
 Once the results are returned, the `end` function is called, the results are tested and we
-call the `done()`.  Calling the `done` function signals to Mocha that the results of
+call `done()`.  Calling the `done` function signals to Mocha that the results of
 the HTTP call have returned and the test can be evaluated.
 
 
