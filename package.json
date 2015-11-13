@@ -2,6 +2,7 @@
   "author": "Jake Luer <jake@alogicalparadox.com>",
   "name": "chai-http",
   "description": "Extend Chai Assertion library with tests for http apis",
+  "keywords": ["chai", "chai-plugin", "http", "request", "vendor", "supertest", "superagent"],
   "version": "1.0.0",
   "contributors": [
     "Jake Luer <jake@alogicalparadox.com>",
