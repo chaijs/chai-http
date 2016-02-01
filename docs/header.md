@@ -26,3 +26,12 @@ var chai = require('chai')
 chai.use(chaiHttp);
 ```
 
+To use Chai HTTP on a web page, just include the [`dist/chai-http.js`](dist/chai-http.js) file:
+
+```html
+<script src="chai.js"></script>
+<script src="chai-http.js"></script>
+<script>
+  chai.use(chaiHttp);
+</script>
+```

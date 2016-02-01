@@ -93,13 +93,20 @@ module.exports = function (chai, _) {
   /**
    * ### .header (key[, value])
    *
-   * Assert that an object has a header. If a value is
-   * provided, equality to value will be asserted. You
-   * may also pass a regular expression to check.
+   * Assert that a `Response` or `Request` object has a header.
+   * If a value is provided, equality to value will be asserted.
+   * You may also pass a regular expression to check.
+   *
+   * __Note:__ When running in a web browser, the
+   * [same-origin policy](https://tools.ietf.org/html/rfc6454#section-3)
+   * only allows Chai HTTP to read
+   * [certain headers](https://www.w3.org/TR/cors/#simple-response-header),
+   * which can cause assertions to fail.
    *
    * ```js
    * expect(req).to.have.header('x-api-key');
    * expect(req).to.have.header('content-type', 'text/plain');
+   * expect(req).to.have.header('content-type', /^text/);
    * ```
    *
    * @param {String} header key (case insensitive)
@@ -139,7 +146,13 @@ module.exports = function (chai, _) {
   /**
    * ### .headers
    *
-   * Assert that an object has headers.
+   * Assert that a `Response` or `Request` object has headers.
+   *
+   * __Note:__ When running in a web browser, the
+   * [same-origin policy](https://tools.ietf.org/html/rfc6454#section-3)
+   * only allows Chai HTTP to read
+   * [certain headers](https://www.w3.org/TR/cors/#simple-response-header),
+   * which can cause assertions to fail.
    *
    * ```js
    * expect(req).to.have.headers;
@@ -390,7 +403,7 @@ var http = require('http')
 /**
  * ## Integration Testing
  *
- * Chai HTTP provides and interface for live integration
+ * Chai HTTP provides an interface for live integration
  * testing via [superagent](https://github.com/visionmedia/superagent).
  * To do this, you must first
  * construct a request to an application or url.
@@ -405,6 +418,8 @@ var http = require('http')
  * or a node.js http(s) server as the foundation for your request.
  * If the server is not running, chai-http will find a suitable
  * port to listen on for a given test.
+ *
+ * __Note:__ This feature is only supported on Node.js, not in web browsers.
  *
  * ```js
  * chai.request(app)
@@ -492,6 +507,23 @@ var http = require('http')
  *   .catch(function (err) {
  *      throw err;
  *   })
+ * ```
+ *
+ * __Note:__ Node.js version 0.10.x and some older web browsers do not have
+ * native promise support. You can use any promise library, such as
+ * [es6-promise](https://github.com/jakearchibald/es6-promise) or
+ * [kriskowal/q](https://github.com/kriskowal/q) and call the `addPromise`
+ * method to use that library with Chai HTTP. For example:
+ *
+ * ```js
+ * var chai = require('chai');
+ * chai.use(require('chai-http'));
+ *
+ * // Add promise support if this does not exist natively.
+ * if (!global.Promise) {
+ *   var q = require('q');
+ *   chai.request.addPromises(q.Promise);
+ * }
  * ```
  *
  * #### Retaining cookies with each request
@@ -693,7 +725,7 @@ methods.forEach(function(method){
     else {
       // When running in a web browser, cookies are managed via `Request.withCredentials()`.
       // The browser will attach cookies based on same-origin policy.
-      // https://www.w3.org/TR/cors/#introduction
+      // https://tools.ietf.org/html/rfc6454#section-3
       req.withCredentials();
     }
 
