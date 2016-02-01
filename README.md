@@ -26,6 +26,15 @@ var chai = require('chai')
 chai.use(chaiHttp);
 ```
 
+To use Chai HTTP on a web page, just include the [`dist/chai-http.js`](dist/chai-http.js) file:
+
+```html
+<script src="chai.js"></script>
+<script src="chai-http.js"></script>
+<script>
+  chai.use(chaiHttp);
+</script>
+```
 
 ## Integration Testing
 
@@ -44,6 +53,8 @@ You may use a function (such as an express or connect app)
 or a node.js http(s) server as the foundation for your request.
 If the server is not running, chai-http will find a suitable
 port to listen on for a given test.
+
+__Note:__ This feature is only supported on Node.js, not in web browsers.
 
 ```js
 chai.request(app)
@@ -133,7 +144,12 @@ chai.request(app)
   })
 ```
 
-Since Node.js version 0.10.x and lower does not have native promise support you can use [kriskowal/q](https://github.com/kriskowal/q) for them. Use the `addPromise` function to do this. For example:
+__Note:__ Node.js version 0.10.x and some older web browsers do not have
+native promise support. You can use any promise library, such as
+[es6-promise](https://github.com/jakearchibald/es6-promise) or
+[kriskowal/q](https://github.com/kriskowal/q) and call the `addPromise`
+method to use that library with Chai HTTP. For example:
+
 ```js
 var chai = require('chai');
 chai.use(require('chai-http'));
@@ -169,9 +185,9 @@ agent
 
 ### .then (resolveCb, rejectCb)
 
-* **@param** _{Function}_ resolveCB
+* **@param** _{Function}_ resolveCB 
 * **@cb** {Response}
-* **@param** _{Function}_ rejectCB
+* **@param** _{Function}_ rejectCB 
 * **@cb** {Error}
 
 Invoke the request to to the server. The response
@@ -188,10 +204,9 @@ chai.request(app)
   });
 ```
 
-
 ### .catch (rejectCb)
 
-* **@param** _{Function}_ rejectCB
+* **@param** _{Function}_ rejectCB 
 * **@cb** {Error}
 
 Invoke the request to to the server, catching any
@@ -205,7 +220,6 @@ chai.request(app)
     throw err;
   });
 ```
-
 
 ## Assertions
 
@@ -222,14 +236,20 @@ Assert that a response has a supplied status.
 expect(res).to.have.status(200);
 ```
 
-
 ### .header (key[, value])
 
 * **@param** _{String}_ header key (case insensitive)
 * **@param** _{String|RegExp}_ header value (optional)
 
-Assert that an object has a header. If a value is
-provided, equality to value will be asserted. You may also pass a regular expression to check.
+Assert that a `Response` or `Request` object has a header.
+If a value is provided, equality to value will be asserted.
+You may also pass a regular expression to check.
+
+__Note:__ When running in a web browser, the
+[same-origin policy](https://tools.ietf.org/html/rfc6454#section-3)
+only allows Chai HTTP to read
+[certain headers](https://www.w3.org/TR/cors/#simple-response-header),
+which can cause assertions to fail.
 
 ```js
 expect(req).to.have.header('x-api-key');
@@ -237,16 +257,20 @@ expect(req).to.have.header('content-type', 'text/plain');
 expect(req).to.have.header('content-type', /^text/);
 ```
 
-
 ### .headers
 
 
-Assert that an object has headers.
+Assert that a `Response` or `Request` object has headers.
+
+__Note:__ When running in a web browser, the
+[same-origin policy](https://tools.ietf.org/html/rfc6454#section-3)
+only allows Chai HTTP to read
+[certain headers](https://www.w3.org/TR/cors/#simple-response-header),
+which can cause assertions to fail.
 
 ```js
 expect(req).to.have.headers;
 ```
-
 
 ### .ip
 
@@ -257,7 +281,6 @@ Assert that a string represents valid ip address.
 expect('127.0.0.1').to.be.an.ip;
 expect('2001:0db8:85a3:0000:0000:8a2e:0370:7334').to.be.an.ip;
 ```
-
 
 ### .json / .text / .html
 
@@ -270,7 +293,6 @@ expect(req).to.be.html;
 expect(req).to.be.text;
 ```
 
-
 ### .redirect
 
 
@@ -279,7 +301,6 @@ Assert that a `Response` object has a redirect status code.
 ```js
 expect(res).to.redirect;
 ```
-
 
 ### .redirectTo
 
@@ -290,7 +311,6 @@ Assert that a `Response` object redirects to the supplied location.
 ```js
 expect(res).to.redirectTo('http://example.com');
 ```
-
 
 ### .param
 
@@ -305,7 +325,6 @@ expect(req).to.have.param('orderby');
 expect(req).to.have.param('orderby', 'date');
 expect(req).to.not.have.param('limit');
 ```
-
 
 ### .cookie
 
@@ -323,7 +342,6 @@ expect(res).to.have.cookie('session_id');
 expect(res).to.have.cookie('session_id', '1234');
 expect(res).to.not.have.cookie('PHPSESSID');
 ```
-
 
 ## License
 

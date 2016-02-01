@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>chai-http browser tests</title>
+
+    <link rel="stylesheet" href="node_modules/mocha/mocha.css" />
+  </head>
+  <body>
+    <div id="mocha"></div>
+
+    <!-- Mocha + Chai -->
+    <script src="node_modules/mocha/mocha.js"></script>
+    <script src="node_modules/chai/chai.js"></script>
+
+    <!-- chai-http -->
+    <script src="dist/chai-http.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="node_modules/es6-shim/es6-shim.js"></script>
+    <script>
+      mocha.setup('bdd');
+      expect = chai.expect;
+      chai.should();
+      chai.use(chaiHttp);
+    </script>
+
+    <!-- Tests -->
+    <script src="test/http.js"></script>
+    <script src="test/request.js"></script>
+
+    <script>
+      mocha.run();
+    </script>
+  </body>
+</html>

@@ -13,7 +13,14 @@
     "url": "git@github.com:chaijs/chai-http.git"
   },
   "main": "./index",
+  "browser": {
+    "http": false,
+    "https": false,
+    "querystring": "qs",
+    "net": "./lib/net.js"
+  },
   "scripts": {
+    "start": "make bundle && http-server -c-1",
     "test": "make test"
   },
   "engines": {
@@ -24,12 +31,15 @@
     , "superagent": "1.2.x"
     , "cookiejar": "2.0.x"
     , "qs": "2.0.x"
+    , "is-ip": "1.0.0"
   },
   "devDependencies": {
       "mocha": "*"
     , "chai": "*"
     , "dox": "*"
     , "es6-shim": "*"
+    , "browserify": "*"
+    , "http-server": "*"
   },
   "optionalDependencies": {}
 }

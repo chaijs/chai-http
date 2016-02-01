@@ -2,9 +2,14 @@
 TESTS = test/*.js
 REPORTER = spec
 
-all:
+all: bundle
 	@rm -f README.md
 	@node ./support/readme.js
+
+bundle:
+	@rm -rf dist
+	@mkdir dist
+	@browserify lib/http.js --outfile dist/chai-http.js --standalone chaiHttp
 
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
@@ -22,4 +27,4 @@ clean:
 	@rm -rf lib-cov
 	@rm -f coverage.html
 
-.PHONY: all test lib-cov test-cov clean
+.PHONY: all bundle test lib-cov test-cov clean
