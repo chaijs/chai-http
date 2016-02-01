@@ -1,45 +1,56 @@
 {
-  "author": "Jake Luer <jake@alogicalparadox.com>",
   "name": "chai-http",
+  "version": "2.0.0",
   "description": "Extend Chai Assertion library with tests for http apis",
-  "version": "1.0.0",
+  "author": "Jake Luer <jake@alogicalparadox.com>",
   "contributors": [
     "Jake Luer <jake@alogicalparadox.com>",
     "Veselin Todorov <hi@vesln.com>",
     "Keith Cirkel <oss@keithcirkel.co.uk> (http://keithcirkel.co.uk)"
   ],
+  "files": [
+    "dist/chai-http.js",
+    "lib/*.js",
+    "index.js"
+  ],
+  "main": "./index",
   "repository": {
     "type": "git",
     "url": "git@github.com:chaijs/chai-http.git"
   },
-  "main": "./index",
+  "scripts": {
+    "build": "npm run build:readme && npm run build:js",
+    "prebuild:js": "mkdir -p dist",
+    "build:js": "browserify lib/http.js --outfile dist/chai-http.js --standalone chaiHttp",
+    "build:readme": "rm -rf README.md && node ./support/readme",
+    "start": "npm run build && http-server -c-1",
+    "test": "istanbul cover --report lcovonly _mocha",
+    "posttest": "if [ -z \"$COVERALLS_REPO_TOKEN\" ]; then cat coverage/lcov.info | coveralls; fi"
+  },
   "browser": {
     "http": false,
     "https": false,
-    "querystring": "qs",
-    "net": "./lib/net.js"
+    "net": "./lib/net.js",
+    "querystring": "qs"
   },
-  "scripts": {
-    "start": "make bundle && http-server -c-1",
-    "test": "make test"
+  "dependencies": {
+    "cookiejar": "2.0.x",
+    "is-ip": "1.0.0",
+    "methods": "0.0.x",
+    "qs": "2.0.x",
+    "superagent": "1.2.x"
+  },
+  "devDependencies": {
+    "browserify": "*",
+    "chai": "*",
+    "coveralls": "^2.11.6",
+    "dox": "*",
+    "es6-shim": "*",
+    "http-server": "*",
+    "istanbul": "^0.4.2",
+    "mocha": "*"
   },
   "engines": {
     "node": ">= 0.6.0"
-  },
-  "dependencies": {
-      "methods": "0.0.x"
-    , "superagent": "1.2.x"
-    , "cookiejar": "2.0.x"
-    , "qs": "2.0.x"
-    , "is-ip": "1.0.0"
-  },
-  "devDependencies": {
-      "mocha": "*"
-    , "chai": "*"
-    , "dox": "*"
-    , "es6-shim": "*"
-    , "browserify": "*"
-    , "http-server": "*"
-  },
-  "optionalDependencies": {}
+  }
 }
