@@ -1,16 +1,16 @@
 describe('assertions', function () {
 
   it('#status', function () {
-    var res = { statusCode: 200 };
+    var res = { status: 200 };
     res.should.to.have.status(200);
 
     (function () {
       res.should.not.have.status(200);
-    }).should.throw('expected { statusCode: 200 } to not have status code 200');
+    }).should.throw('expected { status: 200 } to not have status code 200');
 
     (function () {
       ({}).should.not.to.have.status(200);
-    }).should.throw("expected {} to have a property 'statusCode'");
+    }).should.throw("expected {} to have a property 'status'");
   });
 
   it('#ip', function () {
@@ -105,7 +105,7 @@ describe('assertions', function () {
 
     (function () {
       res.should.not.have.headers;
-    }).should.throw('expected { getHeader: [Function] } to not have headers or getHeader method');
+    }).should.throw(/expected .*getHeader.* to not have headers or getHeader method/);
   });
 
   it('#json', function() {
@@ -169,60 +169,60 @@ describe('assertions', function () {
   });
 
   it('#redirect', function () {
-    var res = { statusCode: 200 };
+    var res = { status: 200 };
     res.should.not.redirect;
 
-    [301, 302, 303].forEach(function (statusCode) {
-      var res = { statusCode: statusCode };
+    [301, 302, 303].forEach(function (status) {
+      var res = { status: status };
       res.should.redirect;
     });
 
     ({
-      statusCode: 200,
+      status: 200,
       redirects: ['http://example.com']
     }).should.redirect;
 
     ({
-      statusCode: 200,
+      status: 200,
       redirects: []
     }).should.not.redirect;
 
     (function () {
-      var res = { statusCode: 200 };
+      var res = { status: 200 };
       res.should.redirect;
     }).should.throw('expected redirect with 30{1-3} status code but got 200');
 
     (function () {
-      var res = { statusCode: 301 };
+      var res = { status: 301 };
       res.should.not.redirect;
     }).should.throw('expected not to redirect but got 301 status');
   });
 
   it('#redirectTo', function () {
-    var res = { statusCode: 301, headers: { location: 'foo' } };
+    var res = { status: 301, headers: { location: 'foo' } };
     res.should.redirectTo('foo');
 
-    res = { statusCode: 301, headers: { location: 'bar' } };
+    res = { status: 301, headers: { location: 'bar' } };
     res.should.not.redirectTo('foo');
 
-    res = { statusCode: 200, redirects: ['bar'] };
+    res = { status: 200, redirects: ['bar'] };
     res.should.redirectTo('bar');
 
-    res = { statusCode: 200, redirects: ['bar'] };
+    res = { status: 200, redirects: ['bar'] };
     res.should.not.redirectTo('foo');
 
     (function () {
-      var res = { statusCode: 301, headers: { location: 'foo' } };
+      var res = { status: 301, headers: { location: 'foo' } };
       res.should.not.redirectTo('foo');
     }).should.throw('expected header \'location\' to not have value foo');
 
     (function () {
-      var res = { statusCode: 301, headers: { location: 'bar' } };
+      var res = { status: 301, headers: { location: 'bar' } };
       res.should.redirectTo('foo');
     }).should.throw('expected header \'location\' to have value foo');
 
     (function () {
-      var res = { statusCode: 200, redirects: ['bar', 'baz'] };
+      var res = { status: 200, redirects: ['bar', 'baz'] };
       res.should.redirectTo('foo');
     }).should.throw('expected redirect to foo but got bar then baz');
   });
