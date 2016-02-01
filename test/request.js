@@ -61,7 +61,7 @@ describe('request', function () {
 
           // Content-Type and Pragma are supported on Node and browser
           res.should.be.json;
-          res.should.have.header('Content-Type', 'application/json');
+          res.should.have.header('Content-Type', /json$/);
           res.should.have.header('Pragma', 'test1');
 
           // When running in a browser, only "simple" headers are readable
