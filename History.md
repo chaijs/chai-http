@@ -1,5 +1,11 @@
+### Note
 
-1.0.0 / 2014-10-08 
+As of 2.0.0, the History.md file has been deprecated. [Please refer to the full
+commit logs available on GitHub](https://github.com/chaijs/chai-http/commits/master).
+
+---
+
+1.0.0 / 2014-10-08
 ==================
 
  * update readme
@@ -25,7 +31,7 @@
  * Update SuperAgent to v0.19.x
  * Drop harbor and pauli deps.
 
-0.5.0 / 2014-08-19 
+0.5.0 / 2014-08-19
 ==================
 
   * Merge pull request #9 from hurrymaplelad/assert_redirect
@@ -33,7 +39,7 @@
   * Merge pull request #8 from lxanders/improveReadme
   * Fixed missing word and improved wording in documentation
 
-0.4.0 / 2013-06-25 
+0.4.0 / 2013-06-25
 ==================
 
   * support: [readme] cleanup
@@ -44,7 +50,7 @@
   * Fixing typo in Readme
   * readme typo
 
-0.3.0 / 2012-10-24 
+0.3.0 / 2012-10-24
 ==================
 
   * minor tweak to http docs
@@ -62,13 +68,13 @@
   * convert to tdd
   * clean up test runner
 
-0.2.0 / 2012-05-15 
+0.2.0 / 2012-05-15
 ==================
 
   * chai 1.0.0 compatibility
   * update package.json
 
-0.1.0 / 2012-03-10 
+0.1.0 / 2012-03-10
 ==================
 
   * Merge branch 'refs/heads/dev'
@@ -80,7 +86,7 @@
   * Add test for Assertion#header.
   * Add test for Assertion#status.
 
-0.0.1 / 2012-03-06 
+0.0.1 / 2012-03-06
 ==================
 
   * prepping for release 0.0.1
