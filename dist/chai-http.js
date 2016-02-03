@@ -736,6 +736,7 @@ methods.forEach(function(method){
 TestAgent.prototype.del = TestAgent.prototype.delete;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"http":4,"https":4,"methods":11,"superagent":23,"util":27}],4:[function(require,module,exports){
 
 },{}],5:[function(require,module,exports){
@@ -1906,6 +1907,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],14:[function(require,module,exports){
 module.exports = require('./lib');
 
@@ -2142,6 +2144,7 @@ module.exports = function (obj, options) {
 };
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
+
 },{"../../is-buffer/index.js":9}],18:[function(require,module,exports){
 (function (Buffer){
 // Load modules
@@ -2279,6 +2282,7 @@ exports.compact = function (obj) {
 };
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
+
 },{"../../is-buffer/index.js":9}],19:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -4957,5 +4961,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"./support/isBuffer":26,"_process":12,"inherits":7}]},{},[1])(1)
 });
+//# sourceMappingURL=chai-http.js.map

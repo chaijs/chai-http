@@ -3,7 +3,16 @@
   "version": "2.0.0",
   "description": "Extend Chai Assertion library with tests for http apis",
   "author": "Jake Luer <jake@alogicalparadox.com>",
-  "keywords": ["chai", "chai-plugin", "browser", "http", "request", "vendor", "supertest", "superagent"],
+  "keywords": [
+    "chai",
+    "chai-plugin",
+    "browser",
+    "http",
+    "request",
+    "vendor",
+    "supertest",
+    "superagent"
+  ],
   "contributors": [
     "Jake Luer <jake@alogicalparadox.com>",
     "Veselin Todorov <hi@vesln.com>",
@@ -21,10 +30,12 @@
   },
   "scripts": {
     "build": "npm run build:readme && npm run build:js",
-    "prebuild:js": "mkdir -p dist",
-    "build:js": "browserify lib/http.js --outfile dist/chai-http.js --standalone chaiHttp",
+    "prebuild:js": "rm -rf dist",
+    "build:js": "simplifyify lib/http.js --outfile dist/chai-http.js --bundle --minify --debug --standalone chaiHttp",
     "build:readme": "rm -rf README.md && node ./support/readme",
-    "start": "npm run build && http-server -c-1",
+    "start": "npm-run-all --parallel watch server",
+    "watch": "npm run build:js -- --watch",
+    "server": "http-server -o -c-1",
     "test": "istanbul cover --report lcovonly _mocha",
     "posttest": "if [ -z \"$COVERALLS_REPO_TOKEN\" ]; then cat coverage/lcov.info | coveralls; fi"
   },
@@ -42,14 +53,15 @@
     "superagent": "1.2.x"
   },
   "devDependencies": {
-    "browserify": "*",
+    "simplifyify": "^2.0.1",
     "chai": "*",
     "coveralls": "^2.11.6",
     "dox": "*",
     "es6-shim": "*",
     "http-server": "*",
     "istanbul": "^0.4.2",
-    "mocha": "*"
+    "mocha": "*",
+    "npm-run-all": "^1.5.1"
   },
   "engines": {
     "node": ">= 0.6.0"
