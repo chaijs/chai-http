@@ -80,7 +80,7 @@ json, or even file attachments added to it, all with a simple API:
 chai.request(app)
   .put('/user/me')
   .set('X-API-Key', 'foobar')
-  .send({ passsword: '123', confirmPassword: '123' })
+  .send({ password: '123', confirmPassword: '123' })
 ```
 
 ```js
@@ -120,7 +120,7 @@ To make the request and assert on its response, the `end` method can be used:
 ```js
 chai.request(app)
   .put('/user/me')
-  .send({ passsword: '123', confirmPassword: '123' })
+  .send({ password: '123', confirmPassword: '123' })
   .end(function (err, res) {
      expect(err).to.be.null;
      expect(res).to.have.status(200);
@@ -135,7 +135,7 @@ and chaining of `then`s becomes possible:
 ```js
 chai.request(app)
   .put('/user/me')
-  .send({ passsword: '123', confirmPassword: '123' })
+  .send({ password: '123', confirmPassword: '123' })
   .then(function (res) {
      expect(res).to.have.status(200);
   })
