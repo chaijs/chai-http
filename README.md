@@ -127,6 +127,41 @@ chai.request(app)
   });
 ```
 
+##### Caveat
+
+Because the `end` function is passed a callback, assertions are run
+asynchronously. Therefore, a mechanism must be used to notify the testing
+framework that the callback has completed. Otherwise, the test will pass before
+the assertions are checked.
+
+For example, in the [Mocha test framework](http://mochajs.org/), this is
+accomplished using the
+[`done` callback](https://mochajs.org/#asynchronous-code), which signal that the
+callback has completed, and the assertions can be verified:
+
+```js
+it('fails, as expected', function(done) { // <= Pass in done callback
+  chai.request('http://localhost:8080')
+  .get('/')
+  .end(function(err, res) {
+    expect(res).to.have.status(123);
+    done();                               // <= Call done to signal callback end
+  });
+}) ;
+
+it('succeeds silently!', function() {   // <= No done callback
+  chai.request('http://localhost:8080')
+  .get('/')
+  .end(function(err, res) {
+    expect(res).to.have.status(123);    // <= Test completes before this runs
+  });
+}) ;
+```
+
+When `done` is passed in, Mocha will wait until the call to `done()`, or until
+the [timeout](http://mochajs.org/#timeouts) expires. `done` also accepts an
+error parameter when signaling completion.
+
 #### Dealing with the response - Promises
 
 If `Promise` is available, `request()` becomes a Promise capable library -
