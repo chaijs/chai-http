@@ -50,7 +50,7 @@
     "is-ip": "1.0.0",
     "methods": "0.0.x",
     "qs": "2.0.x",
-    "superagent": "1.2.x"
+    "superagent": "1.8.2"
   },
   "devDependencies": {
     "simplifyify": "^2.0.1",
