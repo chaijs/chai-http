@@ -75,24 +75,36 @@ describe('request', function () {
         });
     });
 
-    it('can be augmented with promises', function (done) {
-      request('https://httpbin.org')
-        .get('/get')
-        .set('X-API-Key', 'test3')
-        .then(function (res) {
-          res.should.have.status(200);
-          res.body.headers['X-Api-Key'].should.equal('test3');
-          throw new Error('Testing catch');
-        })
-        .then(function () {
-          throw new Error('This should not have fired');
-        })
-        .catch(function (err) {
-          if (err.message !== 'Testing catch') {
-            throw err;
-          }
-        })
-        .then(done, done);
+    describe('Promises', function () {
+      it('can be augmented with promises', function (done) {
+        request('https://httpbin.org')
+          .get('/get')
+          .set('X-API-Key', 'test3')
+          .then(function (res) {
+            res.should.have.status(200);
+            res.body.headers['X-Api-Key'].should.equal('test3');
+            throw new Error('Testing catch');
+          })
+          .then(function () {
+            throw new Error('This should not have fired');
+          })
+          .catch(function (err) {
+            if (err.message !== 'Testing catch') {
+              throw err;
+            }
+          })
+          .then(done, done);
+      });
+
+      it('can test for HTTP failure responsees', function (done) {
+        request('https://httpbin.org', {badStatusCausesError: false})
+          .get('/status/400')
+          .set('X-API-Key', 'test4')
+          .then(function (res) {
+            res.should.have.status(400);
+          })
+          .then(done, done);
+      });
     });
   });
 
