@@ -96,7 +96,7 @@ describe('request', function () {
           .then(done, done);
       });
 
-      it('can test for HTTP failure responsees', function (done) {
+      it('can test for HTTP failure responses', function (done) {
         request('https://httpbin.org', {badStatusCausesError: false})
           .get('/status/400')
           .set('X-API-Key', 'test4')
