@@ -80,7 +80,7 @@ json, or even file attachments added to it, all with a simple API:
 chai.request(app)
   .put('/user/me')
   .set('X-API-Key', 'foobar')
-  .send({ password: '123', confirmPassword: '123' })
+  .send({ passsword: '123', confirmPassword: '123' })
 ```
 
 ```js
@@ -120,47 +120,12 @@ To make the request and assert on its response, the `end` method can be used:
 ```js
 chai.request(app)
   .put('/user/me')
-  .send({ password: '123', confirmPassword: '123' })
+  .send({ passsword: '123', confirmPassword: '123' })
   .end(function (err, res) {
      expect(err).to.be.null;
      expect(res).to.have.status(200);
   });
 ```
-
-##### Caveat
-
-Because the `end` function is passed a callback, assertions are run
-asynchronously. Therefore, a mechanism must be used to notify the testing
-framework that the callback has completed. Otherwise, the test will pass before
-the assertions are checked.
-
-For example, in the [Mocha test framework](http://mochajs.org/), this is
-accomplished using the
-[`done` callback](https://mochajs.org/#asynchronous-code), which signal that the
-callback has completed, and the assertions can be verified:
-
-```js
-it('fails, as expected', function(done) { // <= Pass in done callback
-  chai.request('http://localhost:8080')
-  .get('/')
-  .end(function(err, res) {
-    expect(res).to.have.status(123);
-    done();                               // <= Call done to signal callback end
-  });
-}) ;
-
-it('succeeds silently!', function() {   // <= No done callback
-  chai.request('http://localhost:8080')
-  .get('/')
-  .end(function(err, res) {
-    expect(res).to.have.status(123);    // <= Test completes before this runs
-  });
-}) ;
-```
-
-When `done` is passed in, Mocha will wait until the call to `done()`, or until
-the [timeout](http://mochajs.org/#timeouts) expires. `done` also accepts an
-error parameter when signaling completion.
 
 #### Dealing with the response - Promises
 
@@ -170,7 +135,7 @@ and chaining of `then`s becomes possible:
 ```js
 chai.request(app)
   .put('/user/me')
-  .send({ password: '123', confirmPassword: '123' })
+  .send({ passsword: '123', confirmPassword: '123' })
   .then(function (res) {
      expect(res).to.have.status(200);
   })

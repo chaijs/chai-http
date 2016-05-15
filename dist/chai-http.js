@@ -550,7 +550,7 @@ var http = require('http')
  *
  */
 
-module.exports = function (app) {
+module.exports = function (app, options) {
 
   /*!
    * @param {Mixed} function or server
@@ -564,7 +564,7 @@ module.exports = function (app) {
 
   methods.forEach(function (method) {
     obj[method] = function (path) {
-      return new Test(server, method, path);
+      return new Test(server, method, path, options);
     };
   });
   obj.del = obj.delete;
@@ -592,9 +592,10 @@ module.exports.addPromises = function (Promise) {
  * @api private
  */
 
-function Test (app, method, path) {
+function Test (app, method, path, options) {
   Request.call(this, method, path);
   this.app = app;
+  this.options = options || {badStatusCausesError: true};
   this.url = typeof app === 'string' ? app + path : serverAddress(app, path);
 }
 util.inherits(Test, Request);
@@ -633,7 +634,7 @@ Test.prototype.then = function (onResolve, onReject) {
     var self = this;
     this._promise = new Test.Promise(function (resolve, reject) {
       self.end(function (err, res) {
-        if (err) {
+        if (err && self.options.badStatusCausesError) {
           reject(err);
         } else {
           resolve(res);
@@ -1287,6 +1288,9 @@ var currentQueue;
 var queueIndex = -1;
 
 function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
     draining = false;
     if (currentQueue.length) {
         queue = currentQueue.concat(queue);
@@ -1372,7 +1376,7 @@ process.umask = function() { return 0; };
 
 },{}],13:[function(require,module,exports){
 (function (global){
-/*! https://mths.be/punycode v1.4.0 by @mathias */
+/*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
 
 	/** Detect free variables */
@@ -1860,7 +1864,7 @@ process.umask = function() { return 0; };
 		 * @memberOf punycode
 		 * @type String
 		 */
-		'version': '1.3.2',
+		'version': '1.4.1',
 		/**
 		 * An object of methods to convert from JavaScript's internal character
 		 * representation (UCS-2) to Unicode code points, and back.
