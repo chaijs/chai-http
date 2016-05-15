@@ -44,7 +44,7 @@ To do this, you must first
 construct a request to an application or url.
 
 Upon construction you are provided a chainable api that
-allow to you specify the http VERB request (get, post, etc)
+allows you to specify the http VERB request (get, post, etc)
 that you wish to invoke.
 
 #### Application / Server
