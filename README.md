@@ -1,4 +1,4 @@
-# Chai HTTP [![Build Status](https://travis-ci.org/chaijs/chai-http.svg?branch=master)](https://travis-ci.org/chaijs/chai-http)
+# Chai HTTP [![Build Status](https://travis-ci.org/chaijs/chai-http.svg?branch=master)](https://travis-ci.org/chaijs/chai-http) [![Coverage Status](https://coveralls.io/repos/github/chaijs/chai-http/badge.svg?branch=)](https://coveralls.io/github/chaijs/chai-http?branch=master)
 
 > HTTP integration testing with Chai assertions.
 
