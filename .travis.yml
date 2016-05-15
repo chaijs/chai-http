@@ -15,3 +15,4 @@ deploy:
 env:
   global:
     - secure: DGaDDxh76Gv+qmu4SLuQDxmmZMpMiiVdIvveT1d3ly93zrqT7Pb9ur7P8Yz77AxU9UrMHEJ3Be05Uqe8xtTJCIora9io/tX4QLRtIXtRIOA3dYaYNBgXztQT7yzCi6E/L/DZa1+dNaGDpoUnLG0S3vpwhi3YjlWJDhLOfB3Txx0=
+    - FORCE_COVERALLS=1

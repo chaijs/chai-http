@@ -37,7 +37,7 @@
     "watch": "npm run build:js -- --watch",
     "server": "http-server -o -c-1",
     "test": "istanbul cover --report lcovonly _mocha",
-    "posttest": "if ! [ -z $COVERALLS_REPO_TOKEN ]; then cat coverage/lcov.info | coveralls; fi"
+    "posttest": "if [ -n \"$COVERALLS_REPO_TOKEN\" ] || [ \"${FORCE_COVERALLS}\" = \"1\" ]; then cat coverage/lcov.info | coveralls; fi"
   },
   "browser": {
     "http": false,
