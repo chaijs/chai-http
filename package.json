@@ -61,7 +61,7 @@
     "http-server": "*",
     "istanbul": "^0.4.2",
     "mocha": "*",
-    "npm-run-all": "^1.5.1"
+    "npm-run-all": "^2.1.1"
   },
   "engines": {
     "node": ">= 0.6.0"
