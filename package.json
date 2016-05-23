@@ -60,7 +60,7 @@
     "es6-shim": "*",
     "http-server": "*",
     "istanbul": "^0.4.2",
-    "mocha": "*",
+    "mocha": "2.5.0",
     "npm-run-all": "^1.5.1"
   },
   "engines": {
