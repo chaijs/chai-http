@@ -49,7 +49,7 @@
     "cookiejar": "2.0.x",
     "is-ip": "1.0.0",
     "methods": "^1.1.2",
-    "qs": "2.0.x",
+    "qs": "^6.2.0",
     "superagent": "^2.0.0"
   },
   "devDependencies": {
