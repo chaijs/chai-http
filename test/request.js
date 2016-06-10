@@ -2,7 +2,6 @@ describe('request', function () {
   var isNode = typeof process === 'object';
   var isBrowser = typeof window === 'object';
   var request = chai.request;
-  request.addPromises(Promise);
 
   describe('Browser and Node.js', function () {
     it('is present on chai', function () {
