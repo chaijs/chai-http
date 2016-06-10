@@ -126,9 +126,7 @@ chai.request(app)
      expect(res).to.have.status(200);
   });
 ```
-
 ##### Caveat
-
 Because the `end` function is passed a callback, assertions are run
 asynchronously. Therefore, a mechanism must be used to notify the testing
 framework that the callback has completed. Otherwise, the test will pass before
@@ -216,44 +214,6 @@ agent
          expect(res).to.have.status(200);
       })
   })
-```
-
-### .then (resolveCb, rejectCb)
-
-* **@param** _{Function}_ resolveCB 
-* **@cb** {Response}
-* **@param** _{Function}_ rejectCB 
-* **@cb** {Error}
-
-Invoke the request to to the server. The response
-will be passed as a parameter to the resolveCb,
-while any errors will be passed to rejectCb.
-
-```js
-chai.request(app)
-  .get('/')
-  .then(function (res) {
-    expect(res).to.have.status(200);
-  }, function (err) {
-     throw err;
-  });
-```
-
-### .catch (rejectCb)
-
-* **@param** _{Function}_ rejectCB 
-* **@cb** {Error}
-
-Invoke the request to to the server, catching any
-errors with this callback. Behaves the same as
-Promises.
-
-```js
-chai.request(app)
-  .get('/')
-  .catch(function (err) {
-    throw err;
-  });
 ```
 
 ## Assertions
