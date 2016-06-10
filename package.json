@@ -55,13 +55,13 @@
   "devDependencies": {
     "simplifyify": "^2.0.1",
     "chai": "*",
-    "coveralls": "^2.11.6",
-    "dox": "*",
-    "es6-shim": "*",
-    "http-server": "*",
-    "istanbul": "^0.4.2",
-    "mocha": "*",
-    "npm-run-all": "^1.5.1"
+    "coveralls": "^2.11.9",
+    "dox": "^0.8.1",
+    "es6-shim": "^0.35.1",
+    "http-server": "^0.9.0",
+    "istanbul": "^0.4.3",
+    "mocha": "^2.5.3",
+    "npm-run-all": "^2.1.1"
   },
   "engines": {
     "node": ">= 0.6.0"
