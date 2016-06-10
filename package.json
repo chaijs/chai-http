@@ -48,7 +48,7 @@
   "dependencies": {
     "cookiejar": "2.0.x",
     "is-ip": "1.0.0",
-    "methods": "0.0.x",
+    "methods": "^1.1.2",
     "qs": "2.0.x",
     "superagent": "1.2.x"
   },
