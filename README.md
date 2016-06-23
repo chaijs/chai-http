@@ -178,20 +178,22 @@ chai.request(app)
 ```
 
 __Note:__ Node.js version 0.10.x and some older web browsers do not have
-native promise support. You can use any promise library, such as
-[es6-promise](https://github.com/jakearchibald/es6-promise) or
-[kriskowal/q](https://github.com/kriskowal/q) and call the `addPromise`
-method to use that library with Chai HTTP. For example:
+native promise support. You can use any spec compliant library, such as:
+ - [kriskowal/q](https://github.com/kriskowal/q)
+ - [stefanpenner/es6-promise](https://github.com/stefanpenner/es6-promise)
+ - [petkaantonov/bluebird](https://github.com/petkaantonov/bluebird)
+ - [then/promise](https://github.com/then/promise)
+You will need to set the library you use to `global.Promise`, before
+requiring in chai-http. For example:
 
 ```js
+// Add promise support if this does not exist natively.
+if (!global.Promise) {
+  global.Promise = require('q');
+}
 var chai = require('chai');
 chai.use(require('chai-http'));
 
-// Add promise support if this does not exist natively.
-if (!global.Promise) {
-  var q = require('q');
-  chai.request.addPromises(q.Promise);
-}
 ```
 
 #### Retaining cookies with each request
