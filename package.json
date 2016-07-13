@@ -46,7 +46,7 @@
     "querystring": "qs"
   },
   "dependencies": {
-    "cookiejar": "2.0.x",
+    "cookiejar": "2.1.0",
     "is-ip": "1.0.0",
     "methods": "^1.1.2",
     "qs": "^6.2.0",
