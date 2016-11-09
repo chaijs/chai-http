@@ -1,6 +1,6 @@
 describe('assertions', function () {
 
-  it('#status', function () {
+  it('#status property "status"', function () {
     var res = { status: 200 };
     res.should.to.have.status(200);
 
@@ -10,7 +10,12 @@ describe('assertions', function () {
 
     (function () {
       ({}).should.not.to.have.status(200);
-    }).should.throw("expected {} to have a property 'status'");
+    }).should.throw("expected {} to have keys 'status', or 'statusCode'");
+  });
+
+  it('#status property "statusCode"', function () {
+    var res = { statusCode: 200 };
+    res.should.to.have.status(200);
   });
 
   it('#ip', function () {
