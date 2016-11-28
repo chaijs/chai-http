@@ -308,13 +308,19 @@ describe('assertions', function () {
   it('#cookie (request)', function () {
     var req = {
       headers: {
-        'cookie': 'name=value;name2=value2;'
+        'set-cookie': [
+          'name=value;',
+          'name2=value2; Expires=Wed, 09 Jun 2021 10:18:14 GMT',
+          'name3=value3; Domain=.somedomain.com',
+        ]
       }
     };
     req.should.have.cookie('name');
     req.should.have.cookie('name2');
+    req.should.have.cookie('name3');
     req.should.have.cookie('name', 'value');
     req.should.have.cookie('name2', 'value2');
+    req.should.have.cookie('name3', 'value3');
     req.should.not.have.cookie('bar');
     req.should.not.have.cookie('name2', 'bar');
 
