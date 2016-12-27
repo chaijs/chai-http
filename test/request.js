@@ -74,6 +74,15 @@ describe('request', function () {
         });
     });
 
+    it('succeeds when response has an error status', function (done) {
+      request('https://httpbin.org')
+        .get('/status/400')
+        .end(function (err, res) {
+          res.should.have.status(400);
+          done(err);
+        });
+    });
+
     it('can be augmented with promises', function (done) {
       request('https://httpbin.org')
         .get('/get')
@@ -92,6 +101,14 @@ describe('request', function () {
           }
         })
         .then(done, done);
+    });
+
+    it('can resolve a promise given status code of 400', function () {
+      return request('https://httpbin.org')
+        .get('/status/400')
+        .then(function (res) {
+          res.should.have.status(400);
+        });
     });
   });
 
