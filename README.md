@@ -147,7 +147,7 @@ it('fails, as expected', function(done) { // <= Pass in done callback
     expect(res).to.have.status(123);
     done();                               // <= Call done to signal callback end
   });
-}) ;
+});
 
 it('succeeds silently!', function() {   // <= No done callback
   chai.request('http://localhost:8080')
@@ -155,7 +155,7 @@ it('succeeds silently!', function() {   // <= No done callback
   .end(function(err, res) {
     expect(res).to.have.status(123);    // <= Test completes before this runs
   });
-}) ;
+});
 ```
 
 When `done` is passed in, Mocha will wait until the call to `done()`, or until
@@ -176,7 +176,7 @@ chai.request(app)
   })
   .catch(function (err) {
      throw err;
-  })
+  });
 ```
 
 __Note:__ Node.js version 0.10.x and some older web browsers do not have
@@ -195,7 +195,6 @@ if (!global.Promise) {
 }
 var chai = require('chai');
 chai.use(require('chai-http'));
-
 ```
 
 #### Retaining cookies with each request
@@ -216,8 +215,8 @@ agent
     return agent.get('/user/me')
       .then(function (res) {
          expect(res).to.have.status(200);
-      })
-  })
+      });
+  });
 ```
 
 ## Assertions
