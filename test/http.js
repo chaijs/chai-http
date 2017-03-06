@@ -341,4 +341,43 @@ describe('assertions', function () {
     }).should.throw('expected cookie \'name2\' to have value \'value\' but got \'value2\'');
 
   });
+
+  it('#cookie (agent)', function () {
+    var agent = chai.request.agent();
+    var cookies = [
+      'name=value',
+      'name2=value2; Expires=Wed, 09 Jun 2021 10:18:14 GMT',
+      'name3=value3; Domain=.somedomain.com',
+    ];
+    if (agent.jar)  // Using superagent.Agent (node)
+      agent.jar.setCookies(cookies);
+    else  // using superagent.Request (browser)
+      agent.set('set-cookie', cookies);
+
+    agent.should.have.cookie('name');
+    agent.should.have.cookie('name2');
+    agent.should.have.cookie('name3');
+    agent.should.have.cookie('name', 'value');
+    agent.should.have.cookie('name2', 'value2');
+    agent.should.have.cookie('name3', 'value3');
+    agent.should.not.have.cookie('bar');
+    agent.should.not.have.cookie('name2', 'bar');
+
+    (function () {
+      agent.should.not.have.cookie('name');
+    }).should.throw('expected cookie \'name\' to not exist');
+
+    (function () {
+      agent.should.have.cookie('foo');
+    }).should.throw('expected cookie \'foo\' to exist');
+
+    (function () {
+      agent.should.not.have.cookie('name', 'value');
+    }).should.throw('expected cookie \'name\' to not have value \'value\'');
+
+    (function () {
+      agent.should.have.cookie('name2', 'value');
+    }).should.throw('expected cookie \'name2\' to have value \'value\' but got \'value2\'');
+
+  });
 });
