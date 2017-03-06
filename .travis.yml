@@ -1,7 +1,10 @@
 language: node_js
 node_js:
-  - 4
-  - stable
+  - 4 # to be removed 2018-04-01
+  - 6 # to be removed 2019-04-01
+  - 7 # to be removed 2017-06-30
+  - lts/* # safety net; don't remove
+  - node # safety net; don't remove
 deploy:
   provider: npm
   email:
