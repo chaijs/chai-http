@@ -177,7 +177,7 @@ describe('assertions', function () {
     var res = { status: 200 };
     res.should.not.redirect;
 
-    [301, 302, 303,307,308].forEach(function (status) {
+    [301, 302, 303, 307, 308].forEach(function (status) {
       var res = { status: status };
       res.should.redirect;
     });
