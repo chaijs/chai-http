@@ -195,7 +195,7 @@ describe('assertions', function () {
     (function () {
       var res = { status: 200 };
       res.should.redirect;
-    }).should.throw('expected redirect status code but got 200');
+    }).should.throw('expected redirect with 30X status code but got 200');
 
     (function () {
       var res = { status: 301 };
