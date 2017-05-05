@@ -298,6 +298,7 @@ Assert that a `Response` object has a redirect status code.
 
 ```js
 expect(res).to.redirect;
+expect(res).to.not.redirect;
 ```
 
 ### .redirectTo
