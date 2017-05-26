@@ -249,27 +249,27 @@ describe('assertions', function () {
 
     (function () {
       req.should.not.have.param('foo', 'bar');
-    }).should.throw(/expected .* to not have a property \'foo\' of \'bar\'/);
+    }).should.throw(/expected .* to not have property \'foo\' of \'bar\'/);
   });
 
-  it('#param (deep)', function () {
+  it('#param (nested)', function () {
     var req = { url: '/test?form[name]=jim&form[lastName]=bob' };
     req.should.have.param('form');
-    req.should.have.deep.param('form.name');
-    req.should.have.deep.param('form.name', 'jim');
-    req.should.have.deep.param('form.lastName');
-    req.should.have.deep.param('form.lastName', 'bob');
+    req.should.have.nested.param('form.name');
+    req.should.have.nested.param('form.name', 'jim');
+    req.should.have.nested.param('form.lastName');
+    req.should.have.nested.param('form.lastName', 'bob');
     req.should.not.have.param('bar');
-    req.should.not.have.deep.param('form.bar');
-    req.should.not.have.deep.param('form.name', 'sue');
+    req.should.not.have.nested.param('form.bar');
+    req.should.not.have.nested.param('form.name', 'sue');
 
     (function () {
-      req.should.not.have.deep.param('form.name');
-    }).should.throw(/expected .* to not have deep property \'form.name\'/);
+      req.should.not.have.nested.param('form.name');
+    }).should.throw(/expected .* to not have nested property \'form.name\'/);
 
     (function () {
-      req.should.not.have.deep.param('form.lastName', 'bob');
-    }).should.throw(/expected .* to not have a deep property \'form.lastName\' of \'bob\'/);
+      req.should.not.have.nested.param('form.lastName', 'bob');
+    }).should.throw(/expected .* to not have nested property \'form.lastName\' of \'bob\'/);
   });
 
   it('#cookie', function () {
