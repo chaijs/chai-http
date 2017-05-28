@@ -167,6 +167,8 @@ error parameter when signaling completion.
 If `Promise` is available, `request()` becomes a Promise capable library -
 and chaining of `then`s becomes possible:
 
+__Note:__ when using promises, the `done` callback will throw an error `Bad Request` 
+
 ```js
 chai.request(app)
   .put('/user/me')
