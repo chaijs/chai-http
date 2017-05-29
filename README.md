@@ -87,9 +87,11 @@ chai.request(app)
 // Send some Form Data
 chai.request(app)
   .post('/user/me')
-  .field('_method', 'put')
-  .field('password', '123')
-  .field('confirmPassword', '123')
+  .send({
+    _method: 'put',
+    password: '123',
+    confirmPassword, '123',
+  })
 ```
 
 ```js
