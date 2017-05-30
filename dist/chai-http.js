@@ -498,7 +498,7 @@ var http = require('http')
  *
  * For example, in the [Mocha test framework](http://mochajs.org/), this is
  * accomplished using the
- * [`done` callback](https://mochajs.org/#asynchronous-code), which signal that the
+ * [`done` callback](https://mochajs.org/#asynchronous-code), which signals that the
  * callback has completed, and the assertions can be verified:
  *
  * ```js
@@ -507,7 +507,7 @@ var http = require('http')
  *   .get('/')
  *   .end(function(err, res) {
  *     expect(res).to.have.status(123);
- *     done();                               // <= Call done to signal callback end
+ *     done();                               // <= Call done to signal the callback end
  *   });
  * }) ;
  *
@@ -520,7 +520,7 @@ var http = require('http')
  * }) ;
  * ```
  *
- * When `done` is passed in, Mocha will wait until the call to `done()`, or until
+ * When `done` is passed in, Mocha will wait until the call to `done()` or until
  * the [timeout](http://mochajs.org/#timeouts) expires. `done` also accepts an
  * error parameter when signaling completion.
  *
