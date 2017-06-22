@@ -203,7 +203,7 @@ chai.use(require('chai-http'));
 #### Retaining cookies with each request
 
 Sometimes you need to keep cookies from one request, and send them with the
-next. For this, `.request.agent()` is available:
+next (for example, when you want to login with the first request, then access an authenticated-only resource later). For this, `.request.agent()` is available:
 
 ```js
 // Log in
