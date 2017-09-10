@@ -118,6 +118,12 @@ chai.request(app)
 
 #### Dealing with the response - traditional
 
+In the following examples we use Chai's Expect assertion library:
+
+```js
+var expect = chai.expect;
+```
+
 To make the request and assert on its response, the `end` method can be used:
 
 ```js
