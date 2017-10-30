@@ -54,15 +54,15 @@
     "superagent": "^3.7.0"
   },
   "devDependencies": {
-    "simplifyify": "^2.0.1",
     "chai": "4",
-    "coveralls": "^2.11.9",
-    "dox": "^0.8.1",
+    "coveralls": "^3.0.0",
+    "dox": "^0.9.0",
     "es6-shim": "^0.35.1",
-    "http-server": "^0.9.0",
+    "http-server": "^0.10.0",
     "istanbul": "^0.4.3",
-    "mocha": "^3.0.2",
-    "npm-run-all": "^3.0.0"
+    "mocha": "^4.0.1",
+    "npm-run-all": "^4.1.1",
+    "simplifyify": "^3.2.4"
   },
   "engines": {
     "node": ">=4"
