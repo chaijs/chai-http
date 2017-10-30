@@ -123,9 +123,10 @@ describe('request', function () {
       request(app).get('/')
         .set('X-API-Key', 'testing')
         .end(function (err, res) {
+          if (err) return done(err)
           res.should.have.status(200);
           res.text.should.equal('hello universe');
-          done(err);
+          done();
         });
     });
 
@@ -169,9 +170,41 @@ describe('request', function () {
         })
         .then(function (res) {
           res.text.should.equal('your cookie: mycookie=test');
+          agent.close()
         })
         .then(done, done);
     });
+
+    it('automatically closes the server down once done with it', function (done) {
+      var server = require('http').createServer(function (req, res) {
+        res.writeHeader(200, { 'content-type' : 'text/plain' });
+        res.end('hello world');
+      });
+
+      request(server)
+          .get('/')
+          .end(function (err, res) {
+            res.should.have.status(200);
+            res.text.should.equal('hello world');
+            should.not.exist(server.address())
+            done(err)
+          });
+    });
+
+    it('can use keepOpen() to not close the server', function (done) {
+      var server = require('http').createServer(function (req, res) {
+        res.writeHeader(200, { 'content-type' : 'text/plain' });
+        res.end('hello world');
+      });
+      var cachedRequest = request(server).keepOpen();
+      server.listen = function () { throw new Error('listen was called when it shouldnt have been') }
+      cachedRequest.get('/') .end(function (err, res) {
+        cachedRequest.get('/').end(function (err2, res) {
+          server.close(function () { done(err || err2) })
+        })
+      });
+    });
+
   });
 
   isBrowser && describe('Browser', function () {
