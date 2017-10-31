@@ -61,6 +61,24 @@ chai.request(app)
   .get('/')
 ```
 
+When passing an `app` to `request`; it will automatically open the server for
+incoming requests (by calling `listen()`) and, once a request has been made
+the server will automatically shut down (by calling `.close()`). If you want to
+keep the server open, perhaps if you're making multiple requests, you must call
+`.keepOpen()` after `.request()`, and manually close the server down:
+
+```js
+var requester = chai.request(app).keepOpen()
+
+Promise.all([
+  requester.get('/a'),
+  requester.get('/b'),
+])
+.then(responses => ....)
+.then(() => requester.close())
+```
+
+
 #### URL
 
 You may also use a base url as the foundation of your request.
