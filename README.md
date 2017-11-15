@@ -246,6 +246,8 @@ agent
   });
 ```
 
+Note: The server started by `chai.request.agent(app)` will not automatically close following the test(s). You should call `agent.close()` after your tests to ensure your program exits.
+
 ## Assertions
 
 The Chai HTTP module provides a number of assertions
