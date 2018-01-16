@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "description": "Extend Chai Assertion library with tests for http apis",
   "author": "Jake Luer <jake@alogicalparadox.com>",
-  "licence": "MIT",
+  "license": "MIT",
   "keywords": [
     "chai",
     "chai-plugin",
