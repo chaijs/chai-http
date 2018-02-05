@@ -1,0 +1,21 @@
+version: '{build}'
+
+skip_tags: true
+skip_branch_with_pr: true
+clone_depth: 1
+deploy: off
+build: off
+
+install:
+  - ps: Install-Product node '8'
+  - npm i -g npm@5
+  - npm install
+
+test_script:
+  - node --version
+  - npm --version
+  - npm test
+
+cache:
+  - node_modules -> package-lock.json
+  - '%APPDATA%\npm-cache'

@@ -1,20 +1,75 @@
+sudo: false
+
+dist: trusty
+
 language: node_js
-node_js:
-  - 4 # to be removed 2018-04-01
-  - 6 # to be removed 2019-04-01
-  - 7 # to be removed 2017-06-30
-  - lts/* # safety net; don't remove
-  - node # safety net; don't remove
-deploy:
-  provider: npm
-  email:
-    secure: O5Zs28RbWGOnyhlE8MoyUhjUF+oAhaxsO9m7T9isLLuMl3PpIiiaqjv/yEVBotCpWbdpi+qOSNfpqWZjB1v2nQoS6jxaErrgoZmkT/Fj4YMr8eYt9izG7bDZjY6w1sH6OHqVXineNMb5AKwozmyUjQjbbxBFZ+pFjPWwUhe9fTQ=
-  api_key:
-    secure: e6bJsxjTY79jsZn0v+9pmXpp+63Q9WrC7RacRyXMWo5qD3GP64iw/A4BPSPZqLkiee15hVDJV10DYHIDS6/e1T3VvEJh5TjpJ57ayqr0rgSDnLFScrv6TZfBaNFzVRjipSnmJEAWBgVdwP5hVcY7b9dUguyog6ln6cUuqnFoHfs=
-  'on':
-    tags: true
-    repo: chaijs/chai-http
-    all_branches: true
+
+cache:
+  directories:
+    - node_modules
+    - ~/.npm
+
+node_js: 8
+
+jobs:
+  include:
+    - stage: lint
+      script: npm run lint
+    - stage: test
+      addons:
+        chrome: stable
+        firefox: latest
+      before_script:
+        - "export DISPLAY=:99.0"
+        - "sh -e /etc/init.d/xvfb start"
+        - sleep 3 # give xvfb some time to start
+      script: npm run test:browser
+      env:
+        - QUICKLY_TEST_BROWSERS_AVAILABLE_IN_CI=1 # kept here for easier reading of build log
+    - stage: test
+      addons:
+        sauce_connect:
+          username: "chaijs-type-detect"
+        jwt:
+          secure: "GhkIK785QJbB1G5qwf51zpoJkHibS8wBhibID2jCL6TmQ8ZUHmihN2qnjuRvCI80uosHqkCBi3CeBYZIika5QFsg6LVVf5dnme7Qs0UkG+mw45yO6vcKycxbn1Bo5X8hqdtSjF/x+C91Wr4lelr5w/Sq2X7RokfE0fDVdklE5xQ="
+      script:
+        - npm run test:browser
+      env:
+        - TEST_BROWSERS_IN_SAUCELABS=1 # kept here for easier reading of build log
+        - SAUCE_USERNAME="chaijs-type-detect"
+        - SAUCE_CONNECT_READY_FILE=/tmp/sauce-connect-ready
+    - stage: test
+      node_js: 8 # to be removed 2019-12-01
+      script: npm run test:node
+    - stage: test
+      node_js: 7 # to be removed 2017-06-30
+      before_install: npm i -g npm@5
+      script: npm run test:node
+    - stage: test
+      node_js: 6 # to be removed 2019-04-01
+      before_install: npm i -g npm@5
+      script: npm run test:node
+    - stage: test
+      node_js: 4 # to be removed 2018-04-01
+      before_install: npm i -g npm@5
+      script: npm run test:node
+    - stage: test
+      node_js: lts/* # safety net; don't remove
+      script: npm run test:node
+    - stage: test
+      node_js: node # safety net; don't remove
+      script: npm run test:node
+    - stage: semantic-release
+      script:
+        - if [ "$TRAVIS_PULL_REQUEST" != "false" ] || [ "$TRAVIS_BRANCH" != "master" ]; then echo "the deploy job only runs for the master branch. This build will now exit"; exit 0; fi
+        - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then npm run semantic-release; fi
+      env:
+       - BUILD_LEADER_ID=10
+       # GH_TOKEN type-detect travis 
+       - secure: "MPzfTVm7U1Q/eYhHT3DXwZki5Xn4ODNs/uXEM5PB2m+BxbytaAgU+3JSI0ZREv+JLk9CRnj2yWebaQkm+0ompkPRus0pEFuwEsMJ3HqV4ISj6zWGLPNjeJqy6kGa+m1WlkfHM+Spj7vrmk2yclZsmke4xpeQy9W8nnPDEHe6uoQ="
+       # NPM_TOKEN …7f80442b
+       - secure: "EM+nNOeL3X6Cz5u5aaBKZU6FqXrQVgKO543zy6CL3+Im/Esz2um9S2Ymgw9nzBH35SczhJh4Avfw7sujRdyHPL5XLbCWj2954TThsO8Ue62Xs/K3lQT6x8+iQc0jRZFtBkwX2sQjWFah04j381sKeTFFH94jifeW8dFOXXtWZfs="
+
 env:
   global:
-    - secure: DGaDDxh76Gv+qmu4SLuQDxmmZMpMiiVdIvveT1d3ly93zrqT7Pb9ur7P8Yz77AxU9UrMHEJ3Be05Uqe8xtTJCIora9io/tX4QLRtIXtRIOA3dYaYNBgXztQT7yzCi6E/L/DZa1+dNaGDpoUnLG0S3vpwhi3YjlWJDhLOfB3Txx0=
+    - LOGS_DIR=/tmp/chai-build/logs

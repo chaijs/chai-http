@@ -2,43 +2,47 @@
   "name": "chai-http",
   "version": "3.0.0",
   "description": "Extend Chai Assertion library with tests for http apis",
-  "author": "Jake Luer <jake@alogicalparadox.com>",
-  "license": "MIT",
   "keywords": [
+    "browser",
     "chai",
     "chai-plugin",
-    "browser",
     "http",
     "request",
-    "vendor",
+    "superagent",
     "supertest",
-    "superagent"
+    "vendor"
   ],
+  "license": "MIT",
+  "author": "Jake Luer <jake@alogicalparadox.com>",
   "contributors": [
     "Jake Luer <jake@alogicalparadox.com>",
     "Veselin Todorov <hi@vesln.com>",
     "Keith Cirkel <oss@keithcirkel.co.uk> (http://keithcirkel.co.uk)"
   ],
   "files": [
-    "dist/chai-http.js",
-    "lib/*.js",
+    "chai-http.js",
     "index.js"
   ],
-  "main": "./index",
+  "main": "./chai-http.js",
+  "module": "./index.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:chaijs/chai-http.git"
   },
   "scripts": {
-    "build": "npm run build:readme && npm run build:js",
-    "prebuild:js": "rm -rf dist",
-    "build:js": "simplifyify lib/http.js --outfile dist/chai-http.js --bundle --minify --debug --standalone chaiHttp",
-    "build:readme": "rm -rf README.md && node ./support/readme",
-    "start": "npm-run-all --parallel watch server",
-    "watch": "npm run build:js -- --watch",
-    "server": "http-server -o -c-1",
-    "test": "istanbul cover --report lcovonly _mocha",
-    "posttest": "if [ -z \"$COVERALLS_REPO_TOKEN\" ]; then cat coverage/lcov.info | coveralls; fi"
+    "build": "rollup -c rollup.conf.js",
+    "commit-msg": "commitlint -x angular",
+    "lint": "eslint --ignore-path .gitignore .",
+    "prepare": "cross-env NODE_ENV=production npm run build",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "test": "npm run test:node && npm run test:browser",
+    "pretest:browser": "cross-env NODE_ENV=test npm run build",
+    "test:browser": "karma start --singleRun=true",
+    "posttest:browser": "npm run upload-coverage",
+    "pretest:node": "cross-env NODE_ENV=test npm run build",
+    "test:node": "nyc mocha type-detect.test.js",
+    "posttest:node": "nyc report --report-dir \"coverage/node-$(node --version)\" --reporter=lcovonly && npm run upload-coverage",
+    "upload-coverage": "codecov"
   },
   "browser": {
     "http": false,
@@ -46,23 +50,66 @@
     "net": "./lib/net.js",
     "querystring": "qs"
   },
+  "eslintConfig": {
+    "env": {
+      "es6": true
+    },
+    "extends": [
+      "strict/es6"
+    ],
+    "globals": {
+      "HTMLElement": false
+    },
+    "rules": {
+      "complexity": 0,
+      "array-element-newline": 0,
+      "max-statements": 0,
+      "prefer-rest-params": 0,
+      "no-invalid-this": 0,
+      "no-use-before-define": 0,
+      "no-magic-numbers": 0,
+      "no-underscore-dangle": 0,
+      "no-unused-expressions": 0
+    }
+  },
   "dependencies": {
     "cookiejar": "^2.1.1",
     "is-ip": "^2.0.0",
     "methods": "^1.1.2",
     "qs": "^6.5.1",
-    "superagent": "^3.7.0"
+    "superagent": "^3.8.2"
   },
   "devDependencies": {
-    "chai": "4",
-    "coveralls": "^3.0.0",
-    "dox": "^0.9.0",
+    "@commitlint/cli": "^6.1.0",
+    "buble": "^0.18.0",
+    "chai": "^4.1.2",
+    "commitlint-config-angular": "^6.1.0",
+    "cross-env": "^5.1.3",
     "es6-shim": "^0.35.1",
-    "http-server": "^0.10.0",
-    "istanbul": "^0.4.3",
-    "mocha": "^4.0.1",
-    "npm-run-all": "^4.1.1",
-    "simplifyify": "^3.2.4"
+    "eslint": "^4.17.0",
+    "eslint-config-strict": "^14.0.1",
+    "husky": "^0.14.3",
+    "karma": "^2.0.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
+    "karma-detect-browsers": "^2.2.6",
+    "karma-edge-launcher": "^0.4.2",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-mocha": "^1.3.0",
+    "karma-opera-launcher": "^1.0.0",
+    "karma-safari-launcher": "^1.0.0",
+    "karma-safaritechpreview-launcher": "0.0.6",
+    "karma-sauce-launcher": "^1.2.0",
+    "mocha": "^5.0.0",
+    "nyc": "^11.4.1",
+    "rollup": "^0.55.3",
+    "rollup-plugin-buble": "^0.18.0",
+    "rollup-plugin-commonjs": "^8.3.0",
+    "rollup-plugin-istanbul": "^2.0.0",
+    "rollup-plugin-json": "^2.3.0",
+    "rollup-plugin-node-resolve": "^3.0.2",
+    "semantic-release": "^12.4.1"
   },
   "engines": {
     "node": ">=4"

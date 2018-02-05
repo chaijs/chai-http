@@ -1,0 +1,19 @@
+{
+  "extends": [ "strict/test" ],
+  "env": {
+    "node": true,
+    "browser": true,
+    "es6": true,
+    "mocha": true
+  },
+  "rules": {
+    "no-new-wrappers": 0,
+    "no-array-constructor": 0,
+    "no-new-object": 0,
+    "no-empty-function": 0,
+    "no-undefined": 0,
+    "complexity": 0,
+    "max-statements": 0,
+    "id-match": 0
+  }
+}

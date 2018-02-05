@@ -1,7 +1,10 @@
-describe('assertions', function () {
+import chai from 'chai';
+import chaiHttp from '..';
+chai.use(chaiHttp);
 
-  it('#status property "status"', function () {
-    var res = { status: 200 };
+describe('assertions', () => {
+  it('#status property "status"', () => {
+    const res = { status: 200 };
     res.should.to.have.status(200);
 
     (function () {
@@ -10,15 +13,15 @@ describe('assertions', function () {
 
     (function () {
       ({}).should.not.to.have.status(200);
-    }).should.throw("expected {} to have keys 'status', or 'statusCode'");
+    }).should.throw('expected {} to have keys \'status\', or \'statusCode\'');
   });
 
-  it('#status property "statusCode"', function () {
-    var res = { statusCode: 200 };
+  it('#status property "statusCode"', () => {
+    const res = { statusCode: 200 };
     res.should.to.have.status(200);
   });
 
-  it('#ip', function () {
+  it('#ip', () => {
     '127.0.0.1'.should.be.an.ip;
     '2001:0db8:85a3:0000:0000:8a2e:0370:7334'.should.be.an.ip;
 
@@ -31,12 +34,12 @@ describe('assertions', function () {
     }).should.throw('expected \'2001:0db8:85a3:0000:0000:8a2e:0370:7334\' to not be an ip');
   });
 
-  it('#header test existence', function () {
-    var req = { headers: { foo: 'bar' }};
-    var res = {
-      getHeader: function (key) {
-        return key == 'foo' ? 'bar' : undefined;
-      }
+  it('#header test existence', () => {
+    const req = { headers: { foo: 'bar' } };
+    const res = {
+      getHeader(key) {
+        return key === 'foo' ? 'bar' : undefined;
+      },
     };
 
     req.should.have.header('foo');
@@ -54,12 +57,12 @@ describe('assertions', function () {
     }).should.throw('expected header \'bar\' to exist');
   });
 
-  it('#header test value', function () {
-    var req = { headers: { foo: 'bar' }};
-    var res = {
-      getHeader: function (key) {
+  it('#header test value', () => {
+    const req = { headers: { foo: 'bar' } };
+    const res = {
+      getHeader() {
         return 'foo';
-      }
+      },
     };
 
     req.should.have.header('foo', 'bar');
@@ -79,12 +82,12 @@ describe('assertions', function () {
     }).should.throw('expected header \'bar\' not to match /^fo/ but got \'foo\'');
   });
 
-  it('#header case insensitive', function () {
-    var req = { headers: { foo: 'bar' }};
-    var res = {
-      getHeader: function (key) {
+  it('#header case insensitive', () => {
+    const req = { headers: { foo: 'bar' } };
+    const res = {
+      getHeader() {
         return 'foo';
-      }
+      },
     };
 
     res.should.have.header('Foo');
@@ -93,12 +96,12 @@ describe('assertions', function () {
     res.should.have.header('BAr', 'foo');
   });
 
-  it('#headers', function() {
-    var req = { headers: { foo: 'bar' }};
-    var res = {
-      getHeader: function (key) {
+  it('#headers', () => {
+    const req = { headers: { foo: 'bar' } };
+    const res = {
+      getHeader() {
         return 'foo';
-      }
+      },
     };
 
     req.should.have.headers;
@@ -113,12 +116,12 @@ describe('assertions', function () {
     }).should.throw(/expected .*getHeader.* to not have headers or getHeader method/);
   });
 
-  it('#json', function() {
-    var req = { headers: { 'content-type': [ 'application/json' ] }};
-    var res = {
-      getHeader: function (key) {
-        return 'application/json'
-      }
+  it('#json', () => {
+    const req = { headers: { 'content-type': [ 'application/json' ] } };
+    const res = {
+      getHeader() {
+        return 'application/json';
+      },
     };
 
     req.should.be.json;
@@ -133,12 +136,12 @@ describe('assertions', function () {
     }).should.throw('expected \'application/json\' to not include \'application/json\'');
   });
 
-  it('#text', function() {
-    var req = { headers: { 'content-type': [ 'text/plain' ] }};
-    var res = {
-      getHeader: function (key) {
-        return 'text/plain'
-      }
+  it('#text', () => {
+    const req = { headers: { 'content-type': [ 'text/plain' ] } };
+    const res = {
+      getHeader() {
+        return 'text/plain';
+      },
     };
 
     req.should.be.text;
@@ -153,12 +156,12 @@ describe('assertions', function () {
     }).should.throw('expected \'text/plain\' to not include \'text/plain\'');
   });
 
-  it('#html', function () {
-    var req = { headers: { 'content-type': [ 'text/html' ] }};
-    var res = {
-      getHeader: function (key) {
-        return 'text/html'
-      }
+  it('#html', () => {
+    const req = { headers: { 'content-type': [ 'text/html' ] } };
+    const res = {
+      getHeader() {
+        return 'text/html';
+      },
     };
 
     req.should.be.html;
@@ -173,67 +176,61 @@ describe('assertions', function () {
     }).should.throw('expected \'text/html\' to not include \'text/html\'');
   });
 
-  it('#redirect', function () {
-    var res = { status: 200 };
+  it('#redirect', () => {
+    const res = { status: 200 };
     res.should.not.redirect;
 
-    [301, 302, 303, 307, 308].forEach(function (status) {
-      var res = { status: status };
-      res.should.redirect;
+    [ 301, 302, 303, 307, 308 ].forEach((status) => {
+      ({ status }).should.redirect;
     });
 
     ({
       status: 200,
-      redirects: ['http://example.com']
+      redirects: [ 'http://example.com' ],
     }).should.redirect;
 
     ({
       status: 200,
-      redirects: []
+      redirects: [],
     }).should.not.redirect;
 
     (function () {
-      var res = { status: 200 };
-      res.should.redirect;
+      ({ status: 200 }).should.redirect;
     }).should.throw('expected redirect with 30X status code but got 200');
 
     (function () {
-      var res = { status: 301 };
-      res.should.not.redirect;
+      ({ status: 301 }).should.not.redirect;
     }).should.throw('expected not to redirect but got 301 status');
   });
 
-  it('#redirectTo', function () {
-    var res = { status: 301, headers: { location: 'foo' } };
+  it('#redirectTo', () => {
+    let res = { status: 301, headers: { location: 'foo' } };
     res.should.redirectTo('foo');
 
     res = { status: 301, headers: { location: 'bar' } };
     res.should.not.redirectTo('foo');
 
-    res = { status: 200, redirects: ['bar'] };
+    res = { status: 200, redirects: [ 'bar' ] };
     res.should.redirectTo('bar');
 
-    res = { status: 200, redirects: ['bar'] };
+    res = { status: 200, redirects: [ 'bar' ] };
     res.should.not.redirectTo('foo');
 
     (function () {
-      var res = { status: 301, headers: { location: 'foo' } };
-      res.should.not.redirectTo('foo');
+      ({ status: 301, headers: { location: 'foo' } }).should.not.redirectTo('foo');
     }).should.throw('expected header \'location\' to not have value foo');
 
     (function () {
-      var res = { status: 301, headers: { location: 'bar' } };
-      res.should.redirectTo('foo');
+      ({ status: 301, headers: { location: 'bar' } }).should.redirectTo('foo');
     }).should.throw('expected header \'location\' to have value foo');
 
     (function () {
-      var res = { status: 200, redirects: ['bar', 'baz'] };
-      res.should.redirectTo('foo');
+      ({ status: 200, redirects: [ 'bar', 'baz' ] }).should.redirectTo('foo');
     }).should.throw('expected redirect to foo but got bar then baz');
   });
 
-  it('#param', function () {
-    var req = { url: '/test?x=y&foo=bar' };
+  it('#param', () => {
+    const req = { url: '/test?x=y&foo=bar' };
     req.should.have.param('x');
     req.should.have.param('foo');
     req.should.have.param('x', 'y');
@@ -245,15 +242,15 @@ describe('assertions', function () {
 
     (function () {
       req.should.not.have.param('foo');
-    }).should.throw(/expected .* to not have property \'foo\'/);
+    }).should.throw(/expected .* to not have property 'foo'/);
 
     (function () {
       req.should.not.have.param('foo', 'bar');
-    }).should.throw(/expected .* to not have property \'foo\' of \'bar\'/);
+    }).should.throw(/expected .* to not have property 'foo' of 'bar'/);
   });
 
-  it('#param (nested)', function () {
-    var req = { url: '/test?form[name]=jim&form[lastName]=bob' };
+  it('#param (nested)', () => {
+    const req = { url: '/test?form[name]=jim&form[lastName]=bob' };
     req.should.have.param('form');
     req.should.have.nested.param('form.name');
     req.should.have.nested.param('form.name', 'jim');
@@ -265,21 +262,18 @@ describe('assertions', function () {
 
     (function () {
       req.should.not.have.nested.param('form.name');
-    }).should.throw(/expected .* to not have nested property \'form.name\'/);
+    }).should.throw(/expected .* to not have nested property 'form.name'/);
 
     (function () {
       req.should.not.have.nested.param('form.lastName', 'bob');
-    }).should.throw(/expected .* to not have nested property \'form.lastName\' of \'bob\'/);
+    }).should.throw(/expected .* to not have nested property 'form.lastName' of 'bob'/);
   });
 
-  it('#cookie', function () {
-    var res = {
+  it('#cookie', () => {
+    const res = {
       headers: {
-        'set-cookie': [
-          'name=value',
-          'name2=value2; Expires=Wed, 09 Jun 2021 10:18:14 GMT'
-        ]
-      }
+        'set-cookie': [ 'name=value', 'name2=value2; Expires=Wed, 09 Jun 2021 10:18:14 GMT' ],
+      },
     };
     res.should.have.cookie('name');
     res.should.have.cookie('name2');
@@ -305,15 +299,16 @@ describe('assertions', function () {
     }).should.throw('expected cookie \'name2\' to have value \'value\' but got \'value2\'');
   });
 
-  it('#cookie (request)', function () {
-    var req = {
+  it('#cookie (request)', () => {
+    const cookie = [
+      'name=value;',
+      'name2=value2; Expires=Wed, 09 Jun 2021 10:18:14 GMT',
+      'name3=value3; Domain=.somedomain.com',
+    ];
+    const req = {
       headers: {
-        'set-cookie': [
-          'name=value;',
-          'name2=value2; Expires=Wed, 09 Jun 2021 10:18:14 GMT',
-          'name3=value3; Domain=.somedomain.com',
-        ]
-      }
+        'set-cookie': cookie,
+      },
     };
     req.should.have.cookie('name');
     req.should.have.cookie('name2');
@@ -339,20 +334,23 @@ describe('assertions', function () {
     (function () {
       req.should.have.cookie('name2', 'value');
     }).should.throw('expected cookie \'name2\' to have value \'value\' but got \'value2\'');
-
   });
 
-  it('#cookie (agent)', function () {
-    var agent = chai.request.agent();
-    var cookies = [
+  it('#cookie (agent)', () => {
+    const agent = chai.request.agent();
+    const cookies = [
       'name=value',
       'name2=value2; Expires=Wed, 09 Jun 2021 10:18:14 GMT',
       'name3=value3; Domain=.somedomain.com',
     ];
-    if (agent.jar)  // Using superagent.Agent (node)
+    // Using superagent.Agent (node)
+    if (agent.jar) {
       agent.jar.setCookies(cookies);
-    else  // using superagent.Request (browser)
+
+    // using superagent.Request (browser)
+    } else {
       agent.set('set-cookie', cookies);
+    }
 
     agent.should.have.cookie('name');
     agent.should.have.cookie('name2');
@@ -378,6 +376,5 @@ describe('assertions', function () {
     (function () {
       agent.should.have.cookie('name2', 'value');
     }).should.throw('expected cookie \'name2\' to have value \'value\' but got \'value2\'');
-
   });
 });

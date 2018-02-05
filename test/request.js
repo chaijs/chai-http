@@ -1,25 +1,25 @@
-describe('request', function () {
-  var isNode = typeof process === 'object';
-  var isBrowser = typeof window === 'object';
-  var request = chai.request;
+describe('request', () => {
+  const isNode = typeof process === 'object';
+  const isBrowser = typeof window === 'object';
+  const request = chai.request;
 
-  describe('Browser and Node.js', function () {
-    it('is present on chai', function () {
+  describe('Browser and Node.js', () => {
+    it('is present on chai', () => {
       expect(chai).to.respondTo('request');
     });
 
-    it('request method returns instanceof superagent', function () {
-      var req = request('').get('/');
+    it('request method returns instanceof superagent', () => {
+      const req = request('').get('/');
       req.should.be.instanceof(request.Test.super_);
       if (isNode) {
         req.should.be.instanceof(require('superagent').Request);
       }
     });
 
-    it('can request a web page', function (done) {
+    it('can request a web page', (done) => {
       request('https://httpbin.org')
         .get('/html')
-        .end(function (err, res) {
+        .end((err, res) => {
           res.should.have.status(200);
           res.should.be.html;
           res.should.not.be.text;
@@ -34,10 +34,10 @@ describe('request', function () {
         });
     });
 
-    it('can request JSON data', function (done) {
+    it('can request JSON data', (done) => {
       request('https://httpbin.org')
         .get('/get')
-        .end(function (err, res) {
+        .end((err, res) => {
           res.should.have.status(200);
           res.should.be.json;
           res.should.not.be.html;
@@ -48,14 +48,14 @@ describe('request', function () {
         });
     });
 
-    it('can read response headers', function (done) {
+    it('can read response headers', (done) => {
       request('https://httpbin.org')
         .get('/response-headers')
-        .query({'content-type': 'application/json'})
-        .query({'pragma': 'test1'})
-        .query({'location': 'test2'})
-        .query({'x-api-key': 'test3'})
-        .end(function (err, res) {
+        .query({ 'content-type': 'application/json' })
+        .query({ 'pragma': 'test1' })
+        .query({ 'location': 'test2' })
+        .query({ 'x-api-key': 'test3' })
+        .end((err, res) => {
           res.should.have.status(200);
 
           // Content-Type and Pragma are supported on Node and browser
@@ -74,28 +74,28 @@ describe('request', function () {
         });
     });
 
-    it('succeeds when response has an error status', function (done) {
+    it('succeeds when response has an error status', (done) => {
       request('https://httpbin.org')
         .get('/status/400')
-        .end(function (err, res) {
+        .end((err, res) => {
           res.should.have.status(400);
           done(err);
         });
     });
 
-    it('can be augmented with promises', function (done) {
+    it('can be augmented with promises', (done) => {
       request('https://httpbin.org')
         .get('/get')
         .set('X-API-Key', 'test3')
-        .then(function (res) {
+        .then((res) => {
           res.should.have.status(200);
           res.body.headers['X-Api-Key'].should.equal('test3');
           throw new Error('Testing catch');
         })
-        .then(function () {
+        .then(() => {
           throw new Error('This should not have fired');
         })
-        .catch(function (err) {
+        .catch((err) => {
           if (err.message !== 'Testing catch') {
             throw err;
           }
@@ -103,138 +103,140 @@ describe('request', function () {
         .then(done, done);
     });
 
-    it('can resolve a promise given status code of 400', function () {
-      return request('https://httpbin.org')
-        .get('/status/400')
-        .then(function (res) {
-          res.should.have.status(400);
-        });
-    });
+    it('can resolve a promise given status code of 400', () => request('https://httpbin.org')
+      .get('/status/400')
+      .then((res) => {
+        res.should.have.status(400);
+      }));
   });
 
-  isNode && describe('Node.js', function () {
-    it('can request a functioned "app"', function (done) {
-      var app = function (req, res) {
+  isNode && describe('Node.js', () => {
+    it('can request a functioned "app"', (done) => {
+      const app = function (req, res) {
         req.headers['x-api-key'].should.equal('testing');
-        res.writeHeader(200, { 'content-type' : 'text/plain' });
+        res.writeHeader(200, { 'content-type': 'text/plain' });
         res.end('hello universe');
       };
 
       request(app).get('/')
         .set('X-API-Key', 'testing')
-        .end(function (err, res) {
-          if (err) return done(err)
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
           res.should.have.status(200);
           res.text.should.equal('hello universe');
           done();
         });
     });
 
-    it('can request an already existing url', function (done) {
-      var server = require('http').createServer(function (req, res) {
+    it('can request an already existing url', (done) => {
+      const server = require('http').createServer((req, res) => {
         req.headers['x-api-key'].should.equal('test2');
-        res.writeHeader(200, { 'content-type' : 'text/plain' });
+        res.writeHeader(200, { 'content-type': 'text/plain' });
         res.end('hello world');
       });
 
-      server.listen(0, function () {
-        request('http://127.0.0.1:' + server.address().port)
+      server.listen(0, () => {
+        request(`http://127.0.0.1:${ server.address().port }`)
           .get('/')
           .set('X-API-Key', 'test2')
-          .end(function (err, res) {
+          .end((err, res) => {
             res.should.have.status(200);
             res.text.should.equal('hello world');
-            server.once('close', function () { done(err); });
+            server.once('close', () => {
+              done(err);
+            });
             server.close();
           });
       });
-
     });
 
-    it('agent can be used to persist cookies', function (done) {
-      var app = function (req, res) {
+    it('agent can be used to persist cookies', (done) => {
+      const app = function (req, res) {
         res.setHeader('Set-Cookie', 'mycookie=test');
-        res.writeHeader(200, { 'content-type' : 'text/plain' });
-        res.end('your cookie: ' + req.headers.cookie);
+        res.writeHeader(200, { 'content-type': 'text/plain' });
+        res.end(`your cookie: ${ req.headers.cookie }`);
       };
-      var agent = request.agent(app);
+      const agent = request.agent(app);
 
       agent
         .get('/')
-        .then(function (res) {
+        .then((res) => {
           res.headers['set-cookie'][0].should.equal('mycookie=test');
           res.text.should.equal('your cookie: undefined');
         })
-        .then(function () {
-          return agent.get('/');
-        })
-        .then(function (res) {
+        .then(() => agent.get('/'))
+        .then((res) => {
           res.text.should.equal('your cookie: mycookie=test');
-          agent.close()
+          agent.close();
         })
         .then(done, done);
     });
 
-    it('automatically closes the server down once done with it', function (done) {
-      var server = require('http').createServer(function (req, res) {
-        res.writeHeader(200, { 'content-type' : 'text/plain' });
+    it('automatically closes the server down once done with it', (done) => {
+      const server = require('http').createServer((req, res) => {
+        res.writeHeader(200, { 'content-type': 'text/plain' });
         res.end('hello world');
       });
 
       request(server)
-          .get('/')
-          .end(function (err, res) {
-            res.should.have.status(200);
-            res.text.should.equal('hello world');
-            should.not.exist(server.address())
-            done(err)
-          });
+        .get('/')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.text.should.equal('hello world');
+          should.not.exist(server.address());
+          done(err);
+        });
     });
 
-    it('can use keepOpen() to not close the server', function (done) {
-      var server = require('http').createServer(function (req, res) {
-        res.writeHeader(200, { 'content-type' : 'text/plain' });
+    it('can use keepOpen() to not close the server', (done) => {
+      const server = require('http').createServer((req, res) => {
+        res.writeHeader(200, { 'content-type': 'text/plain' });
         res.end('hello world');
       });
-      var cachedRequest = request(server).keepOpen();
-      server.listen = function () { throw new Error('listen was called when it shouldnt have been') }
-      cachedRequest.get('/') .end(function (err, res) {
-        cachedRequest.get('/').end(function (err2, res) {
-          server.close(function () { done(err || err2) })
-        })
+      const cachedRequest = request(server).keepOpen();
+      server.listen = function () {
+        throw new Error('listen was called when it shouldnt have been');
+      };
+      cachedRequest.get('/').end((err, res) => {
+        cachedRequest.get('/').end((err2, res) => {
+          server.close(() => {
+            done(err || err2);
+          });
+        });
       });
     });
-
   });
 
-  isBrowser && describe('Browser', function () {
-    it('cannot request a functioned "app"', function () {
+  isBrowser && describe('Browser', () => {
+    it('cannot request a functioned "app"', () => {
       function tryToRequestAFunctionedApp() {
-        var app = function () {};
+        const app = function () {};
         request(app);
       }
       expect(tryToRequestAFunctionedApp).to.throw(Error,
         /http.createServer is not a function|createServer/);
     });
 
-    it('agent can be used to persist cookies', function (done) {
-      var agent = request.agent('https://httpbin.org');
+    it('agent can be used to persist cookies', (done) => {
+      const agent = request.agent('https://httpbin.org');
 
       agent
         .get('/cookies/set')
-        .query({foo: 'bar', biz: 'baz'})
-        .then(function (res) {
+        .query({ foo: 'bar', biz: 'baz' })
+        .then((res) => {
           // When running in a web browser, cookies are protected and cannot be read by SuperAgent.
           // They ARE set, but only the browser has access to them.
           expect(res.headers['set-cookie']).to.be.undefined;
           res.should.not.have.cookie('foo');
           res.should.not.have.cookie('bar');
         })
-        .then(function () {
+        .then(() =>
           // When making a subsequent request to the same server, the cookies will be sent
-          return agent.get('/cookies');
-        })
-        .then(function (res) {
+          agent.get('/cookies')
+        )
+        .then((res) => {
           // HttpBin echoes the cookies back as JSON
           res.body.cookies.foo.should.equal('bar');
           res.body.cookies.biz.should.equal('baz');
