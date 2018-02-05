@@ -1,6 +1,6 @@
 {
   "name": "chai-http",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Extend Chai Assertion library with tests for http apis",
   "author": "Jake Luer <jake@alogicalparadox.com>",
   "license": "MIT",
@@ -62,7 +62,7 @@
     "istanbul": "^0.4.3",
     "mocha": "^4.0.1",
     "npm-run-all": "^4.1.1",
-    "simplifyify": "^3.2.4"
+    "simplifyify": "^4.0.0"
   },
   "engines": {
     "node": ">=4"
