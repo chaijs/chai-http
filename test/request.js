@@ -205,7 +205,19 @@ describe('request', function () {
       });
     });
 
+  it('can close server after using keepOpen()', function (done) {
+    var server = require('http').createServer(function (req, res) {
+      res.writeHeader(200, { 'content-type' : 'text/plain' });
+      res.end('hello world');
+    });
+    var cachedRequest = request(server).keepOpen();
+    cachedRequest.close(function (err) {
+      should.not.exist(server.address());
+      done();
+    });
   });
+
+});
 
   isBrowser && describe('Browser', function () {
     it('cannot request a functioned "app"', function () {
