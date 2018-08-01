@@ -18,6 +18,13 @@ describe('assertions', function () {
     res.should.to.have.status(200);
   });
 
+  it('#status property "status" should work with inheritance', function () {
+    function TestError() {};
+    TestError.prototype.status = 404;
+    var testError = new TestError();
+    testError.should.have.status(404);
+  });
+
   it('#ip', function () {
     '127.0.0.1'.should.be.an.ip;
     '2001:0db8:85a3:0000:0000:8a2e:0370:7334'.should.be.an.ip;
