@@ -78,7 +78,16 @@ module.exports = function (chai, _) {
    */
 
   Assertion.addMethod('status', function (code) {
-    new Assertion(this._obj).to.have.any.keys('status', 'statusCode');
+    var hasStatus = Boolean('status' in this._obj || 'statusCode' in this._obj);
+    new Assertion(hasStatus).assert(
+        hasStatus
+        , "expected #{act} to have keys 'status', or 'statusCode'"
+        , null // never negated
+        , hasStatus // expected
+        , this._obj // actual
+        , false // no diff
+    );
+
     var status = this._obj.status || this._obj.statusCode;
 
     this.assert(
@@ -615,16 +624,22 @@ module.exports = function (app) {
     return this
   }
   obj.close = function(callback) {
-    if (server && server.close && keepOpen === false) {
+    if (server && server.close) {
       server.close(callback);
     }
+    else if(callback) {
+      callback();
+    }
+    
     return this
   }
   methods.forEach(function (method) {
     obj[method] = function (path) {
       return new Test(server, method, path)
         .on('end', function() {
-          obj.close();
+          if(keepOpen === false) {
+            obj.close();
+          }
         });
     };
   });
