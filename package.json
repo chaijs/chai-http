@@ -30,9 +30,11 @@
     "url": "git@github.com:chaijs/chai-http.git"
   },
   "scripts": {
-    "build": "npm run build:readme && npm run build:js",
+    "build": "npm run build:readme && npm run build:js && npm run build:ts",
     "prebuild:js": "rm -rf dist",
     "build:js": "simplifyify lib/http.js --outfile dist/chai-http.js --bundle --minify --debug --standalone chaiHttp",
+    "build:ts": "cd types && tsc",
+    "postbuild:ts": "cpr types/index.d.ts dist/chai-http.d.ts --overwrite",
     "build:readme": "rm -rf README.md && node ./support/readme",
     "start": "npm-run-all --parallel watch server",
     "watch": "npm run build:js -- --watch",
@@ -47,6 +49,8 @@
     "querystring": "qs"
   },
   "dependencies": {
+    "@types/chai": "4",
+    "@types/superagent": "^3.8.3",
     "cookiejar": "^2.1.1",
     "is-ip": "^2.0.0",
     "methods": "^1.1.2",
@@ -56,13 +60,15 @@
   "devDependencies": {
     "chai": "4",
     "coveralls": "^3.0.0",
+    "cpr": "^3.0.1",
     "dox": "^0.9.0",
     "es6-shim": "^0.35.1",
     "http-server": "^0.10.0",
     "istanbul": "^0.4.3",
     "mocha": "^4.0.1",
     "npm-run-all": "^4.1.1",
-    "simplifyify": "^4.0.0"
+    "simplifyify": "^4.0.0",
+    "typescript": "^3.0.1"
   },
   "engines": {
     "node": ">=4"
