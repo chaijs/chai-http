@@ -1,6 +1,6 @@
 {
   "name": "chai-http",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "Extend Chai Assertion library with tests for http apis",
   "author": "Jake Luer <jake@alogicalparadox.com>",
   "license": "MIT",
