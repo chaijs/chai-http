@@ -10,7 +10,7 @@ deploy:
   email:
     secure: O5Zs28RbWGOnyhlE8MoyUhjUF+oAhaxsO9m7T9isLLuMl3PpIiiaqjv/yEVBotCpWbdpi+qOSNfpqWZjB1v2nQoS6jxaErrgoZmkT/Fj4YMr8eYt9izG7bDZjY6w1sH6OHqVXineNMb5AKwozmyUjQjbbxBFZ+pFjPWwUhe9fTQ=
   api_key:
-    secure: e6bJsxjTY79jsZn0v+9pmXpp+63Q9WrC7RacRyXMWo5qD3GP64iw/A4BPSPZqLkiee15hVDJV10DYHIDS6/e1T3VvEJh5TjpJ57ayqr0rgSDnLFScrv6TZfBaNFzVRjipSnmJEAWBgVdwP5hVcY7b9dUguyog6ln6cUuqnFoHfs=
+    secure: fM77hue6ws/ikKaCzUsy6o3urxBHH0YjNSP3Dzc1Qm6oBthe8AYMifV7O93JI3T9ne4jDJvXcCCxgCOBr7gYr7U2/W+X144MphuBbqlTRxusKKBYCtK0QatjM9Px07f1lWLhgcEbwAayr9l9JSSJk4y5T7zk0Ij02gHapB0PPv8=
   'on':
     tags: true
     repo: chaijs/chai-http
