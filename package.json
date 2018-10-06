@@ -22,9 +22,11 @@
   "files": [
     "dist/chai-http.js",
     "lib/*.js",
-    "index.js"
+    "index.js",
+    "types/index.d.ts"
   ],
   "main": "./index",
+  "types": "./types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git@github.com:chaijs/chai-http.git"
@@ -34,7 +36,6 @@
     "prebuild:js": "rm -rf dist",
     "build:js": "simplifyify lib/http.js --outfile dist/chai-http.js --bundle --minify --debug --standalone chaiHttp",
     "build:ts": "cd types && tsc",
-    "postbuild:ts": "cpr types/index.d.ts dist/chai-http.d.ts --overwrite",
     "build:readme": "rm -rf README.md && node ./support/readme",
     "start": "npm-run-all --parallel watch server",
     "watch": "npm run build:js -- --watch",
@@ -60,7 +61,6 @@
   "devDependencies": {
     "chai": "4",
     "coveralls": "^3.0.0",
-    "cpr": "^3.0.1",
     "dox": "^0.9.0",
     "es6-shim": "^0.35.1",
     "http-server": "^0.10.0",
