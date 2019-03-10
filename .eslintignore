@@ -1,0 +1,4 @@
+**/*.min.js
+node_modules/*
+test/coverage/*
+
