@@ -1,4 +1,4 @@
-# Chai HTTP [![Build Status](https://travis-ci.org/chaijs/chai-http.svg?branch=master)](https://travis-ci.org/chaijs/chai-http) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+# Chai HTTP  [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) [![NPM version](https://img.shields.io/npm/v/chai-http.svg)](https://img.shields.io/npm/v/chai-http.svg) [![Dependency Status](https://img.shields.io/david/chaijs/chai-http.svg)](https://img.shields.io/david/chaijs/chai-http.svg) [![devDependencies](https://david-dm.org/chaijs/chai-http/dev-status.svg)](https://david-dm.org/chaijs/chai-http/dev-status.svg)
 
 > HTTP integration testing with Chai assertions.
 
