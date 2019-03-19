@@ -1,4 +1,4 @@
-# Chai HTTP [![Build Status](https://travis-ci.org/chaijs/chai-http.svg?branch=master)](https://travis-ci.org/chaijs/chai-http)
+# Chai HTTP [![Build Status](https://travis-ci.org/chaijs/chai-http.svg?branch=master)](https://travis-ci.org/chaijs/chai-http) [![NPM version](https://img.shields.io/npm/v/chai-http.svg)](https://img.shields.io/npm/v/chai-http.svg) [![Dependency Status](https://img.shields.io/david/chaijs/chai-http.svg)](https://img.shields.io/david/chaijs/chai-http.svg) [![devDependencies](https://david-dm.org/chaijs/chai-http/dev-status.svg)](https://david-dm.org/chaijs/chai-http/dev-status.svg)
 
 > HTTP integration testing with Chai assertions.
 
