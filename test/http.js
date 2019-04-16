@@ -223,6 +223,12 @@ describe('assertions', function () {
     res = { status: 200, redirects: ['bar'] };
     res.should.not.redirectTo('foo');
 
+    res = { status: 200, redirects: ['foo'] };
+    res.should.redirectTo(/foo/);
+
+    res = { status: 200, redirects: ['foo/bar?baz=qux'] };
+    res.should.redirectTo(/^foo\/bar/);
+
     (function () {
       var res = { status: 301, headers: { location: 'foo' } };
       res.should.not.redirectTo('foo');
@@ -237,6 +243,16 @@ describe('assertions', function () {
       var res = { status: 200, redirects: ['bar', 'baz'] };
       res.should.redirectTo('foo');
     }).should.throw('expected redirect to foo but got bar then baz');
+
+    (function () {
+      var res = { status: 301, headers: { location: 'foo' } };
+      res.should.not.redirectTo(/foo/);
+    }).should.throw('expected header \'location\' not to match /foo/ but got \'foo\'');
+
+    (function () {
+      var res = { status: 200, redirects: ['bar', 'baz'] };
+      res.should.redirectTo(/foo/);
+    }).should.throw('expected redirect to /foo/ but got bar then baz');
   });
 
   it('#param', function () {

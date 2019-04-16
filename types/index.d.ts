@@ -23,7 +23,7 @@ declare global {
         }
 
         interface Assertion {
-            redirectTo(location: string): Assertion;
+            redirectTo(location: string|RegExp): Assertion;
 
             param(key: string, value?: string): Assertion;
 

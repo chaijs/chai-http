@@ -332,12 +332,13 @@ expect(res).to.not.redirect;
 
 ### .redirectTo
 
-* **@param** _{String}_ location url
+* **@param** _{String|RegExp}_ location url
 
 Assert that a `Response` object redirects to the supplied location.
 
 ```js
 expect(res).to.redirectTo('http://example.com');
+expect(res).to.redirectTo(/^\/search\/results\?orderBy=desc$/);
 ```
 
 ### .param
