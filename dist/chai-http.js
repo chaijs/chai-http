@@ -274,7 +274,7 @@ module.exports = function (chai, _) {
    * expect(res).to.redirectTo('http://example.com');
    * ```
    *
-   * @param {String} location url
+   * @param {String|RegExp} location url
    * @name redirectTo
    * @api public
    */
@@ -285,8 +285,16 @@ module.exports = function (chai, _) {
     new Assertion(this._obj).to.redirect;
 
     if(redirects && redirects.length) {
+      var hasRedirected;
+
+      if (Object.prototype.toString.call(destination) === '[object RegExp]') {
+        hasRedirected = redirects.some(redirect => destination.test(redirect));
+
+      } else {
+        hasRedirected = redirects.indexOf(destination) > -1;
+      }
       this.assert(
-        redirects.indexOf(destination) > -1
+        hasRedirected
         , 'expected redirect to ' + destination + ' but got ' + redirects.join(' then ')
         , 'expected not to redirect to ' + destination + ' but got ' + redirects.join(' then ')
       );
