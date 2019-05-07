@@ -1,4 +1,4 @@
-# Chai HTTP [![Build Status](https://travis-ci.org/chaijs/chai-http.svg?branch=master)](https://travis-ci.org/chaijs/chai-http)
+# Chai HTTP [![Build Status](https://travis-ci.org/chaijs/chai-http.svg?branch=master)](https://travis-ci.org/chaijs/chai-http) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 > HTTP integration testing with Chai assertions.
 
@@ -371,6 +371,16 @@ expect(res).to.have.cookie('session_id');
 expect(res).to.have.cookie('session_id', '1234');
 expect(res).to.not.have.cookie('PHPSESSID');
 ```
+
+## Releasing
+
+`chai-http` is released with [`semantic-release`](https://github.com/semantic-release/semantic-release) using the plugins:
+- [`commit-analyzer`](https://github.com/semantic-release/commit-analyzer) to determine the next version from commit messages.
+- [`release-notes-generator`](https://github.com/semantic-release/release-notes-generator) to summarize release in
+- [`changelog`](https://github.com/semantic-release/changelog) to update the CHANGELOG.md file.
+- [`github`](https://github.com/semantic-release/github) to publish a [GitHub release](https://github.com/chaijs/chai-http/releases).
+- [`git`](https://github.com/semantic-release/git) to commit release assets.
+- [`npm`](https://github.com/semantic-release/npm) to publish to [npm](https://www.npmjs.com/package/chai-http).
 
 ## License
 

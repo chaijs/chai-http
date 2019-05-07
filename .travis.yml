@@ -3,18 +3,36 @@ node_js:
   - 4 # to be removed 2018-04-01
   - 6 # to be removed 2019-04-01
   - 7 # to be removed 2017-06-30
+  - 8 # to be removed 2020-01
+  - 10 # to be removed 2021-01
   - lts/* # safety net; don't remove
   - node # safety net; don't remove
-deploy:
-  provider: npm
-  email:
-    secure: O5Zs28RbWGOnyhlE8MoyUhjUF+oAhaxsO9m7T9isLLuMl3PpIiiaqjv/yEVBotCpWbdpi+qOSNfpqWZjB1v2nQoS6jxaErrgoZmkT/Fj4YMr8eYt9izG7bDZjY6w1sH6OHqVXineNMb5AKwozmyUjQjbbxBFZ+pFjPWwUhe9fTQ=
-  api_key:
-    secure: fM77hue6ws/ikKaCzUsy6o3urxBHH0YjNSP3Dzc1Qm6oBthe8AYMifV7O93JI3T9ne4jDJvXcCCxgCOBr7gYr7U2/W+X144MphuBbqlTRxusKKBYCtK0QatjM9Px07f1lWLhgcEbwAayr9l9JSSJk4y5T7zk0Ij02gHapB0PPv8=
-  'on':
-    tags: true
-    repo: chaijs/chai-http
-    all_branches: true
+
+stages:
+  - test
+  - release
+
+jobs:
+  include:
+    - stage: test
+      script:
+        - npm test
+      after_success:
+        - npm run coverage
+    - stage: release
+      node_js: 10
+      script: skip
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+          - npm run release
+        'on':
+          repo: chaijs/chai-http
+          branches:
+            only:
+              - master
 env:
   global:
     - secure: DGaDDxh76Gv+qmu4SLuQDxmmZMpMiiVdIvveT1d3ly93zrqT7Pb9ur7P8Yz77AxU9UrMHEJ3Be05Uqe8xtTJCIora9io/tX4QLRtIXtRIOA3dYaYNBgXztQT7yzCi6E/L/DZa1+dNaGDpoUnLG0S3vpwhi3YjlWJDhLOfB3Txx0=
+    - secure: fM77hue6ws/ikKaCzUsy6o3urxBHH0YjNSP3Dzc1Qm6oBthe8AYMifV7O93JI3T9ne4jDJvXcCCxgCOBr7gYr7U2/W+X144MphuBbqlTRxusKKBYCtK0QatjM9Px07f1lWLhgcEbwAayr9l9JSSJk4y5T7zk0Ij02gHapB0PPv8=
