@@ -32,16 +32,16 @@
     "url": "git@github.com:chaijs/chai-http.git"
   },
   "scripts": {
-    "build": "npm run build:readme && npm run build:js && npm run build:ts",
+    "build": "npm run build:js && npm run build:ts",
     "prebuild:js": "rm -rf dist",
     "build:js": "simplifyify lib/http.js --outfile dist/chai-http.js --bundle --minify --debug --standalone chaiHttp",
     "build:ts": "cd types && tsc",
-    "build:readme": "rm -rf README.md && node ./support/readme",
     "start": "npm-run-all --parallel watch server",
     "watch": "npm run build:js -- --watch",
     "server": "http-server -o -c-1",
     "test": "istanbul cover --report lcovonly _mocha",
-    "posttest": "if [ -z \"$COVERALLS_REPO_TOKEN\" ]; then cat coverage/lcov.info | coveralls; fi"
+    "coverage": "if [ -z \"$COVERALLS_REPO_TOKEN\" ]; then cat coverage/lcov.info | coveralls; fi",
+    "release": "semantic-release"
   },
   "browser": {
     "http": false,
@@ -59,6 +59,11 @@
     "superagent": "^3.7.0"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^3.0.2",
+    "@semantic-release/commit-analyzer": "^6.1.0",
+    "@semantic-release/git": "^7.0.8",
+    "@semantic-release/npm": "^5.1.4",
+    "@semantic-release/release-notes-generator": "^7.1.4",
     "chai": "4",
     "coveralls": "^3.0.0",
     "dox": "^0.9.0",
@@ -67,6 +72,7 @@
     "istanbul": "^0.4.3",
     "mocha": "^4.0.1",
     "npm-run-all": "^4.1.1",
+    "semantic-release": "^15.13.3",
     "simplifyify": "^4.0.0",
     "typescript": "^3.0.1"
   },
