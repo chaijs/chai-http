@@ -22,6 +22,11 @@ jobs:
     - stage: release
       node_js: 10
       script: skip
+      env:
+        # GitHub
+        - secure: "brL77ysx1Z30fGqeTLtdhVYCdMXFi6kbQYpQB2w9CtJJeI9zKZDagYKSjHpY1kzgUN0BoXG/Kyr1EgXsE2nBHjWYPKsxcbNP8gEAl8I6J7LBNVrxYkJNzQ46jYIjtjAWwodbQGAz0LrH5b8sw8IwE8vcxZ4thfZupA50LC8VdWA="
+        # NPM
+        - secure: "fM77hue6ws/ikKaCzUsy6o3urxBHH0YjNSP3Dzc1Qm6oBthe8AYMifV7O93JI3T9ne4jDJvXcCCxgCOBr7gYr7U2/W+X144MphuBbqlTRxusKKBYCtK0QatjM9Px07f1lWLhgcEbwAayr9l9JSSJk4y5T7zk0Ij02gHapB0PPv8="
       deploy:
         provider: script
         skip_cleanup: true
@@ -34,5 +39,5 @@ jobs:
               - master
 env:
   global:
+    # Coveralls
     - secure: DGaDDxh76Gv+qmu4SLuQDxmmZMpMiiVdIvveT1d3ly93zrqT7Pb9ur7P8Yz77AxU9UrMHEJ3Be05Uqe8xtTJCIora9io/tX4QLRtIXtRIOA3dYaYNBgXztQT7yzCi6E/L/DZa1+dNaGDpoUnLG0S3vpwhi3YjlWJDhLOfB3Txx0=
-    - secure: fM77hue6ws/ikKaCzUsy6o3urxBHH0YjNSP3Dzc1Qm6oBthe8AYMifV7O93JI3T9ne4jDJvXcCCxgCOBr7gYr7U2/W+X144MphuBbqlTRxusKKBYCtK0QatjM9Px07f1lWLhgcEbwAayr9l9JSSJk4y5T7zk0Ij02gHapB0PPv8=
