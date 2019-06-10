@@ -23,10 +23,10 @@ jobs:
       node_js: 10
       script: skip
       env:
-        # GitHub
-        - secure: "brL77ysx1Z30fGqeTLtdhVYCdMXFi6kbQYpQB2w9CtJJeI9zKZDagYKSjHpY1kzgUN0BoXG/Kyr1EgXsE2nBHjWYPKsxcbNP8gEAl8I6J7LBNVrxYkJNzQ46jYIjtjAWwodbQGAz0LrH5b8sw8IwE8vcxZ4thfZupA50LC8VdWA="
         # NPM
-        - secure: "fM77hue6ws/ikKaCzUsy6o3urxBHH0YjNSP3Dzc1Qm6oBthe8AYMifV7O93JI3T9ne4jDJvXcCCxgCOBr7gYr7U2/W+X144MphuBbqlTRxusKKBYCtK0QatjM9Px07f1lWLhgcEbwAayr9l9JSSJk4y5T7zk0Ij02gHapB0PPv8="
+        - secure: fM77hue6ws/ikKaCzUsy6o3urxBHH0YjNSP3Dzc1Qm6oBthe8AYMifV7O93JI3T9ne4jDJvXcCCxgCOBr7gYr7U2/W+X144MphuBbqlTRxusKKBYCtK0QatjM9Px07f1lWLhgcEbwAayr9l9JSSJk4y5T7zk0Ij02gHapB0PPv8=
+        # GitHub
+        - secure: brL77ysx1Z30fGqeTLtdhVYCdMXFi6kbQYpQB2w9CtJJeI9zKZDagYKSjHpY1kzgUN0BoXG/Kyr1EgXsE2nBHjWYPKsxcbNP8gEAl8I6J7LBNVrxYkJNzQ46jYIjtjAWwodbQGAz0LrH5b8sw8IwE8vcxZ4thfZupA50LC8VdWA=
       deploy:
         provider: script
         skip_cleanup: true
