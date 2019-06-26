@@ -403,4 +403,33 @@ describe('assertions', function () {
     }).should.throw('expected cookie \'name2\' to have value \'value\' but got \'value2\'');
 
   });
+
+  describe('#charset', function () {
+    it("should match charset in content type", function() {
+      var req = { headers: { 'content-type': [ 'text/plain; charset=utf-8' ] } };
+      req.should.to.have.charset("utf-8");
+
+      (function () {
+        req.should.not.have.charset("utf-8");
+      }).should.throw('expected content type to not have utf-8 charset');
+    });
+
+    it("should handle no content type", function() {
+      var req = { headers: {} };
+      req.should.not.have.charset("utf-8");
+
+      (function () {
+        req.should.to.have.charset("utf-8");
+      }).should.throw('expected content type to have utf-8 charset');
+    });
+
+    it("should handle no charset in content type", function() {
+      var req = { headers: { 'content-type': [ 'text/plain' ] } };
+      req.should.not.have.charset("utf-8");
+
+      (function () {
+        req.should.to.have.charset("utf-8");
+      }).should.throw('expected content type to have utf-8 charset');
+    });
+  });
 });

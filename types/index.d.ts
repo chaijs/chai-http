@@ -35,6 +35,8 @@ declare global {
 
             header(key: string, value?: string | RegExp): Assertion;
 
+            charset(charset: string): Assertion;
+
             headers: Assertion;
             json: Assertion;
             text: Assertion;
