@@ -1,0 +1,45 @@
+name: Chai HTTP
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Test on node ${{ matrix.node_version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node_version:
+          - 8 # to be removed 2020-01
+          - 10 # to be removed 2021-01
+          - x.x.x # safety net; don't remove
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node_version }}
+      - run: npm i -g npm@6 && npm ci
+      - run: npm test
+      - uses: coverallsapp/github-action@v1.0.1
+        with:
+          github-token: ${{ secrets.github_token }}
+        
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - run: npm run release
+        if: github.event == 'push'
+        env:
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
