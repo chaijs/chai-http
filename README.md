@@ -90,17 +90,37 @@ chai.request('http://localhost:8080')
 
 #### Setting up requests
 
-Once a request is created with a given VERB, it can have headers, form data,
-json, or even file attachments added to it, all with a simple API:
+Once a request is created with a given VERB (get, post, etc), you chain on these additional methods to create your request:
 
+| Method  | Purpose  |
+|---|---|
+| `.set(key, value)` | Set request headers  |
+| `.send(data)` |  Set request data (default type is JSON) |
+| `.type(dataType)` | Change the type of the data sent from the `.send()` method (xml, form, etc) |
+| `.attach(field, file, attachment)` | Attach a file | 
+| `.auth(username, password)` | Add auth headers for Basic Authentication |
+| `.query(parmasObject)` |  Chain on some GET parameters |
+
+Examples:
+
+`.set()`
+```js
+// Set a request header
+chai.request(app)
+  .put('/user/me')
+  .set('Content-Type', 'application/json')
+  .send({ password: '123', confirmPassword: '123' })
+```
+
+`.send()`
 ```js
 // Send some JSON
 chai.request(app)
   .put('/user/me')
-  .set('X-API-Key', 'foobar')
   .send({ password: '123', confirmPassword: '123' })
 ```
 
+`.type()`
 ```js
 // Send some Form Data
 chai.request(app)
@@ -113,6 +133,7 @@ chai.request(app)
   })
 ```
 
+`.attach()`
 ```js
 // Attach a file
 chai.request(app)
@@ -120,6 +141,7 @@ chai.request(app)
   .attach('imageField', fs.readFileSync('avatar.png'), 'avatar.png')
 ```
 
+`.auth()`
 ```js
 // Authenticate with Basic authentication
 chai.request(app)
@@ -127,6 +149,7 @@ chai.request(app)
   .auth('user', 'pass')
 ```
 
+`.query()`
 ```js
 // Chain some GET query parameters
 chai.request(app)
