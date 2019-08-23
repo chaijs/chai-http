@@ -343,6 +343,16 @@ expect(req).to.be.html;
 expect(req).to.be.text;
 ```
 
+### .charset
+
+
+
+Assert that a `Response` or `Request` object has a given charset.
+
+```js
+expect(req).to.have.charset('utf-8');
+```
+
 ### .redirect
 
 
