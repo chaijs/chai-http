@@ -468,5 +468,87 @@ describe('assertions', function () {
         );
       });
     });
+
+    describe('as chainable method after #cookie(key, val)', function () {
+      var res = resWithCookie('sessid=abc; Path=/; Domain=.abc.xyz');
+
+      it('should match required attribute', function () {
+        res.should.have.cookie('sessid', 'abc').with.attribute('Path', '/');
+        res.should.have.cookie('sessid', 'abc').with.attribute('Domain', '.abc.xyz');
+      });
+
+      it('should allow multiple chained attributes', function () {
+        res.should.have.cookie('sessid', 'abc')
+          .with.attribute('Path', '/')
+          .and.with.attribute('Domain', '.abc.xyz');
+      });
+
+      it('should throw in case of failure', function () {
+        (function () {
+          res.should.have.cookie('sessid', 'abc').with.attribute('Path', '/wrong');
+        }).should.throw(
+          "cookie 'sessid' expected 'Path=/wrong' but got 'Path=/'"
+        );
+      });
+
+      it('should work with negation', function () {
+        res.should.have.cookie('sessid', 'abc')
+          .but.not.with.attribute('Path', '/foo');
+
+        res.should.have.cookie('sessid', 'abc')
+          .but.not.with.attribute('Domain', '.mno.efg');
+      });
+
+      it('should throw in case of negated failure', function () {
+        (function () {
+          res.should.have.cookie('sessid', 'abc')
+            .but.not.with.attribute('Path', '/');
+        }).should.throw(
+          "cookie 'sessid' expected attribute to not be 'Path=/'"
+        );
+      });
+    });
+
+    describe('as chainable method after #cookie(key)', function () {
+      var res = resWithCookie('sessid=abc; Path=/; Domain=.abc.xyz');
+
+      it('should match required attribute', function () {
+        res.should.have.cookie('sessid').with.attribute('Path', '/');
+        res.should.have.cookie('sessid').with.attribute('Domain', '.abc.xyz');
+      });
+
+      it('should allow multiple chained attributes', function () {
+        res.should.have.cookie('sessid')
+          .with.attribute('Path', '/')
+          .and.with.attribute('Domain', '.abc.xyz');
+      });
+
+      it('should throw in case of failure', function () {
+        (function () {
+          res.should.have.cookie('sessid').with.attribute('Path', '/wrong');
+        }).should.throw(
+          "cookie 'sessid' expected 'Path=/wrong' but got 'Path=/'"
+        );
+      });
+
+      it('should work with negation', function () {
+        var res = resWithCookie('sessid=abc; Path=/; Domain=.abc.xyz');
+
+        res.should.have.cookie('sessid')
+          .but.not.with.attribute('Path', '/foo');
+
+        res.should.have.cookie('sessid')
+          .but.not.with.attribute('Domain', '.mno.efg');
+      });
+
+      it('should throw in case of negated failure', function () {
+        (function () {
+          res.should.have.cookie('sessid')
+            .but.not.with.attribute('Path', '/');
+        }).should.throw(
+          "cookie 'sessid' expected attribute to not be 'Path=/'"
+        );
+      });
+    });
   });
 });
