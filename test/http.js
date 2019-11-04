@@ -432,4 +432,31 @@ describe('assertions', function () {
       }).should.throw('expected content type to have utf-8 charset');
     });
   });
+
+  describe('#cookie attributes', function () {
+    function resWithCookie(cookie) {
+      return {
+        headers: {'set-cookie': [cookie]}
+      };
+    }
+
+    describe('as additional argument to #cookie', function () {
+      it('only matches required attributes (ignores the rest)', function () {
+        var res = resWithCookie('sessid=abc; Path=/; Domain=.abc.xyz');
+
+        res.should.have.cookie('sessid', 'abc', {'Path': '/'});
+        res.should.have.cookie('sessid', 'abc', {'Domain': '.abc.xyz'});
+        res.should.have.cookie('sessid', 'abc', {
+          'Path': '/',
+          'Domain': '.abc.xyz',
+        });
+
+        (function () {
+          res.should.have.cookie('sessid', 'abc', {'Path': '/wrong'});
+        }).should.throw(
+          "expected cookie 'sessid' to have the following attributes:"
+        );
+      });
+    });
+  });
 });
