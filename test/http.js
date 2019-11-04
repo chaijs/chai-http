@@ -328,6 +328,16 @@ describe('assertions', function () {
     }).should.throw('expected cookie \'name2\' to have value \'value\' but got \'value2\'');
   });
 
+  it('#cookie (changes assertion context)', function () {
+    var Cookie = require('cookiejar').Cookie;
+    var res = {
+      headers: {'set-cookie': ['name=value']}
+    };
+
+    var context = res.should.have.cookie('name');
+    context._obj.should.be.instanceof(Cookie);
+  });
+
   it('#cookie (request)', function () {
     var req = {
       headers: {
