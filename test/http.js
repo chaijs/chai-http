@@ -467,6 +467,13 @@ describe('assertions', function () {
           "expected cookie 'sessid' to have the following attributes:"
         );
       });
+
+      it('should work with boolean attributes (HttpOnly, Secure)', function () {
+        var res = resWithCookie('sessid=abc; Path=/; HttpOnly; Secure');
+
+        res.should.have.cookie('sessid', 'abc', {'Secure': true});
+        res.should.have.cookie('sessid', 'abc', {'HttpOnly': true});
+      });
     });
 
     describe('as chainable method after #cookie(key, val)', function () {
@@ -475,6 +482,12 @@ describe('assertions', function () {
       it('should match required attribute', function () {
         res.should.have.cookie('sessid', 'abc').with.attribute('Path', '/');
         res.should.have.cookie('sessid', 'abc').with.attribute('Domain', '.abc.xyz');
+      });
+
+      it('should work with boolean attributes (HttpOnly, Secure)', function () {
+        var res = resWithCookie('sessid=abc; Domain=.abc.xyz; HttpOnly; Secure');
+        res.should.have.cookie('sessid', 'abc').with.attribute('HttpOnly');
+        res.should.have.cookie('sessid', 'abc').with.attribute('Secure');
       });
 
       it('should allow multiple chained attributes', function () {
@@ -515,6 +528,12 @@ describe('assertions', function () {
       it('should match required attribute', function () {
         res.should.have.cookie('sessid').with.attribute('Path', '/');
         res.should.have.cookie('sessid').with.attribute('Domain', '.abc.xyz');
+      });
+
+      it('should work with boolean attributes (HttpOnly, Secure)', function () {
+        var res = resWithCookie('sessid=abc; Domain=.abc.xyz; HttpOnly; Secure');
+        res.should.have.cookie('sessid').with.attribute('HttpOnly');
+        res.should.have.cookie('sessid').with.attribute('Secure');
       });
 
       it('should allow multiple chained attributes', function () {
