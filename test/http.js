@@ -460,12 +460,6 @@ describe('assertions', function () {
           'Path': '/',
           'Domain': '.abc.xyz',
         });
-
-        (function () {
-          res.should.have.cookie('sessid', 'abc', {'Path': '/wrong'});
-        }).should.throw(
-          "expected cookie 'sessid' to have the following attributes:"
-        );
       });
 
       it('should work with boolean attributes (HttpOnly, Secure)', function () {
@@ -481,6 +475,107 @@ describe('assertions', function () {
         res.should.have.cookie('sessid', 'abc', {
           'Expires': 'Wed, 15 Jun 2031 14:20:00 GMT'
         });
+      });
+
+      it('should throw in case of failure', function () {
+        var res = resWithCookie('sessid=abc; Path=/; Domain=.abc.xyz');
+
+        (function () {
+          res.should.have.cookie('sessid', 'abc', {'Path': '/wrong'});
+        }).should.throw(
+          "expected cookie 'sessid' to have the following attributes:"
+        );
+
+        (function () {
+          res.should.have.cookie('sessid', 'abc', {'Domain': '.mno.ijk'});
+        }).should.throw(
+          "expected cookie 'sessid' to have the following attributes:"
+        );
+
+        (function () {
+          res.should.have.cookie('sessid', 'abc', {'Secure': true});
+        }).should.throw(
+          "expected cookie 'sessid' to have the following attributes:"
+        );
+      });
+
+      it('should work with negation', function () {
+        var res = resWithCookie('sessid=abc; Path=/; Domain=.abc.xyz; HttpOnly');
+
+        // This form is trickier then it seems. In these cases, is the user
+        // expecting to not find any of the cookie caracteristics or if any
+        // of them mismatches, should the test already succeed?
+        //
+        // By boolean logic, the positive form of this assertion would be:
+        //   A && B && C
+        // Negating it sould result in:
+        //   !(A && B && C) => !A || !B || !C
+        // Meaning that any mismatch should make the negative form to pass
+        // the assertion.
+        //
+        // The common sense follows this conclusion as the cookie:
+        //   "key=val0; attr1=val1; attr2=val2"
+        // is definitely not the same as any of the following cookies:
+        //   "key=XXXX; attr1=val1; attr2=val2"
+        //   "key=val0; attr1=XXXX; attr2=val2"
+        //   "key=val0; attr1=val1; attr2=XXXX"
+        res.should.not.have.cookie('sessid', 'abc', {'Path': '/foo'});
+        res.should.not.have.cookie('sessid', 'abc', {'Domain': '.mno.ijk'});
+        res.should.not.have.cookie('sessid', 'abc', {'HttpOnly': false});
+
+        // Wrong Path
+        res.should.not.have.cookie('sessid', 'abc', {
+          'Path': '/foo',
+          'Domain': '.abc.xyz',
+          'HttpOnly': true
+        });
+
+        // Wrong Domain
+        res.should.not.have.cookie('sessid', 'abc', {
+          'Path': '/',
+          'Domain': '.mno.ijk',
+          'HttpOnly': true
+        });
+
+        // Wrong HttpOnly flag
+        res.should.not.have.cookie('sessid', 'abc', {
+          'Path': '/',
+          'Domain': '.abc.xyz',
+          'HttpOnly': false
+        });
+
+        // Correct attributes but wrong cookie value
+        res.should.not.have.cookie('sessid', 'WRONG-VALUE', {
+          'Path': '/',
+          'Domain': '.abc.xyz',
+          'HttpOnly': true
+        });
+      });
+
+      it('should throw in case of negated failure', function () {
+        var res = resWithCookie('sessid=abc; Path=/; Domain=.abc.xyz; HttpOnly');
+
+        (function () {
+          res.should.not.have.cookie('sessid', 'abc', {'Path': '/'});
+        }).should.throw(
+          "expected cookie 'sessid' to not have the following attributes:"
+        );
+
+        (function () {
+          res.should.not.have.cookie('sessid', 'abc', {'Domain': '.abc.xyz'});
+        }).should.throw(
+          "expected cookie 'sessid' to not have the following attributes:"
+        );
+
+        (function () {
+          res.should.not.have.cookie('sessid', 'abc', {
+            'Path': '/',
+            'Domain': '.abc.xyz',
+            'HttpOnly': true
+          });
+        }).should.throw(
+          "expected cookie 'sessid' to not have the following attributes:"
+        );
       });
     });
 
