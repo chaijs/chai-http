@@ -474,6 +474,14 @@ describe('assertions', function () {
         res.should.have.cookie('sessid', 'abc', {'Secure': true});
         res.should.have.cookie('sessid', 'abc', {'HttpOnly': true});
       });
+
+      it('should work with time attributes (Expires, Max-Age)', function () {
+        var res = resWithCookie('sessid=abc; Expires=Wed, 15 Jun 2031 14:20:00 GMT; Max-Age=2592000');
+        res.should.have.cookie('sessid', 'abc', {'Max-Age': '2592000'});
+        res.should.have.cookie('sessid', 'abc', {
+          'Expires': 'Wed, 15 Jun 2031 14:20:00 GMT'
+        });
+      });
     });
 
     describe('as chainable method after #cookie(key, val)', function () {
@@ -488,6 +496,12 @@ describe('assertions', function () {
         var res = resWithCookie('sessid=abc; Domain=.abc.xyz; HttpOnly; Secure');
         res.should.have.cookie('sessid', 'abc').with.attribute('HttpOnly');
         res.should.have.cookie('sessid', 'abc').with.attribute('Secure');
+      });
+
+      it('should work with time attributes (Expires, Max-Age)', function () {
+        var res = resWithCookie('sessid=abc; Expires=Wed, 15 Jun 2031 14:20:00 GMT; Max-Age=2592000');
+        res.should.have.cookie('sessid', 'abc').with.attribute('Max-Age', '2592000');
+        res.should.have.cookie('sessid', 'abc').with.attribute('Expires', 'Wed, 15 Jun 2031 14:20:00 GMT');
       });
 
       it('should allow multiple chained attributes', function () {
@@ -534,6 +548,12 @@ describe('assertions', function () {
         var res = resWithCookie('sessid=abc; Domain=.abc.xyz; HttpOnly; Secure');
         res.should.have.cookie('sessid').with.attribute('HttpOnly');
         res.should.have.cookie('sessid').with.attribute('Secure');
+      });
+
+      it('should work with time attributes (Expires, Max-Age)', function () {
+        var res = resWithCookie('sessid=abc; Expires=Wed, 15 Jun 2031 14:20:00 GMT; Max-Age=2592000');
+        res.should.have.cookie('sessid').with.attribute('Max-Age', '2592000');
+        res.should.have.cookie('sessid').with.attribute('Expires', 'Wed, 15 Jun 2031 14:20:00 GMT');
       });
 
       it('should allow multiple chained attributes', function () {
