@@ -6,7 +6,11 @@ describe('assertions', function () {
 
     (function () {
       res.should.not.have.status(200);
-    }).should.throw('expected { status: 200 } to not have status code 200');
+    }).should.throw('expected { status: 200 } to not have status code \'200 (OK)\'');
+
+    (function () {
+      res.should.have.status(4004);
+    }).should.throw('expected { status: 200 } to have status code \'4004 (Unknown)\'');
 
     (function () {
       ({}).should.not.to.have.status(200);
