@@ -147,6 +147,12 @@ chai.request(app)
 chai.request(app)
   .get('/protected')
   .auth('user', 'pass')
+  
+// Authenticate with Bearer Token
+chai.request(app)
+  .get('/protected')
+  .auth(accessToken, { type: 'bearer' })  
+  
 ```
 
 `.query()`
