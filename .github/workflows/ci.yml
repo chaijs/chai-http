@@ -42,5 +42,5 @@ jobs:
       - run: npm run release
         if: ${{ github.event == 'push' }}
         env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}} # f674......69f0
           GITHUB_TOKEN: ${{secrets.github_token}}
