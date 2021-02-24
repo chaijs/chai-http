@@ -28,7 +28,7 @@ jobs:
       - uses: coverallsapp/github-action@v1.0.1
         with:
           github-token: ${{ secrets.github_token }}
-        
+
 
   publish-npm:
     needs: build
@@ -40,7 +40,7 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - run: npm run release
-        if: github.event == 'push'
+        if: ${{ github.event == 'push' }}
         env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}} # f674......69f0
           GITHUB_TOKEN: ${{secrets.github_token}}
