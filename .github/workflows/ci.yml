@@ -39,6 +39,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
+      - run: npm i -g npm@6 && npm ci
       - run: npm run release
         if: ${{ github.event_name == 'push' }}
         env:
