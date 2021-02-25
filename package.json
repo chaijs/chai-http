@@ -60,10 +60,10 @@
     "superagent": "^6.1.0"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^3.0.2",
-    "@semantic-release/commit-analyzer": "^6.1.0",
-    "@semantic-release/git": "^7.0.8",
-    "@semantic-release/npm": "^5.1.4",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/npm": "^7.0.0",
     "@semantic-release/release-notes-generator": "^7.1.4",
     "chai": "4",
     "coveralls": "^3.0.0",
@@ -73,7 +73,7 @@
     "istanbul": "^0.4.3",
     "mocha": "^4.0.1",
     "npm-run-all": "^4.1.1",
-    "semantic-release": "^15.13.3",
+    "semantic-release": "^17.3.9",
     "simplifyify": "^4.0.0",
     "typescript": "^3.0.1"
   },
