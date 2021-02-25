@@ -32,6 +32,7 @@ jobs:
 
 
   publish-npm:
+    if: ${{ github.event_name == 'push' }}
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -42,7 +43,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm run release
-        if: ${{ github.event_name == 'push' }}
         env:
           NPM_TOKEN: ${{secrets.NPM_TOKEN}} # f674......69f0
           GITHUB_TOKEN: ${{secrets.GH_RELEASE_TOKEN}}
