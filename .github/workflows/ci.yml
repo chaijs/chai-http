@@ -44,4 +44,4 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         env:
           NPM_TOKEN: ${{secrets.NPM_TOKEN}} # f674......69f0
-          GITHUB_TOKEN: ${{secrets.github_token}}
+          GITHUB_TOKEN: ${{secrets.GH_RELEASE_TOKEN}}
