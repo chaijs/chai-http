@@ -11,7 +11,7 @@
 
 #### Installation
 
-This is a addon plugin for the [Chai Assertion Library](http://chaijs.com). Install via [npm](http://npmjs.org).
+This is an addon plugin for the [Chai Assertion Library](http://chaijs.com). Install via [npm](http://npmjs.org).
 
     npm install chai-http
 
@@ -20,8 +20,8 @@ This is a addon plugin for the [Chai Assertion Library](http://chaijs.com). Inst
 Use this plugin as you would all other Chai plugins.
 
 ```js
-var chai = require('chai')
-  , chaiHttp = require('chai-http');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
 
 chai.use(chaiHttp);
 ```
@@ -68,13 +68,13 @@ keep the server open, perhaps if you're making multiple requests, you must call
 `.keepOpen()` after `.request()`, and manually close the server down:
 
 ```js
-var requester = chai.request(app).keepOpen()
+const requester = chai.request(app).keepOpen()
 
 Promise.all([
   requester.get('/a'),
   requester.get('/b'),
 ])
-.then(responses => ....)
+.then(responses => { /* ... */ })
 .then(() => requester.close())
 ```
 
@@ -168,7 +168,7 @@ chai.request(app)
 In the following examples we use Chai's Expect assertion library:
 
 ```js
-var expect = chai.expect;
+const { expect } = chai;
 ```
 
 To make the request and assert on its response, the `end` method can be used:
@@ -177,7 +177,7 @@ To make the request and assert on its response, the `end` method can be used:
 chai.request(app)
   .put('/user/me')
   .send({ password: '123', confirmPassword: '123' })
-  .end(function (err, res) {
+  .end((err, res) => {
      expect(err).to.be.null;
      expect(res).to.have.status(200);
   });
@@ -199,16 +199,16 @@ callback has completed, and the assertions can be verified:
 it('fails, as expected', function(done) { // <= Pass in done callback
   chai.request('http://localhost:8080')
   .get('/')
-  .end(function(err, res) {
+  .end((err, res) => {
     expect(res).to.have.status(123);
     done();                               // <= Call done to signal callback end
   });
 });
 
-it('succeeds silently!', function() {   // <= No done callback
+it('succeeds silently!', () => {   // <= No done callback
   chai.request('http://localhost:8080')
   .get('/')
-  .end(function(err, res) {
+  .end((err, res) => {
     expect(res).to.have.status(123);    // <= Test completes before this runs
   });
 });
@@ -227,16 +227,15 @@ and chaining of `then`s becomes possible:
 chai.request(app)
   .put('/user/me')
   .send({ password: '123', confirmPassword: '123' })
-  .then(function (res) {
+  .then((res) => {
      expect(res).to.have.status(200);
   })
-  .catch(function (err) {
+  .catch((err) => {
      throw err;
   });
 ```
 
-__Note:__ Node.js version 0.10.x and some older web browsers do not have
-native promise support. You can use any spec compliant library, such as:
+__Note:__ Some older web browsers do not have native promise support. You can use any spec compliant library, such as:
  - [kriskowal/q](https://github.com/kriskowal/q)
  - [stefanpenner/es6-promise](https://github.com/stefanpenner/es6-promise)
  - [petkaantonov/bluebird](https://github.com/petkaantonov/bluebird)
@@ -249,7 +248,7 @@ requiring in chai-http. For example:
 if (!global.Promise) {
   global.Promise = require('q');
 }
-var chai = require('chai');
+const chai = require('chai');
 chai.use(require('chai-http'));
 ```
 
@@ -260,16 +259,16 @@ next (for example, when you want to login with the first request, then access an
 
 ```js
 // Log in
-var agent = chai.request.agent(app)
+const agent = chai.request.agent(app)
 agent
   .post('/session')
   .send({ username: 'me', password: '123' })
-  .then(function (res) {
+  .then((res) => {
     expect(res).to.have.cookie('sessionid');
     // The `agent` now has the sessionid cookie saved, and will send it
     // back to the server in the next request:
     return agent.get('/user/me')
-      .then(function (res) {
+      .then((res) => {
          expect(res).to.have.status(200);
       });
   });
