@@ -44,5 +44,5 @@ jobs:
       - run: npm ci
       - run: npm run release
         env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN}} # f674......69f0
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}} # ff9b......76c4
           GITHUB_TOKEN: ${{secrets.GH_RELEASE_TOKEN}}
