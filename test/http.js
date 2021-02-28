@@ -328,6 +328,16 @@ describe('assertions', function () {
     }).should.throw('expected cookie \'name2\' to have value \'value\' but got \'value2\'');
   });
 
+  it('#cookie (changes assertion context)', function () {
+    var Cookie = require('cookiejar').Cookie;
+    var res = {
+      headers: {'set-cookie': ['name=value']}
+    };
+
+    var context = res.should.have.cookie('name');
+    context._obj.should.be.instanceof(Cookie);
+  });
+
   it('#cookie (request)', function () {
     var req = {
       headers: {
@@ -430,6 +440,249 @@ describe('assertions', function () {
       (function () {
         req.should.to.have.charset("utf-8");
       }).should.throw('expected content type to have utf-8 charset');
+    });
+  });
+
+  describe('#cookie attributes', function () {
+    function resWithCookie(cookie) {
+      return {
+        headers: {'set-cookie': [cookie]}
+      };
+    }
+
+    describe('as additional argument to #cookie', function () {
+      it('only matches required attributes (ignores the rest)', function () {
+        var res = resWithCookie('sessid=abc; Path=/; Domain=.abc.xyz');
+
+        res.should.have.cookie('sessid', 'abc', {'Path': '/'});
+        res.should.have.cookie('sessid', 'abc', {'Domain': '.abc.xyz'});
+        res.should.have.cookie('sessid', 'abc', {
+          'Path': '/',
+          'Domain': '.abc.xyz',
+        });
+      });
+
+      it('should work with boolean attributes (HttpOnly, Secure)', function () {
+        var res = resWithCookie('sessid=abc; Path=/; HttpOnly; Secure');
+
+        res.should.have.cookie('sessid', 'abc', {'Secure': true});
+        res.should.have.cookie('sessid', 'abc', {'HttpOnly': true});
+      });
+
+      it('should work with time attributes (Expires, Max-Age)', function () {
+        var res = resWithCookie('sessid=abc; Expires=Wed, 15 Jun 2031 14:20:00 GMT; Max-Age=2592000');
+        res.should.have.cookie('sessid', 'abc', {'Max-Age': '2592000'});
+        res.should.have.cookie('sessid', 'abc', {
+          'Expires': 'Wed, 15 Jun 2031 14:20:00 GMT'
+        });
+      });
+
+      it('should throw in case of failure', function () {
+        var res = resWithCookie('sessid=abc; Path=/; Domain=.abc.xyz');
+
+        (function () {
+          res.should.have.cookie('sessid', 'abc', {'Path': '/wrong'});
+        }).should.throw(
+          "expected cookie 'sessid' to have the following attributes:"
+        );
+
+        (function () {
+          res.should.have.cookie('sessid', 'abc', {'Domain': '.mno.ijk'});
+        }).should.throw(
+          "expected cookie 'sessid' to have the following attributes:"
+        );
+
+        (function () {
+          res.should.have.cookie('sessid', 'abc', {'Secure': true});
+        }).should.throw(
+          "expected cookie 'sessid' to have the following attributes:"
+        );
+      });
+
+      it('should work with negation', function () {
+        var res = resWithCookie('sessid=abc; Path=/; Domain=.abc.xyz; HttpOnly');
+
+        // This form is trickier then it seems. In these cases, is the user
+        // expecting to not find any of the cookie caracteristics or if any
+        // of them mismatches, should the test already succeed?
+        //
+        // By boolean logic, the positive form of this assertion would be:
+        //   A && B && C
+        // Negating it sould result in:
+        //   !(A && B && C) => !A || !B || !C
+        // Meaning that any mismatch should make the negative form to pass
+        // the assertion.
+        //
+        // The common sense follows this conclusion as the cookie:
+        //   "key=val0; attr1=val1; attr2=val2"
+        // is definitely not the same as any of the following cookies:
+        //   "key=XXXX; attr1=val1; attr2=val2"
+        //   "key=val0; attr1=XXXX; attr2=val2"
+        //   "key=val0; attr1=val1; attr2=XXXX"
+        res.should.not.have.cookie('sessid', 'abc', {'Path': '/foo'});
+        res.should.not.have.cookie('sessid', 'abc', {'Domain': '.mno.ijk'});
+        res.should.not.have.cookie('sessid', 'abc', {'HttpOnly': false});
+
+        // Wrong Path
+        res.should.not.have.cookie('sessid', 'abc', {
+          'Path': '/foo',
+          'Domain': '.abc.xyz',
+          'HttpOnly': true
+        });
+
+        // Wrong Domain
+        res.should.not.have.cookie('sessid', 'abc', {
+          'Path': '/',
+          'Domain': '.mno.ijk',
+          'HttpOnly': true
+        });
+
+        // Wrong HttpOnly flag
+        res.should.not.have.cookie('sessid', 'abc', {
+          'Path': '/',
+          'Domain': '.abc.xyz',
+          'HttpOnly': false
+        });
+
+        // Correct attributes but wrong cookie value
+        res.should.not.have.cookie('sessid', 'WRONG-VALUE', {
+          'Path': '/',
+          'Domain': '.abc.xyz',
+          'HttpOnly': true
+        });
+      });
+
+      it('should throw in case of negated failure', function () {
+        var res = resWithCookie('sessid=abc; Path=/; Domain=.abc.xyz; HttpOnly');
+
+        (function () {
+          res.should.not.have.cookie('sessid', 'abc', {'Path': '/'});
+        }).should.throw(
+          "expected cookie 'sessid' to not have the following attributes:"
+        );
+
+        (function () {
+          res.should.not.have.cookie('sessid', 'abc', {'Domain': '.abc.xyz'});
+        }).should.throw(
+          "expected cookie 'sessid' to not have the following attributes:"
+        );
+
+        (function () {
+          res.should.not.have.cookie('sessid', 'abc', {
+            'Path': '/',
+            'Domain': '.abc.xyz',
+            'HttpOnly': true
+          });
+        }).should.throw(
+          "expected cookie 'sessid' to not have the following attributes:"
+        );
+      });
+    });
+
+    describe('as chainable method after #cookie(key, val)', function () {
+      var res = resWithCookie('sessid=abc; Path=/; Domain=.abc.xyz');
+
+      it('should match required attribute', function () {
+        res.should.have.cookie('sessid', 'abc').with.attribute('Path', '/');
+        res.should.have.cookie('sessid', 'abc').with.attribute('Domain', '.abc.xyz');
+      });
+
+      it('should work with boolean attributes (HttpOnly, Secure)', function () {
+        var res = resWithCookie('sessid=abc; Domain=.abc.xyz; HttpOnly; Secure');
+        res.should.have.cookie('sessid', 'abc').with.attribute('HttpOnly');
+        res.should.have.cookie('sessid', 'abc').with.attribute('Secure');
+      });
+
+      it('should work with time attributes (Expires, Max-Age)', function () {
+        var res = resWithCookie('sessid=abc; Expires=Wed, 15 Jun 2031 14:20:00 GMT; Max-Age=2592000');
+        res.should.have.cookie('sessid', 'abc').with.attribute('Max-Age', '2592000');
+        res.should.have.cookie('sessid', 'abc').with.attribute('Expires', 'Wed, 15 Jun 2031 14:20:00 GMT');
+      });
+
+      it('should allow multiple chained attributes', function () {
+        res.should.have.cookie('sessid', 'abc')
+          .with.attribute('Path', '/')
+          .and.with.attribute('Domain', '.abc.xyz');
+      });
+
+      it('should throw in case of failure', function () {
+        (function () {
+          res.should.have.cookie('sessid', 'abc').with.attribute('Path', '/wrong');
+        }).should.throw(
+          "cookie 'sessid' expected 'Path=/wrong' but got 'Path=/'"
+        );
+      });
+
+      it('should work with negation', function () {
+        res.should.have.cookie('sessid', 'abc')
+          .but.not.with.attribute('Path', '/foo');
+
+        res.should.have.cookie('sessid', 'abc')
+          .but.not.with.attribute('Domain', '.mno.efg');
+      });
+
+      it('should throw in case of negated failure', function () {
+        (function () {
+          res.should.have.cookie('sessid', 'abc')
+            .but.not.with.attribute('Path', '/');
+        }).should.throw(
+          "cookie 'sessid' expected attribute to not be 'Path=/'"
+        );
+      });
+    });
+
+    describe('as chainable method after #cookie(key)', function () {
+      var res = resWithCookie('sessid=abc; Path=/; Domain=.abc.xyz');
+
+      it('should match required attribute', function () {
+        res.should.have.cookie('sessid').with.attribute('Path', '/');
+        res.should.have.cookie('sessid').with.attribute('Domain', '.abc.xyz');
+      });
+
+      it('should work with boolean attributes (HttpOnly, Secure)', function () {
+        var res = resWithCookie('sessid=abc; Domain=.abc.xyz; HttpOnly; Secure');
+        res.should.have.cookie('sessid').with.attribute('HttpOnly');
+        res.should.have.cookie('sessid').with.attribute('Secure');
+      });
+
+      it('should work with time attributes (Expires, Max-Age)', function () {
+        var res = resWithCookie('sessid=abc; Expires=Wed, 15 Jun 2031 14:20:00 GMT; Max-Age=2592000');
+        res.should.have.cookie('sessid').with.attribute('Max-Age', '2592000');
+        res.should.have.cookie('sessid').with.attribute('Expires', 'Wed, 15 Jun 2031 14:20:00 GMT');
+      });
+
+      it('should allow multiple chained attributes', function () {
+        res.should.have.cookie('sessid')
+          .with.attribute('Path', '/')
+          .and.with.attribute('Domain', '.abc.xyz');
+      });
+
+      it('should throw in case of failure', function () {
+        (function () {
+          res.should.have.cookie('sessid').with.attribute('Path', '/wrong');
+        }).should.throw(
+          "cookie 'sessid' expected 'Path=/wrong' but got 'Path=/'"
+        );
+      });
+
+      it('should work with negation', function () {
+        var res = resWithCookie('sessid=abc; Path=/; Domain=.abc.xyz');
+
+        res.should.have.cookie('sessid')
+          .but.not.with.attribute('Path', '/foo');
+
+        res.should.have.cookie('sessid')
+          .but.not.with.attribute('Domain', '.mno.efg');
+      });
+
+      it('should throw in case of negated failure', function () {
+        (function () {
+          res.should.have.cookie('sessid')
+            .but.not.with.attribute('Path', '/');
+        }).should.throw(
+          "cookie 'sessid' expected attribute to not be 'Path=/'"
+        );
+      });
     });
   });
 });
