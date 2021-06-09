@@ -96,7 +96,7 @@ agent
 agent.close((err: any) => { throw err; });
 
 function test1() {
-    const req = chai.request(app).get('/');
+    const req: ChaiHttp.Request = chai.request(app).get('/');
     req.then((res: ChaiHttp.Response) => {
         chai.expect(res).to.have.status(200);
         chai.expect(res).to.have.header('content-type', 'text/plain');
