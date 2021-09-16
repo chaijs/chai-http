@@ -51,20 +51,20 @@
   },
   "dependencies": {
     "@types/chai": "4",
-    "@types/superagent": "^3.8.3",
+    "@types/superagent": "^4.1.10",
     "charset": "^1.0.1",
-    "cookiejar": "^2.1.1",
     "http-status-codes": "^2.1.2",
+    "cookiejar": "^2.1.2",
     "is-ip": "^2.0.0",
     "methods": "^1.1.2",
     "qs": "^6.5.1",
-    "superagent": "^3.7.0"
+    "superagent": "^6.1.0"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^3.0.2",
-    "@semantic-release/commit-analyzer": "^6.1.0",
-    "@semantic-release/git": "^7.0.8",
-    "@semantic-release/npm": "^5.1.4",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/npm": "^7.0.0",
     "@semantic-release/release-notes-generator": "^7.1.4",
     "chai": "4",
     "coveralls": "^3.0.0",
@@ -74,11 +74,11 @@
     "istanbul": "^0.4.3",
     "mocha": "^4.0.1",
     "npm-run-all": "^4.1.1",
-    "semantic-release": "^15.13.3",
+    "semantic-release": "^17.3.9",
     "simplifyify": "^4.0.0",
     "typescript": "^3.0.1"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=10"
   }
 }

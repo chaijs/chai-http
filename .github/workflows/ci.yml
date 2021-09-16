@@ -15,32 +15,34 @@ jobs:
     strategy:
       matrix:
         node_version:
-          - 8 # to be removed 2020-01
-          - 10 # to be removed 2021-01
+          - 10 # to be removed 2021-05
+          - 12 # to be removed 2022-05
+          - 14 # to be removed 2023-05
           - x.x.x # safety net; don't remove
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node_version }}
-      - run: npm i -g npm@6 && npm ci
+      - run: npm ci
       - run: npm test
       - uses: coverallsapp/github-action@v1.0.1
         with:
           github-token: ${{ secrets.github_token }}
-        
+
 
   publish-npm:
+    if: ${{ github.event_name == 'push' }}
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 14
           registry-url: https://registry.npmjs.org/
+      - run: npm ci
       - run: npm run release
-        if: github.event == 'push'
         env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
-          GITHUB_TOKEN: ${{secrets.github_token}}
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}} # ff9b......76c4
+          GITHUB_TOKEN: ${{secrets.GH_RELEASE_TOKEN}}
