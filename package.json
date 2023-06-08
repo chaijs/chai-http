@@ -51,13 +51,13 @@
   },
   "dependencies": {
     "@types/chai": "4",
-    "@types/superagent": "^4.1.10",
+    "@types/superagent": "^4.1.18",
     "charset": "^1.0.1",
-    "cookiejar": "^2.1.2",
+    "cookiejar": "^2.1.4",
     "is-ip": "^2.0.0",
     "methods": "^1.1.2",
-    "qs": "^6.5.1",
-    "superagent": "^6.1.0"
+    "qs": "^6.11.2",
+    "superagent": "^8.0.9"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^5.0.1",
