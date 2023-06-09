@@ -49,6 +49,7 @@ describe('request', function () {
     });
 
     it('can read response headers', function (done) {
+      this.timeout(5000)
       request('https://webhook.site')
         .post('/token')
         .end(function (err, res) {
@@ -92,6 +93,7 @@ describe('request', function () {
     });
 
     it('can be augmented with promises', function (done) {
+      this.timeout(5000)
       let uuid = ''
       request('https://webhook.site')
         .post('/token')
