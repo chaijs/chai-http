@@ -49,47 +49,76 @@ describe('request', function () {
     });
 
     it('can read response headers', function (done) {
-      request('https://httpbin.org')
-        .get('/response-headers')
-        .query({'content-type': 'application/json'})
-        .query({'pragma': 'test1'})
-        .query({'location': 'test2'})
-        .query({'x-api-key': 'test3'})
+      request('https://webhook.site')
+        .post('/token')
         .end(function (err, res) {
-          res.should.have.status(200);
+          const uuid = res.body.uuid;
+          request('https://webhook.site')
+            .get('/' + uuid)
+            .query({'content-type': 'application/json'})
+            .query({'pragma': 'test1'})
+            .query({'location': 'test2'})
+            .query({'x-api-key': 'test3'})
+            .end(function (err, res) {
+              res.should.have.status(200);
+              request('https://webhook.site')
+                .get('/token/' + uuid + '/requests?sorting=newest&per_page=1')
+                .end(function (err, res) {
+                  console.log(res.body.data[0].query)
 
-          // Content-Type and Pragma are supported on Node and browser
-          res.should.be.json;
-          res.should.have.header('Content-Type', /json$/);
-          res.should.have.header('Pragma', 'test1');
+                  // Content-Type and Pragma are supported on Node and browser
+                  res.should.be.json;
+                  res.should.have.nested.property('.body.data.0.query.content-type', 'application/json')
+                  res.should.have.nested.property('.body.data.0.query.pragma', 'test1')
 
-          // When running in a browser, only "simple" headers are readable
-          // https://www.w3.org/TR/cors/#simple-response-header
-          isNode && res.should.have.header('Location', 'test2');
-          isNode && res.should.have.header('X-API-Key', 'test3');
-          isBrowser && res.should.not.have.header('Location');
-          isBrowser && res.should.not.have.header('X-API-Key');
+                  // When running in a browser, only "simple" headers are readable
+                  // https://www.w3.org/TR/cors/#simple-response-header
+                  isNode && res.should.have.nested.property('.body.data.0.query.location', 'test2')
+                  isNode && res.should.have.nested.property('.body.data.0.query.x-api-key', 'test3')
+                  isBrowser && res.should.not.have.nested.property('.body.data.0.query.location');
+                  isBrowser && res.should.not.have.nested.property('.body.data.0.query.x-api-key');
 
-          done(err);
+                  done(err);
+                });
+            });
         });
     });
 
     it('succeeds when response has an error status', function (done) {
-      request('https://httpbin.org')
-        .get('/status/400')
+      request('https://chaijs.com')
+        .get('/404')
         .end(function (err, res) {
-          res.should.have.status(400);
+          res.should.have.status(404);
           done(err);
         });
     });
 
     it('can be augmented with promises', function (done) {
-      request('https://httpbin.org')
-        .get('/get')
-        .set('X-API-Key', 'test3')
+      let uuid = ''
+      request('https://webhook.site')
+        .post('/token')
+        .then(function (res) {
+          uuid = res.body.uuid;
+          return res.body.uuid;
+        })
+        .then(function (uuid) {
+          return request('https://webhook.site')
+            .get('/' + uuid)
+            .query({'content-type': 'application/json'})
+            .query({'x-api-key': 'test3'})
+        })
         .then(function (res) {
           res.should.have.status(200);
-          res.body.headers['X-Api-Key'].should.equal('test3');
+          return request('https://webhook.site')
+            .get('/token/' + uuid + '/requests?sorting=newest&per_page=1')
+        })
+        .then(function (res) {
+          res.should.have.status(200);
+          res.should.be.json;
+          res.should.have.nested.property('.body.data.0.query.content-type', 'application/json')
+          res.should.have.nested.property('.body.data.0.query.x-api-key', 'test3')
+        })
+        .then(function () {
           throw new Error('Testing catch');
         })
         .then(function () {
