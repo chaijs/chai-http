@@ -17,8 +17,8 @@ describe('request', function () {
     });
 
     it('can request a web page', function (done) {
-      request('https://httpbin.org')
-        .get('/html')
+      request('https://chaijs.com')
+        .get('/guide/')
         .end(function (err, res) {
           res.should.have.status(200);
           res.should.be.html;
@@ -35,8 +35,8 @@ describe('request', function () {
     });
 
     it('can request JSON data', function (done) {
-      request('https://httpbin.org')
-        .get('/get')
+      request('https://chaijs.com')
+        .get('/package-lock.json')
         .end(function (err, res) {
           res.should.have.status(200);
           res.should.be.json;
@@ -103,11 +103,11 @@ describe('request', function () {
         .then(done, done);
     });
 
-    it('can resolve a promise given status code of 400', function () {
-      return request('https://httpbin.org')
-        .get('/status/400')
+    it('can resolve a promise given status code of 404', function () {
+      return request('https://chaijs.com')
+        .get('/404')
         .then(function (res) {
-          res.should.have.status(400);
+          res.should.have.status(404);
         });
     });
   });
