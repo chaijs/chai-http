@@ -64,8 +64,6 @@ describe('request', function () {
               request('https://webhook.site')
                 .get('/token/' + uuid + '/requests?sorting=newest&per_page=1')
                 .end(function (err, res) {
-                  console.log(res.body.data[0].query)
-
                   // Content-Type and Pragma are supported on Node and browser
                   res.should.be.json;
                   res.should.have.nested.property('.body.data.0.query.content-type', 'application/json')
