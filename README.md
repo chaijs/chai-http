@@ -11,7 +11,7 @@
 
 #### Installation
 
-This is an addon plugin for the [Chai Assertion Library](http://chaijs.com). Install via [npm](http://npmjs.org).
+This is an addon plugin for the [Chai Assertion Library](https://www.chaijs.com/). Install via [npm](https://www.npmjs.com/).
 
     npm install chai-http
 
@@ -39,7 +39,7 @@ To use Chai HTTP on a web page, just include the [`dist/chai-http.js`](dist/chai
 ## Integration Testing
 
 Chai HTTP provides an interface for live integration
-testing via [superagent](https://github.com/visionmedia/superagent).
+testing via [superagent](https://github.com/ladjs/superagent).
 To do this, you must first
 construct a request to an application or url.
 
@@ -190,7 +190,7 @@ asynchronously. Therefore, a mechanism must be used to notify the testing
 framework that the callback has completed. Otherwise, the test will pass before
 the assertions are checked.
 
-For example, in the [Mocha test framework](http://mochajs.org/), this is
+For example, in the [Mocha test framework](https://mochajs.org//), this is
 accomplished using the
 [`done` callback](https://mochajs.org/#asynchronous-code), which signal that the
 callback has completed, and the assertions can be verified:
@@ -215,7 +215,7 @@ it('succeeds silently!', () => {   // <= No done callback
 ```
 
 When `done` is passed in, Mocha will wait until the call to `done()`, or until
-the [timeout](http://mochajs.org/#timeouts) expires. `done` also accepts an
+the [timeout](https://mochajs.org/#timeouts) expires. `done` also accepts an
 error parameter when signaling completion.
 
 #### Dealing with the response - Promises
@@ -301,9 +301,9 @@ If a value is provided, equality to value will be asserted.
 You may also pass a regular expression to check.
 
 __Note:__ When running in a web browser, the
-[same-origin policy](https://tools.ietf.org/html/rfc6454#section-3)
+[same-origin policy](https://datatracker.ietf.org/doc/html/rfc6454#section-3)
 only allows Chai HTTP to read
-[certain headers](https://www.w3.org/TR/cors/#simple-response-header),
+[certain headers](https://fetch.spec.whatwg.org/#http-responses),
 which can cause assertions to fail.
 
 ```js
@@ -318,9 +318,9 @@ expect(req).to.have.header('content-type', /^text/);
 Assert that a `Response` or `Request` object has headers.
 
 __Note:__ When running in a web browser, the
-[same-origin policy](https://tools.ietf.org/html/rfc6454#section-3)
+[same-origin policy](https://datatracker.ietf.org/doc/html/rfc6454#section-3)
 only allows Chai HTTP to read
-[certain headers](https://www.w3.org/TR/cors/#simple-response-header),
+[certain headers](https://fetch.spec.whatwg.org/#http-responses),
 which can cause assertions to fail.
 
 ```js
