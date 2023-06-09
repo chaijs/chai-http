@@ -300,7 +300,7 @@ describe('assertions', function () {
       headers: {
         'set-cookie': [
           'name=value',
-          'name2=value2; Expires=Wed, 09 Jun 2021 10:18:14 GMT'
+          'name2=value2; Expires=Wed, 09 Jun 2038 10:18:14 GMT'
         ]
       }
     };
@@ -333,7 +333,7 @@ describe('assertions', function () {
       headers: {
         'set-cookie': [
           'name=value;',
-          'name2=value2; Expires=Wed, 09 Jun 2021 10:18:14 GMT',
+          'name2=value2; Expires=Wed, 09 Jun 2038 10:18:14 GMT',
           'name3=value3; Domain=.somedomain.com',
         ]
       }
@@ -369,7 +369,7 @@ describe('assertions', function () {
     var agent = chai.request.agent();
     var cookies = [
       'name=value',
-      'name2=value2; Expires=Wed, 09 Jun 2021 10:18:14 GMT',
+      'name2=value2; Expires=Wed, 09 Jun 2038 10:18:14 GMT',
       'name3=value3; Domain=.somedomain.com',
     ];
     if (agent.jar)  // Using superagent.Agent (node)
