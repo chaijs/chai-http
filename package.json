@@ -39,7 +39,7 @@
     "start": "npm-run-all --parallel watch server",
     "watch": "npm run build:js -- --watch",
     "server": "http-server -o -c-1",
-    "test": "istanbul cover --report lcovonly _mocha",
+    "test": "nyc --reporter=lcovonly --reporter=text-summary mocha",
     "coverage": "if [ -z \"$COVERALLS_REPO_TOKEN\" ]; then cat coverage/lcov.info | coveralls; fi",
     "release": "npm run build && semantic-release"
   },
@@ -70,9 +70,9 @@
     "dox": "^0.9.0",
     "es6-shim": "^0.35.1",
     "http-server": "^0.10.0",
-    "istanbul": "^0.4.3",
     "mocha": "^4.0.1",
     "npm-run-all": "^4.1.1",
+    "nyc": "^15.1.0",
     "semantic-release": "^17.3.9",
     "simplifyify": "^4.0.0",
     "typescript": "^3.0.1"
