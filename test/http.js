@@ -35,7 +35,7 @@ describe('assertions', function () {
 
     (function () {
       '2001:0db8:85a3:0000:0000:8a2e:0370:7334'.should.not.be.an.ip;
-    }).should.throw('expected \'2001:0db8:85a3:0000:0000:8a2e:0370:7334\' to not be an ip');
+    }).should.throw('expected \'2001:0db8:85a3:0000:0000:8a2e:0370:73…\' to not be an ip');
   });
 
   it('#header test existence', function () {
