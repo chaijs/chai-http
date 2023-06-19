@@ -50,6 +50,7 @@ declare global {
     }
 
     namespace ChaiHttp {
+        interface Request extends request.SuperAgentRequest {}
         interface Response extends request.Response {}
         interface Agent extends request.SuperAgentStatic {
             keepOpen(): Agent;
