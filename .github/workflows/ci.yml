@@ -15,13 +15,12 @@ jobs:
     strategy:
       matrix:
         node_version:
-          - 10 # to be removed 2021-05
-          - 12 # to be removed 2022-05
-          - 14 # to be removed 2023-05
+          - 16 # to be removed after 2023-09
+          - 18
           - x.x.x # safety net; don't remove
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node_version }}
       - run: npm ci
@@ -36,10 +35,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 18
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm run release
