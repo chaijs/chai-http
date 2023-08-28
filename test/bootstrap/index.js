@@ -1,27 +1,8 @@
-/*!
- * Attach ES6 Shim
- */
-if (typeof Promise === 'undefined') {
-  require('es6-shim');
-}
+import * as chai from 'chai';
+import project from '../../index.js';
 
-/*!
- * Attach chai to global should
- */
-
-global.chai = require('chai');
+global.chai = chai;
 global.should = global.chai.should();
 global.expect = global.chai.expect;
 
-/*!
- * Chai Plugins
- */
-
-//global.chai.use(require('chai-spies'));
-//global.chai.use(require('chai-http'));
-
-/*!
- * Import project
- */
-
-global.chai.use(require('../..'));
+global.chai.use(project);
