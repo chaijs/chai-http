@@ -79,5 +79,9 @@
   "engines": {
     "node": ">=16.20.0"
   },
-  "type": "module"
+  "type": "module",
+  "mocha": {
+    "reporter": "spec",
+    "require": "./test/bootstrap/index.js"
+  }
 }
