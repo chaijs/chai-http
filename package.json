@@ -54,7 +54,7 @@
     "@types/superagent": "^8.1.6",
     "charset": "^1.0.1",
     "cookiejar": "^2.1.4",
-    "is-ip": "^3.1.0",
+    "is-ip": "^5.0.1",
     "methods": "^1.1.2",
     "qs": "^6.11.2",
     "superagent": "^9"
