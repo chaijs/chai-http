@@ -15,11 +15,9 @@ declare global {
         }
 
         interface ChaiHttpRequest {
-            (server: any): ChaiHttp.Agent;
-
-            agent(server: any): ChaiHttp.Agent;
-
-            addPromises(promiseConstructor: PromiseConstructorLike): void;
+            agent?(server: any): ChaiHttp.Agent;
+            Request?(app: string | any, method: string, path: string): void,
+            execute?: (app: string | any) => ChaiHttp.Agent
         }
 
         interface Assertion {
@@ -60,4 +58,4 @@ declare global {
 
 declare function chaiHttp(chai: any, utils: any): void;
 
-export = chaiHttp;
+export default chaiHttp;

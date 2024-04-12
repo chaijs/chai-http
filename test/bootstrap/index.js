@@ -1,8 +1,10 @@
-import * as chai from 'chai';
+import * as originalChai from 'chai';
+import * as http from "http";
 import project from '../../index.js';
 
-global.chai = chai;
-global.should = global.chai.should();
-global.expect = global.chai.expect;
+global.http = http;
 
-global.chai.use(project);
+global.should = originalChai.should();
+global.expect = originalChai.expect;
+
+global["chai"] = originalChai.use(project);
