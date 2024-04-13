@@ -20,7 +20,6 @@
     "Keith Cirkel <oss@keithcirkel.co.uk> (http://keithcirkel.co.uk)"
   ],
   "files": [
-    "dist/chai-http.js",
     "lib/*.js",
     "index.js",
     "types/index.d.ts"
@@ -32,12 +31,10 @@
     "url": "git@github.com:chaijs/chai-http.git"
   },
   "scripts": {
-    "build": "npm run build:js && npm run build:ts",
+    "build": "npm run build:ts",
     "prebuild:js": "rm -rf dist",
-    "build:js": "simplifyify lib/http.js --outfile dist/chai-http.js --bundle --minify --debug --standalone chaiHttp",
     "build:ts": "cd types && tsc",
     "start": "npm-run-all --parallel watch server",
-    "watch": "npm run build:js -- --watch",
     "server": "http-server -o -c-1",
     "test": "nyc --reporter=lcovonly --reporter=text-summary mocha",
     "coverage": "if [ -z \"$COVERALLS_REPO_TOKEN\" ]; then cat coverage/lcov.info | coveralls; fi",
@@ -50,8 +47,6 @@
     "querystring": "qs"
   },
   "dependencies": {
-    "@types/chai": "4",
-    "@types/superagent": "^8.1.6",
     "charset": "^1.0.1",
     "cookiejar": "^2.1.4",
     "is-ip": "^5.0.1",
@@ -66,7 +61,9 @@
     "@semantic-release/git": "^10",
     "@semantic-release/npm": "^12.0.0",
     "@semantic-release/release-notes-generator": "^13.0.0",
-    "chai": "4",
+    "@types/chai": "^4.3.14",
+    "@types/superagent": "^8.1.6",
+    "chai": "^5.1.0",
     "coveralls": "^3.1.1",
     "http-server": "^14.1.1",
     "mocha": "^10.4.0",

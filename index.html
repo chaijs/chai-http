@@ -13,23 +13,26 @@
 
     <!-- Mocha + Chai -->
     <script src="node_modules/mocha/mocha.js"></script>
-    <script src="node_modules/chai/chai.js"></script>
-
-    <!-- chai-http -->
-    <script src="dist/chai-http.js"></script>
-
-    <!-- Bootstrap -->
-    <script src="node_modules/es6-shim/es6-shim.js"></script>
     <script>
       mocha.setup('bdd');
+    </script>
+
+
+    <!-- Bootstrap -->
+    <script type="module">
+      import * as  chaiModule from "./node_modules/chai/chai.js";
+      import chaiHttp from "./index.js";
+
+      const chai = chaiModule.use(chaiHttp);
       expect = chai.expect;
       chai.should();
-      chai.use(chaiHttp);
     </script>
 
     <!-- Tests -->
-    <script src="test/http.js"></script>
-    <script src="test/request.js"></script>
+    <script type="module">
+      import("./test/http.js")
+      import("./test/request.js")
+    </script>
 
     <script>
       mocha.run();
