@@ -395,19 +395,46 @@ expect(req).to.not.have.param('limit');
 
 ### .cookie
 
-* **@param** _{String}_ parameter name
+* **@param** _{String}_ parameter key
 * **@param** _{String}_ parameter value
+* **@param** _{String}_ parameter attributes
 
 Assert that a `Request` or `Response` object has a cookie header with a
-given key, (optionally) equal to value
+given key, (optionally) equal to value and (also optionally) with the given
+attributes.
+
+This assertion changes the context of the assertion to the cookie itself,
+allowing chaining assertions about the cookie.
 
 ```js
 expect(req).to.have.cookie('session_id');
 expect(req).to.have.cookie('session_id', '1234');
 expect(req).to.not.have.cookie('PHPSESSID');
+
 expect(res).to.have.cookie('session_id');
 expect(res).to.have.cookie('session_id', '1234');
+expect(res).to.have.cookie('session_id', '1234', {'Path': '/'});
 expect(res).to.not.have.cookie('PHPSESSID');
+```
+
+### .attribute (chainable after .cookie)
+
+* **@param** _{String}_ parameter attr
+* **@param** _{String}_ parameter expected
+
+Asserts that a cookie has a certain attribute `attr` equals to the value
+`expected`. In case of boolean cookie flags (like HttpOnly and Secure), the
+value can be omitted and the flag existence will be asserted instead.
+
+```js
+expect(res).to.have.cookie('sessid').with.attribute('Path', '/');
+expect(res).to.have.cookie('sessid').with.attribute('Secure');
+
+expect(res).to.have.cookie('sessid')
+  .with.attribute('Path', '/')
+  .and.with.attribute('Domain', '.abc.xyz');
+
+expect(res).to.have.cookie('sessid').but.not.with.attribute('HttpOnly');
 ```
 
 ## Releasing

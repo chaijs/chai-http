@@ -27,7 +27,9 @@ declare global {
 
             param(key: string, value?: string): Assertion;
 
-            cookie(key: string, value?: string): Assertion;
+            cookie(key: string, value?: string, attributes?: Object): Assertion;
+
+            attribute(attr: string, expected?: string|boolean): Assertion;
 
             status(code: number): Assertion;
 
