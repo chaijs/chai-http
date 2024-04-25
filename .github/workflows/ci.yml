@@ -15,8 +15,9 @@ jobs:
     strategy:
       matrix:
         node_version:
-          - 16 # to be removed after 2023-09
           - 18
+          - 20
+          - 22
           - x.x.x # safety net; don't remove
     steps:
       - uses: actions/checkout@v3
