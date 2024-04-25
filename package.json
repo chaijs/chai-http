@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "@types/chai": "4",
-    "@types/superagent": "^4.1.18",
+    "@types/superagent": "^8.1.6",
     "charset": "^1.0.1",
     "cookiejar": "^2.1.4",
     "is-ip": "^3.1.0",
@@ -70,7 +70,7 @@
     "coveralls": "^3.1.1",
     "es6-shim": "^0.35.8",
     "http-server": "^14.1.1",
-    "mocha": "^10.2.0",
+    "mocha": "^10.4.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
     "semantic-release": "^21.0.5",
