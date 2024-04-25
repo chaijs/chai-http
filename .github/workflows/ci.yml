@@ -38,7 +38,8 @@ jobs:
           node-version: 22
           registry-url: https://registry.npmjs.org/
       - run: npm ci
+      - run: npm whoami
       - run: npm run release
         env:
-          NPM_TOKEN: ${{secrets.NPM_TOKEN}} # ff9b......76c4
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
           GITHUB_TOKEN: ${{secrets.GH_RELEASE_TOKEN}}
