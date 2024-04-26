@@ -21,7 +21,7 @@ jobs:
           - x.x.x # safety net; don't remove
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node_version }}
       - run: npm ci
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v3
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org/
