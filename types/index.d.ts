@@ -15,9 +15,9 @@ declare global {
         }
 
         interface ChaiHttpRequest {
-            agent?(server: any): ChaiHttp.Agent;
-            Request?(app: string | any, method: string, path: string): void,
-            execute?: (app: string | any) => ChaiHttp.Agent
+            agent(server: any): ChaiHttp.Agent;
+            Request(app: string | any, method: string, path: string): void,
+            execute: (app: string | any) => ChaiHttp.Agent
         }
 
         interface Assertion {
