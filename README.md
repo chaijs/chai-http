@@ -227,26 +227,6 @@ chai.request.execute(app)
   });
 ```
 
-__Note:__ Some older web browsers do not have native promise support. You can use any spec compliant library, such as:
- - [kriskowal/q](https://github.com/kriskowal/q)
- - [stefanpenner/es6-promise](https://github.com/stefanpenner/es6-promise)
- - [petkaantonov/bluebird](https://github.com/petkaantonov/bluebird)
- - [then/promise](https://github.com/then/promise)
-You will need to set the library you use to `global.Promise`, before
-requiring in chai-http. For example:
-
-```js
-// Add promise support if this does not exist natively.
-if (!global.Promise) {
-  global.Promise = await import('q');
-}
-
-import chaiModule from "chai"
-import chaiHttp from "chai-http"
-
-const chai = chaiModule.use(chaiHttp);
-```
-
 #### Retaining cookies with each request
 
 Sometimes you need to keep cookies from one request, and send them with the
