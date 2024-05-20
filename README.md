@@ -26,6 +26,14 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 ```
 
+To use Chai HTTP in an ECMAScript module (ESM) 
+
+```js
+import chaiHttp from "chai-http";
+import * as chaiModule from 'chai';
+const chai = chaiModule.use(chaiHttp);
+```
+
 To use Chai HTTP on a web page, just include the [`dist/chai-http.js`](dist/chai-http.js) file:
 
 ```html
