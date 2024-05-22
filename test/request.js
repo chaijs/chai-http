@@ -1,8 +1,8 @@
 import superagent from "superagent";
 describe("request", function () {
-  var isNode = typeof process === "object";
-  var isBrowser = typeof window === "object";
-  var request = chai.request;
+  const isNode = typeof process === "object";
+  const isBrowser = typeof window === "object";
+  const request = chai.request;
 
   describe("Browser and Node.js", function () {
     it("is present on chai", function () {
@@ -11,7 +11,7 @@ describe("request", function () {
     });
 
     it("request method returns instanceof superagent", function () {
-      var req = request.execute("").get("/");
+      const req = request.execute("").get("/");
       req.should.be.instanceof(request.Request.super_);
       if (isNode) {
         req.should.be.instanceof(superagent.Request);
@@ -182,7 +182,7 @@ describe("request", function () {
   isNode &&
     describe("Node.js", function () {
       it('can request a functioned "app"', function (done) {
-        var app = function (req, res) {
+        const app = function (req, res) {
           req.headers["x-api-key"].should.equal("testing");
           res.writeHeader(200, { "content-type": "text/plain" });
           res.end("hello universe");
@@ -201,7 +201,7 @@ describe("request", function () {
       });
 
       it("can request an already existing url", function (done) {
-        var server = http.createServer(function (req, res) {
+        const server = http.createServer(function (req, res) {
           req.headers["x-api-key"].should.equal("test2");
           res.writeHeader(200, { "content-type": "text/plain" });
           res.end("hello world");
@@ -224,12 +224,12 @@ describe("request", function () {
       });
 
       it("agent can be used to persist cookies", function (done) {
-        var app = function (req, res) {
+        const app = function (req, res) {
           res.setHeader("Set-Cookie", "mycookie=test");
           res.writeHeader(200, { "content-type": "text/plain" });
           res.end("your cookie: " + req.headers.cookie);
         };
-        var agent = request.agent(app);
+        const agent = request.agent(app);
 
         agent
           .get("/")
@@ -248,7 +248,7 @@ describe("request", function () {
       });
 
       it("automatically closes the server down once done with it", function (done) {
-        var server = http.createServer(function (req, res) {
+        const server = http.createServer(function (req, res) {
           res.writeHeader(200, { "content-type": "text/plain" });
           res.end("hello world");
         });
@@ -265,11 +265,11 @@ describe("request", function () {
       });
 
       it("can use keepOpen() to not close the server", function (done) {
-        var server = http.createServer(function (req, res) {
+        const server = http.createServer(function (req, res) {
           res.writeHeader(200, { "content-type": "text/plain" });
           res.end("hello world");
         });
-        var cachedRequest = request.execute(server).keepOpen();
+        const cachedRequest = request.execute(server).keepOpen();
         server.listen = function () {
           throw new Error("listen was called when it shouldnt have been");
         };
@@ -283,11 +283,11 @@ describe("request", function () {
       });
 
       it("can close server after using keepOpen()", function (done) {
-        var server = http.createServer(function (req, res) {
+        const server = http.createServer(function (req, res) {
           res.writeHeader(200, { "content-type": "text/plain" });
           res.end("hello world");
         });
-        var cachedRequest = request.execute(server).keepOpen();
+        const cachedRequest = request.execute(server).keepOpen();
         cachedRequest.close(function (err) {
           should.not.exist(server.address());
           done();
@@ -299,7 +299,7 @@ describe("request", function () {
     describe("Browser", function () {
       it('cannot request a functioned "app"', function () {
         function tryToRequestAFunctionedApp() {
-          var app = function () {};
+          const app = function () {};
           request.execute(app);
         }
         expect(tryToRequestAFunctionedApp).to.throw(
@@ -309,7 +309,7 @@ describe("request", function () {
       });
 
       it("agent can be used to persist cookies", function (done) {
-        var agent = request.agent("https://httpbin.org");
+        const agent = request.agent("https://httpbin.org");
 
         agent
           .get("/cookies/set")

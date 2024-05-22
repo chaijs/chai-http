@@ -1,6 +1,6 @@
 describe("assertions", function () {
   it('#status property "status"', function () {
-    var res = { status: 200 };
+    const res = { status: 200 };
     res.should.to.have.status(200);
 
     (function () {
@@ -13,14 +13,14 @@ describe("assertions", function () {
   });
 
   it('#status property "statusCode"', function () {
-    var res = { statusCode: 200 };
+    const res = { statusCode: 200 };
     res.should.to.have.status(200);
   });
 
   it('#status property "status" should work with inheritance', function () {
     function TestError() {}
     TestError.prototype.status = 404;
-    var testError = new TestError();
+    const testError = new TestError();
     testError.should.have.status(404);
   });
 
@@ -40,8 +40,8 @@ describe("assertions", function () {
   });
 
   it("#header test existence", function () {
-    var req = { headers: { foo: "bar" } };
-    var res = {
+    const req = { headers: { foo: "bar" } };
+    const res = {
       getHeader: function (key) {
         return key == "foo" ? "bar" : undefined;
       },
@@ -63,8 +63,8 @@ describe("assertions", function () {
   });
 
   it("#header test value", function () {
-    var req = { headers: { foo: "bar" } };
-    var res = {
+    const req = { headers: { foo: "bar" } };
+    const res = {
       getHeader: function (key) {
         return "foo";
       },
@@ -89,8 +89,8 @@ describe("assertions", function () {
   });
 
   it("#header case insensitive", function () {
-    var req = { headers: { foo: "bar" } };
-    var res = {
+    const req = { headers: { foo: "bar" } };
+    const res = {
       getHeader: function (key) {
         return "foo";
       },
@@ -103,8 +103,8 @@ describe("assertions", function () {
   });
 
   it("#headers", function () {
-    var req = { headers: { foo: "bar" } };
-    var res = {
+    const req = { headers: { foo: "bar" } };
+    const res = {
       getHeader: function (key) {
         return "foo";
       },
@@ -127,8 +127,8 @@ describe("assertions", function () {
   });
 
   it("#json", function () {
-    var req = { headers: { "content-type": ["application/json"] } };
-    var res = {
+    const req = { headers: { "content-type": ["application/json"] } };
+    const res = {
       getHeader: function (key) {
         return "application/json";
       },
@@ -151,8 +151,8 @@ describe("assertions", function () {
   });
 
   it("#text", function () {
-    var req = { headers: { "content-type": ["text/plain"] } };
-    var res = {
+    const req = { headers: { "content-type": ["text/plain"] } };
+    const res = {
       getHeader: function (key) {
         return "text/plain";
       },
@@ -171,8 +171,8 @@ describe("assertions", function () {
   });
 
   it("#html", function () {
-    var req = { headers: { "content-type": ["text/html"] } };
-    var res = {
+    const req = { headers: { "content-type": ["text/html"] } };
+    const res = {
       getHeader: function (key) {
         return "text/html";
       },
@@ -191,11 +191,11 @@ describe("assertions", function () {
   });
 
   it("#redirect", function () {
-    var res = { status: 200 };
+    const res = { status: 200 };
     res.should.not.redirect;
 
     [301, 302, 303, 307, 308].forEach(function (status) {
-      var res = { status: status };
+      const res = { status: status };
       res.should.redirect;
     });
 
@@ -210,18 +210,18 @@ describe("assertions", function () {
     }).should.not.redirect;
 
     (function () {
-      var res = { status: 200 };
+      const res = { status: 200 };
       res.should.redirect;
     }).should.throw("expected redirect with 30X status code but got 200");
 
     (function () {
-      var res = { status: 301 };
+      const res = { status: 301 };
       res.should.not.redirect;
     }).should.throw("expected not to redirect but got 301 status");
   });
 
   it("#redirectTo", function () {
-    var res = { status: 301, headers: { location: "foo" } };
+    let res = { status: 301, headers: { location: "foo" } };
     res.should.redirectTo("foo");
 
     res = { status: 301, headers: { location: "bar" } };
@@ -240,35 +240,35 @@ describe("assertions", function () {
     res.should.redirectTo(/^foo\/bar/);
 
     (function () {
-      var res = { status: 301, headers: { location: "foo" } };
+      const res = { status: 301, headers: { location: "foo" } };
       res.should.not.redirectTo("foo");
     }).should.throw("expected header 'location' to not have value foo");
 
     (function () {
-      var res = { status: 301, headers: { location: "bar" } };
+      const res = { status: 301, headers: { location: "bar" } };
       res.should.redirectTo("foo");
     }).should.throw("expected header 'location' to have value foo");
 
     (function () {
-      var res = { status: 200, redirects: ["bar", "baz"] };
+      const res = { status: 200, redirects: ["bar", "baz"] };
       res.should.redirectTo("foo");
     }).should.throw("expected redirect to foo but got bar then baz");
 
     (function () {
-      var res = { status: 301, headers: { location: "foo" } };
+      const res = { status: 301, headers: { location: "foo" } };
       res.should.not.redirectTo(/foo/);
     }).should.throw(
       "expected header 'location' not to match /foo/ but got 'foo'",
     );
 
     (function () {
-      var res = { status: 200, redirects: ["bar", "baz"] };
+      const res = { status: 200, redirects: ["bar", "baz"] };
       res.should.redirectTo(/foo/);
     }).should.throw("expected redirect to /foo/ but got bar then baz");
   });
 
   it("#param", function () {
-    var req = { url: "/test?x=y&foo=bar" };
+    const req = { url: "/test?x=y&foo=bar" };
     req.should.have.param("x");
     req.should.have.param("foo");
     req.should.have.param("x", "y");
@@ -288,7 +288,7 @@ describe("assertions", function () {
   });
 
   it("#param (nested)", function () {
-    var req = { url: "/test?form[name]=jim&form[lastName]=bob" };
+    const req = { url: "/test?form[name]=jim&form[lastName]=bob" };
     req.should.have.param("form");
     req.should.have.nested.param("form.name");
     req.should.have.nested.param("form.name", "jim");
@@ -310,7 +310,7 @@ describe("assertions", function () {
   });
 
   it("#cookie", function () {
-    var res = {
+    const res = {
       headers: {
         "set-cookie": [
           "name=value",
@@ -345,7 +345,7 @@ describe("assertions", function () {
   });
 
   it("#cookie (request)", function () {
-    var req = {
+    const req = {
       headers: {
         "set-cookie": [
           "name=value;",
@@ -383,8 +383,8 @@ describe("assertions", function () {
   });
 
   it("#cookie (agent)", function () {
-    var agent = chai.request.agent();
-    var cookies = [
+    const agent = chai.request.agent();
+    const cookies = [
       "name=value",
       "name2=value2; Expires=Wed, 09 Jun 2038 10:18:14 GMT",
       "name3=value3; Domain=.somedomain.com",
@@ -425,7 +425,9 @@ describe("assertions", function () {
 
   describe("#charset", function () {
     it("should match charset in content type", function () {
-      var req = { headers: { "content-type": ["text/plain; charset=utf-8"] } };
+      const req = {
+        headers: { "content-type": ["text/plain; charset=utf-8"] },
+      };
       req.should.to.have.charset("utf-8");
 
       (function () {
@@ -434,7 +436,7 @@ describe("assertions", function () {
     });
 
     it("should handle no content type", function () {
-      var req = { headers: {} };
+      const req = { headers: {} };
       req.should.not.have.charset("utf-8");
 
       (function () {
@@ -443,7 +445,7 @@ describe("assertions", function () {
     });
 
     it("should handle no charset in content type", function () {
-      var req = { headers: { "content-type": ["text/plain"] } };
+      const req = { headers: { "content-type": ["text/plain"] } };
       req.should.not.have.charset("utf-8");
 
       (function () {
