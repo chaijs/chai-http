@@ -5,7 +5,7 @@
 //                 Austin Cawley-Edwards <https://github.com/austince>
 // TypeScript Version: 3.0
 /// <reference types="chai" />
-import * as request from "superagent";
+import * as request from 'superagent';
 
 // Merge namespace with global chai
 declare global {
