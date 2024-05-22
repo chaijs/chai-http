@@ -1,6 +1,6 @@
-import * as originalChai from 'chai';
+import * as originalChai from "chai";
 import * as http from "http";
-import project from '../../index.js';
+import project from "../../index.js";
 
 global.http = http;
 
