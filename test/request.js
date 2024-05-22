@@ -1,3 +1,4 @@
+import superagent from "superagent"
 describe('request', function () {
   var isNode = typeof process === 'object';
   var isBrowser = typeof window === 'object';
@@ -5,19 +6,20 @@ describe('request', function () {
 
   describe('Browser and Node.js', function () {
     it('is present on chai', function () {
-      expect(chai).to.respondTo('request');
+      expect(chai.request).to.not.eq('undefined')
+      expect(chai.request).to.respondTo('execute');
     });
 
     it('request method returns instanceof superagent', function () {
-      var req = request('').get('/');
-      req.should.be.instanceof(request.Test.super_);
+      var req = request.execute('').get('/');
+      req.should.be.instanceof(request.Request.super_);
       if (isNode) {
-        req.should.be.instanceof(require('superagent').Request);
+        req.should.be.instanceof(superagent.Request);
       }
     });
 
     it('can request a web page', function (done) {
-      request('https://chaijs.com')
+      request.execute('https://chaijs.com')
         .get('/guide/')
         .end(function (err, res) {
           res.should.have.status(200);
@@ -35,7 +37,7 @@ describe('request', function () {
     });
 
     it('can request JSON data', function (done) {
-      request('https://chaijs.com')
+      request.execute('https://chaijs.com')
         .get('/package-lock.json')
         .end(function (err, res) {
           res.should.have.status(200);
@@ -50,11 +52,11 @@ describe('request', function () {
 
     it('can read response headers', function (done) {
       this.timeout(5000)
-      request('https://webhook.site')
+      request.execute('https://webhook.site')
         .post('/token')
         .end(function (err, res) {
           const uuid = res.body.uuid;
-          request('https://webhook.site')
+          request.execute('https://webhook.site')
             .get('/' + uuid)
             .query({'content-type': 'application/json'})
             .query({'pragma': 'test1'})
@@ -62,7 +64,7 @@ describe('request', function () {
             .query({'x-api-key': 'test3'})
             .end(function (err, res) {
               res.should.have.status(200);
-              request('https://webhook.site')
+              request.execute('https://webhook.site')
                 .get('/token/' + uuid + '/requests?sorting=newest&per_page=1')
                 .end(function (err, res) {
                   // Content-Type and Pragma are supported on Node and browser
@@ -84,7 +86,7 @@ describe('request', function () {
     });
 
     it('succeeds when response has an error status', function (done) {
-      request('https://chaijs.com')
+      request.execute('https://chaijs.com')
         .get('/404')
         .end(function (err, res) {
           res.should.have.status(404);
@@ -95,21 +97,21 @@ describe('request', function () {
     it('can be augmented with promises', function (done) {
       this.timeout(5000)
       let uuid = ''
-      request('https://webhook.site')
+      request.execute('https://webhook.site')
         .post('/token')
         .then(function (res) {
           uuid = res.body.uuid;
           return res.body.uuid;
         })
         .then(function (uuid) {
-          return request('https://webhook.site')
+          return request.execute('https://webhook.site')
             .get('/' + uuid)
             .query({'content-type': 'application/json'})
             .query({'x-api-key': 'test3'})
         })
         .then(function (res) {
           res.should.have.status(200);
-          return request('https://webhook.site')
+          return request.execute('https://webhook.site')
             .get('/token/' + uuid + '/requests?sorting=newest&per_page=1')
         })
         .then(function (res) {
@@ -133,7 +135,7 @@ describe('request', function () {
     });
 
     it('can resolve a promise given status code of 404', function () {
-      return request('https://chaijs.com')
+      return request.execute('https://chaijs.com')
         .get('/404')
         .then(function (res) {
           res.should.have.status(404);
@@ -149,7 +151,7 @@ describe('request', function () {
         res.end('hello universe');
       };
 
-      request(app).get('/')
+      request.execute(app).get('/')
         .set('X-API-Key', 'testing')
         .end(function (err, res) {
           if (err) return done(err)
@@ -160,14 +162,14 @@ describe('request', function () {
     });
 
     it('can request an already existing url', function (done) {
-      var server = require('http').createServer(function (req, res) {
+      var server = http.createServer(function (req, res) {
         req.headers['x-api-key'].should.equal('test2');
         res.writeHeader(200, { 'content-type' : 'text/plain' });
         res.end('hello world');
       });
 
       server.listen(0, function () {
-        request('http://127.0.0.1:' + server.address().port)
+        request.execute('http://127.0.0.1:' + server.address().port)
           .get('/')
           .set('X-API-Key', 'test2')
           .end(function (err, res) {
@@ -205,12 +207,12 @@ describe('request', function () {
     });
 
     it('automatically closes the server down once done with it', function (done) {
-      var server = require('http').createServer(function (req, res) {
+      var server = http.createServer(function (req, res) {
         res.writeHeader(200, { 'content-type' : 'text/plain' });
         res.end('hello world');
       });
 
-      request(server)
+      request.execute(server)
           .get('/')
           .end(function (err, res) {
             res.should.have.status(200);
@@ -221,11 +223,11 @@ describe('request', function () {
     });
 
     it('can use keepOpen() to not close the server', function (done) {
-      var server = require('http').createServer(function (req, res) {
+      var server = http.createServer(function (req, res) {
         res.writeHeader(200, { 'content-type' : 'text/plain' });
         res.end('hello world');
       });
-      var cachedRequest = request(server).keepOpen();
+      var cachedRequest = request.execute(server).keepOpen();
       server.listen = function () { throw new Error('listen was called when it shouldnt have been') }
       cachedRequest.get('/') .end(function (err, res) {
         cachedRequest.get('/').end(function (err2, res) {
@@ -235,11 +237,11 @@ describe('request', function () {
     });
 
   it('can close server after using keepOpen()', function (done) {
-    var server = require('http').createServer(function (req, res) {
+    var server = http.createServer(function (req, res) {
       res.writeHeader(200, { 'content-type' : 'text/plain' });
       res.end('hello world');
     });
-    var cachedRequest = request(server).keepOpen();
+    var cachedRequest = request.execute(server).keepOpen();
     cachedRequest.close(function (err) {
       should.not.exist(server.address());
       done();
@@ -252,7 +254,7 @@ describe('request', function () {
     it('cannot request a functioned "app"', function () {
       function tryToRequestAFunctionedApp() {
         var app = function () {};
-        request(app);
+        request.execute(app);
       }
       expect(tryToRequestAFunctionedApp).to.throw(Error,
         /http.createServer is not a function|createServer/);

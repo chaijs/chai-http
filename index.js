@@ -1,1 +1,2 @@
-module.exports = require('./lib/http');
+import fn from "./lib/http.js";
+export default fn;

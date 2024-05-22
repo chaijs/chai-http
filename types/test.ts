@@ -1,31 +1,31 @@
-import fs = require('fs');
-import http = require('http');
-import chai = require('chai');
-import ChaiHttp = require('./index');
+import * as fs from "fs";
+import * as http from "http";
+import * as originalChai from "chai";
+import ChaiHttp from "./index";
 
-chai.use(ChaiHttp);
+const chai = originalChai.use(ChaiHttp);
 
 declare const app: http.Server;
 
-chai.request(app).get('/');
-chai.request('http://localhost:8080').get('/');
+chai.request.execute(app).get('/');
+chai.request.execute('http://localhost:8080').get('/');
 
-chai.request(app)
+chai.request.execute(app)
     .put('/user/me')
     .set('X-API-Key', 'foobar')
     .send({ password: '123', confirmPassword: '123' });
 
-chai.request(app)
+chai.request.execute(app)
     .post('/user/me')
     .field('_method', 'put')
     .field('password', '123')
     .field('confirmPassword', '123');
 
-chai.request(app)
+chai.request.execute(app)
     .post('/user/avatar')
     .attach('imageField', fs.readFileSync('avatar.png'), 'avatar.png');
 
-chai.request(app)
+chai.request.execute(app)
     .get('/protected')
     .auth('user', 'pass');
 
@@ -35,7 +35,7 @@ const key = fs.readFileSync('key.pem');
 const cert = fs.readFileSync('cert.pem');
 const callback = (err: any, res: ChaiHttp.Response) => {};
 
-chai.request(app)
+chai.request.execute(app)
     .post('/secure')
     .ca(ca)
     .key(key)
@@ -43,16 +43,16 @@ chai.request(app)
     .end(callback);
 
 const pfx = fs.readFileSync('cert.pfx');
-chai.request(app)
+chai.request.execute(app)
     .post('/secure')
     .pfx(pfx)
     .end(callback);
 
-chai.request(app)
+chai.request.execute(app)
     .get('/search')
     .query({ name: 'foo', limit: 10 });
 
-chai.request(app)
+chai.request.execute(app)
     .get('/download')
     .buffer()
     .parse((res, cb) => {
@@ -62,7 +62,7 @@ chai.request(app)
         res.on('end', () => { cb(undefined, new Buffer(data, 'binary')); });
     });
 
-chai.request(app)
+chai.request.execute(app)
     .put('/user/me')
     .send({ passsword: '123', confirmPassword: '123' })
     .end((err: any, res: ChaiHttp.Response) => {
@@ -70,13 +70,13 @@ chai.request(app)
         chai.expect(res).to.have.status(200);
     });
 
-chai.request(app)
+chai.request.execute(app)
     .put('/user/me')
     .send({ passsword: '123', confirmPassword: '123' })
     .then((res: ChaiHttp.Response) => chai.expect(res).to.have.status(200))
     .catch((err: any) => { throw err; });
 
-chai.request(app)
+chai.request.execute(app)
     .keepOpen()
     .close((err: any) => { throw err; });
 
@@ -96,7 +96,7 @@ agent
 agent.close((err: any) => { throw err; });
 
 function test1() {
-    const req = chai.request(app).get('/');
+    const req = chai.request.execute(app).get('/');
     req.then((res: ChaiHttp.Response) => {
         chai.expect(res).to.have.status(200);
         chai.expect(res).to.have.header('content-type', 'text/plain');

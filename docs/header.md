@@ -1,4 +1,4 @@
-# Chai HTTP [![Build Status](https://travis-ci.org/chaijs/chai-http.svg?branch=master)](https://travis-ci.org/chaijs/chai-http)
+# Chai HTTP
 
 > HTTP integration testing with Chai assertions.
 
@@ -11,7 +11,7 @@
 
 #### Installation
 
-This is a addon plugin for the [Chai Assertion Library](http://chaijs.com). Install via [npm](http://npmjs.org).
+This is an addon plugin for the [Chai Assertion Library](https://chaijs.com). Install via [npm](https://npmjs.org).
 
     npm install chai-http
 
@@ -20,18 +20,10 @@ This is a addon plugin for the [Chai Assertion Library](http://chaijs.com). Inst
 Use this plugin as you would all other Chai plugins.
 
 ```js
-var chai = require('chai')
-  , chaiHttp = require('chai-http');
+import chaiModule from "chai";
+import chaiHttp from "chai-http";
 
-chai.use(chaiHttp);
+const chai = chaiModule.use(chaiHttp);
 ```
 
-To use Chai HTTP on a web page, just include the [`dist/chai-http.js`](dist/chai-http.js) file:
-
-```html
-<script src="chai.js"></script>
-<script src="chai-http.js"></script>
-<script>
-  chai.use(chaiHttp);
-</script>
-```
+To use Chai HTTP on a web page, please use the latest v4 version for now.

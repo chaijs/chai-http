@@ -20,29 +20,13 @@ This is an addon plugin for the [Chai Assertion Library](https://www.chaijs.com/
 Use this plugin as you would all other Chai plugins.
 
 ```js
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-
-chai.use(chaiHttp);
-```
-
-To use Chai HTTP in an ECMAScript module (ESM) 
-
-```js
+import chaiModule from "chai";
 import chaiHttp from "chai-http";
-import * as chaiModule from 'chai';
+
 const chai = chaiModule.use(chaiHttp);
 ```
 
-To use Chai HTTP on a web page, just include the [`dist/chai-http.js`](dist/chai-http.js) file:
-
-```html
-<script src="chai.js"></script>
-<script src="chai-http.js"></script>
-<script>
-  chai.use(chaiHttp);
-</script>
-```
+To use Chai HTTP on a web page, please use the latest v4 version for now.
 
 ## Integration Testing
 
@@ -65,7 +49,7 @@ port to listen on for a given test.
 __Note:__ This feature is only supported on Node.js, not in web browsers.
 
 ```js
-chai.request(app)
+chai.request.execute(app)
   .get('/')
 ```
 
@@ -76,7 +60,7 @@ keep the server open, perhaps if you're making multiple requests, you must call
 `.keepOpen()` after `.request()`, and manually close the server down:
 
 ```js
-const requester = chai.request(app).keepOpen()
+const requester = chai.request.Request(app).keepOpen()
 
 Promise.all([
   requester.get('/a'),
@@ -92,7 +76,7 @@ Promise.all([
 You may also use a base url as the foundation of your request.
 
 ```js
-chai.request('http://localhost:8080')
+chai.request.execute('http://localhost:8080')
   .get('/')
 ```
 
@@ -114,7 +98,7 @@ Examples:
 `.set()`
 ```js
 // Set a request header
-chai.request(app)
+chai.request.execute(app)
   .put('/user/me')
   .set('Content-Type', 'application/json')
   .send({ password: '123', confirmPassword: '123' })
@@ -123,7 +107,7 @@ chai.request(app)
 `.send()`
 ```js
 // Send some JSON
-chai.request(app)
+chai.request.execute(app)
   .put('/user/me')
   .send({ password: '123', confirmPassword: '123' })
 ```
@@ -131,7 +115,7 @@ chai.request(app)
 `.type()`
 ```js
 // Send some Form Data
-chai.request(app)
+chai.request.execute(app)
   .post('/user/me')
   .type('form')
   .send({
@@ -144,7 +128,7 @@ chai.request(app)
 `.attach()`
 ```js
 // Attach a file
-chai.request(app)
+chai.request.execute(app)
   .post('/user/avatar')
   .attach('imageField', fs.readFileSync('avatar.png'), 'avatar.png')
 ```
@@ -152,12 +136,12 @@ chai.request(app)
 `.auth()`
 ```js
 // Authenticate with Basic authentication
-chai.request(app)
+chai.request.execute(app)
   .get('/protected')
   .auth('user', 'pass')
   
 // Authenticate with Bearer Token
-chai.request(app)
+chai.request.execute(app)
   .get('/protected')
   .auth(accessToken, { type: 'bearer' })  
   
@@ -166,7 +150,7 @@ chai.request(app)
 `.query()`
 ```js
 // Chain some GET query parameters
-chai.request(app)
+chai.request.execute(app)
   .get('/search')
   .query({name: 'foo', limit: 10}) // /search?name=foo&limit=10
 ```
@@ -182,7 +166,7 @@ const { expect } = chai;
 To make the request and assert on its response, the `end` method can be used:
 
 ```js
-chai.request(app)
+chai.request.execute(app)
   .put('/user/me')
   .send({ password: '123', confirmPassword: '123' })
   .end((err, res) => {
@@ -205,7 +189,7 @@ callback has completed, and the assertions can be verified:
 
 ```js
 it('fails, as expected', function(done) { // <= Pass in done callback
-  chai.request('http://localhost:8080')
+  chai.request.execute('http://localhost:8080')
   .get('/')
   .end((err, res) => {
     expect(res).to.have.status(123);
@@ -214,7 +198,7 @@ it('fails, as expected', function(done) { // <= Pass in done callback
 });
 
 it('succeeds silently!', () => {   // <= No done callback
-  chai.request('http://localhost:8080')
+  chai.request.execute('http://localhost:8080')
   .get('/')
   .end((err, res) => {
     expect(res).to.have.status(123);    // <= Test completes before this runs
@@ -232,7 +216,7 @@ If `Promise` is available, `request()` becomes a Promise capable library -
 and chaining of `then`s becomes possible:
 
 ```js
-chai.request(app)
+chai.request.execute(app)
   .put('/user/me')
   .send({ password: '123', confirmPassword: '123' })
   .then((res) => {
@@ -241,23 +225,6 @@ chai.request(app)
   .catch((err) => {
      throw err;
   });
-```
-
-__Note:__ Some older web browsers do not have native promise support. You can use any spec compliant library, such as:
- - [kriskowal/q](https://github.com/kriskowal/q)
- - [stefanpenner/es6-promise](https://github.com/stefanpenner/es6-promise)
- - [petkaantonov/bluebird](https://github.com/petkaantonov/bluebird)
- - [then/promise](https://github.com/then/promise)
-You will need to set the library you use to `global.Promise`, before
-requiring in chai-http. For example:
-
-```js
-// Add promise support if this does not exist natively.
-if (!global.Promise) {
-  global.Promise = require('q');
-}
-const chai = require('chai');
-chai.use(require('chai-http'));
 ```
 
 #### Retaining cookies with each request
