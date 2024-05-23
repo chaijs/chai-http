@@ -1,6 +1,6 @@
 {
   "name": "chai-http",
-  "version": "4.4.0",
+  "version": "0.0.0-development",
   "description": "Extend Chai Assertion library with tests for http apis",
   "author": "Jake Luer <jake@alogicalparadox.com>",
   "license": "MIT",
@@ -32,13 +32,11 @@
   },
   "scripts": {
     "build": "npm run build:ts",
-    "prebuild:js": "rm -rf dist",
     "build:ts": "cd types && tsc",
     "start": "npm-run-all --parallel watch server",
     "server": "http-server -o -c-1",
     "test": "nyc --reporter=lcovonly --reporter=text-summary mocha",
     "coverage": "if [ -z \"$COVERALLS_REPO_TOKEN\" ]; then cat coverage/lcov.info | coveralls; fi",
-    "release": "npm run build && semantic-release",
     "eslint": "eslint"
   },
   "browser": {
@@ -57,11 +55,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.3.0",
-    "@semantic-release/changelog": "^6",
-    "@semantic-release/commit-analyzer": "^12.0.0",
-    "@semantic-release/git": "^10",
-    "@semantic-release/npm": "^12.0.0",
-    "@semantic-release/release-notes-generator": "^13.0.0",
     "@types/chai": "^4.3.15",
     "@types/superagent": "^8.1.7",
     "chai": "^5.1.0",
@@ -70,10 +63,9 @@
     "eslint-plugin-mocha": "^10.4.3",
     "http-server": "^14.1.1",
     "mocha": "^10.4.0",
-    "npm-run-all": "^4.1.5",
+    "npm-run-all2": "^6.2.0",
     "nyc": "^15.1.0",
     "prettier": "^3.2.5",
-    "semantic-release": "^23.0.8",
     "typescript": "^5.4.5"
   },
   "engines": {
