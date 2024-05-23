@@ -39,7 +39,7 @@
     "test": "nyc --reporter=lcovonly --reporter=text-summary mocha",
     "coverage": "if [ -z \"$COVERALLS_REPO_TOKEN\" ]; then cat coverage/lcov.info | coveralls; fi",
     "release": "npm run build && semantic-release",
-    "eslint": "eslint **/*.js"
+    "eslint": "eslint"
   },
   "browser": {
     "http": false,
