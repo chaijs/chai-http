@@ -1,7 +1,6 @@
 describe('assertions', function () {
-
   it('#status property "status"', function () {
-    var res = { status: 200 };
+    const res = {status: 200};
     res.should.to.have.status(200);
 
     (function () {
@@ -14,14 +13,14 @@ describe('assertions', function () {
   });
 
   it('#status property "statusCode"', function () {
-    var res = { statusCode: 200 };
+    const res = {statusCode: 200};
     res.should.to.have.status(200);
   });
 
   it('#status property "status" should work with inheritance', function () {
-    function TestError() {};
+    function TestError() {}
     TestError.prototype.status = 404;
-    var testError = new TestError();
+    const testError = new TestError();
     testError.should.have.status(404);
   });
 
@@ -31,16 +30,18 @@ describe('assertions', function () {
 
     (function () {
       '127.0.0.1'.should.not.be.an.ip;
-    }).should.throw('expected \'127.0.0.1\' to not be an ip');
+    }).should.throw("expected '127.0.0.1' to not be an ip");
 
     (function () {
       '2001:0db8:85a3:0000:0000:8a2e:0370:7334'.should.not.be.an.ip;
-    }).should.throw('expected \'2001:0db8:85a3:0000:0000:8a2e:0370:73…\' to not be an ip');
+    }).should.throw(
+      "expected '2001:0db8:85a3:0000:0000:8a2e:0370:73…' to not be an ip"
+    );
   });
 
   it('#header test existence', function () {
-    var req = { headers: { foo: 'bar' }};
-    var res = {
+    const req = {headers: {foo: 'bar'}};
+    const res = {
       getHeader: function (key) {
         return key == 'foo' ? 'bar' : undefined;
       }
@@ -54,16 +55,16 @@ describe('assertions', function () {
 
     (function () {
       req.should.have.header('bar');
-    }).should.throw('expected header \'bar\' to exist');
+    }).should.throw("expected header 'bar' to exist");
 
     (function () {
       res.should.have.header('bar');
-    }).should.throw('expected header \'bar\' to exist');
+    }).should.throw("expected header 'bar' to exist");
   });
 
   it('#header test value', function () {
-    var req = { headers: { foo: 'bar' }};
-    var res = {
+    const req = {headers: {foo: 'bar'}};
+    const res = {
       getHeader: function (key) {
         return 'foo';
       }
@@ -75,20 +76,21 @@ describe('assertions', function () {
 
     (function () {
       req.should.not.have.header('foo', 'bar');
-    }, 'expected header \'foo\' to not have value bar');
+    }),
+      "expected header 'foo' to not have value bar";
 
     (function () {
       res.should.not.have.header('bar', 'foo');
-    }).should.throw('expected header \'bar\' to not have value foo');
+    }).should.throw("expected header 'bar' to not have value foo");
 
     (function () {
       res.should.not.have.header('bar', /^fo/);
-    }).should.throw('expected header \'bar\' not to match /^fo/ but got \'foo\'');
+    }).should.throw("expected header 'bar' not to match /^fo/ but got 'foo'");
   });
 
   it('#header case insensitive', function () {
-    var req = { headers: { foo: 'bar' }};
-    var res = {
+    const req = {headers: {foo: 'bar'}};
+    const res = {
       getHeader: function (key) {
         return 'foo';
       }
@@ -100,9 +102,9 @@ describe('assertions', function () {
     res.should.have.header('BAr', 'foo');
   });
 
-  it('#headers', function() {
-    var req = { headers: { foo: 'bar' }};
-    var res = {
+  it('#headers', function () {
+    const req = {headers: {foo: 'bar'}};
+    const res = {
       getHeader: function (key) {
         return 'foo';
       }
@@ -113,18 +115,22 @@ describe('assertions', function () {
 
     (function () {
       req.should.not.have.headers;
-    }).should.throw('expected { headers: { foo: \'bar\' } } to not have headers or getHeader method');
+    }).should.throw(
+      "expected { headers: { foo: 'bar' } } to not have headers or getHeader method"
+    );
 
     (function () {
       res.should.not.have.headers;
-    }).should.throw(/expected .*getHeader.* to not have headers or getHeader method/);
+    }).should.throw(
+      /expected .*getHeader.* to not have headers or getHeader method/
+    );
   });
 
-  it('#json', function() {
-    var req = { headers: { 'content-type': [ 'application/json' ] }};
-    var res = {
+  it('#json', function () {
+    const req = {headers: {'content-type': ['application/json']}};
+    const res = {
       getHeader: function (key) {
-        return 'application/json'
+        return 'application/json';
       }
     };
 
@@ -133,18 +139,22 @@ describe('assertions', function () {
 
     (function () {
       req.should.not.be.json;
-    }).should.throw('expected [ \'application/json\' ] to not include \'application/json\'');
+    }).should.throw(
+      "expected [ 'application/json' ] to not include 'application/json'"
+    );
 
     (function () {
       res.should.not.be.json;
-    }).should.throw('expected \'application/json\' to not include \'application/json\'');
+    }).should.throw(
+      "expected 'application/json' to not include 'application/json'"
+    );
   });
 
-  it('#text', function() {
-    var req = { headers: { 'content-type': [ 'text/plain' ] }};
-    var res = {
+  it('#text', function () {
+    const req = {headers: {'content-type': ['text/plain']}};
+    const res = {
       getHeader: function (key) {
-        return 'text/plain'
+        return 'text/plain';
       }
     };
 
@@ -153,18 +163,18 @@ describe('assertions', function () {
 
     (function () {
       req.should.not.be.text;
-    }).should.throw('expected [ \'text/plain\' ] to not include \'text/plain\'');
+    }).should.throw("expected [ 'text/plain' ] to not include 'text/plain'");
 
     (function () {
       res.should.not.be.text;
-    }).should.throw('expected \'text/plain\' to not include \'text/plain\'');
+    }).should.throw("expected 'text/plain' to not include 'text/plain'");
   });
 
   it('#html', function () {
-    var req = { headers: { 'content-type': [ 'text/html' ] }};
-    var res = {
+    const req = {headers: {'content-type': ['text/html']}};
+    const res = {
       getHeader: function (key) {
-        return 'text/html'
+        return 'text/html';
       }
     };
 
@@ -173,19 +183,19 @@ describe('assertions', function () {
 
     (function () {
       req.should.not.be.html;
-    }).should.throw('expected [ \'text/html\' ] to not include \'text/html\'');
+    }).should.throw("expected [ 'text/html' ] to not include 'text/html'");
 
     (function () {
       res.should.not.be.html;
-    }).should.throw('expected \'text/html\' to not include \'text/html\'');
+    }).should.throw("expected 'text/html' to not include 'text/html'");
   });
 
   it('#redirect', function () {
-    var res = { status: 200 };
+    const res = {status: 200};
     res.should.not.redirect;
 
     [301, 302, 303, 307, 308].forEach(function (status) {
-      var res = { status: status };
+      const res = {status: status};
       res.should.redirect;
     });
 
@@ -200,63 +210,65 @@ describe('assertions', function () {
     }).should.not.redirect;
 
     (function () {
-      var res = { status: 200 };
+      const res = {status: 200};
       res.should.redirect;
     }).should.throw('expected redirect with 30X status code but got 200');
 
     (function () {
-      var res = { status: 301 };
+      const res = {status: 301};
       res.should.not.redirect;
     }).should.throw('expected not to redirect but got 301 status');
   });
 
   it('#redirectTo', function () {
-    var res = { status: 301, headers: { location: 'foo' } };
+    let res = {status: 301, headers: {location: 'foo'}};
     res.should.redirectTo('foo');
 
-    res = { status: 301, headers: { location: 'bar' } };
+    res = {status: 301, headers: {location: 'bar'}};
     res.should.not.redirectTo('foo');
 
-    res = { status: 200, redirects: ['bar'] };
+    res = {status: 200, redirects: ['bar']};
     res.should.redirectTo('bar');
 
-    res = { status: 200, redirects: ['bar'] };
+    res = {status: 200, redirects: ['bar']};
     res.should.not.redirectTo('foo');
 
-    res = { status: 200, redirects: ['foo'] };
+    res = {status: 200, redirects: ['foo']};
     res.should.redirectTo(/foo/);
 
-    res = { status: 200, redirects: ['foo/bar?baz=qux'] };
+    res = {status: 200, redirects: ['foo/bar?baz=qux']};
     res.should.redirectTo(/^foo\/bar/);
 
     (function () {
-      var res = { status: 301, headers: { location: 'foo' } };
+      const res = {status: 301, headers: {location: 'foo'}};
       res.should.not.redirectTo('foo');
-    }).should.throw('expected header \'location\' to not have value foo');
+    }).should.throw("expected header 'location' to not have value foo");
 
     (function () {
-      var res = { status: 301, headers: { location: 'bar' } };
+      const res = {status: 301, headers: {location: 'bar'}};
       res.should.redirectTo('foo');
-    }).should.throw('expected header \'location\' to have value foo');
+    }).should.throw("expected header 'location' to have value foo");
 
     (function () {
-      var res = { status: 200, redirects: ['bar', 'baz'] };
+      const res = {status: 200, redirects: ['bar', 'baz']};
       res.should.redirectTo('foo');
     }).should.throw('expected redirect to foo but got bar then baz');
 
     (function () {
-      var res = { status: 301, headers: { location: 'foo' } };
+      const res = {status: 301, headers: {location: 'foo'}};
       res.should.not.redirectTo(/foo/);
-    }).should.throw('expected header \'location\' not to match /foo/ but got \'foo\'');
+    }).should.throw(
+      "expected header 'location' not to match /foo/ but got 'foo'"
+    );
 
     (function () {
-      var res = { status: 200, redirects: ['bar', 'baz'] };
+      const res = {status: 200, redirects: ['bar', 'baz']};
       res.should.redirectTo(/foo/);
     }).should.throw('expected redirect to /foo/ but got bar then baz');
   });
 
   it('#param', function () {
-    var req = { url: '/test?x=y&foo=bar' };
+    const req = {url: '/test?x=y&foo=bar'};
     req.should.have.param('x');
     req.should.have.param('foo');
     req.should.have.param('x', 'y');
@@ -276,7 +288,7 @@ describe('assertions', function () {
   });
 
   it('#param (nested)', function () {
-    var req = { url: '/test?form[name]=jim&form[lastName]=bob' };
+    const req = {url: '/test?form[name]=jim&form[lastName]=bob'};
     req.should.have.param('form');
     req.should.have.nested.param('form.name');
     req.should.have.nested.param('form.name', 'jim');
@@ -292,11 +304,13 @@ describe('assertions', function () {
 
     (function () {
       req.should.not.have.nested.param('form.lastName', 'bob');
-    }).should.throw(/expected .* to not have nested property \'form.lastName\' of \'bob\'/);
+    }).should.throw(
+      /expected .* to not have nested property \'form.lastName\' of \'bob\'/
+    );
   });
 
   it('#cookie', function () {
-    var res = {
+    const res = {
       headers: {
         'set-cookie': [
           'name=value',
@@ -313,28 +327,30 @@ describe('assertions', function () {
 
     (function () {
       res.should.not.have.cookie('name');
-    }).should.throw('expected cookie \'name\' to not exist');
+    }).should.throw("expected cookie 'name' to not exist");
 
     (function () {
       res.should.have.cookie('foo');
-    }).should.throw('expected cookie \'foo\' to exist');
+    }).should.throw("expected cookie 'foo' to exist");
 
     (function () {
       res.should.not.have.cookie('name', 'value');
-    }).should.throw('expected cookie \'name\' to not have value \'value\'');
+    }).should.throw("expected cookie 'name' to not have value 'value'");
 
     (function () {
       res.should.have.cookie('name2', 'value');
-    }).should.throw('expected cookie \'name2\' to have value \'value\' but got \'value2\'');
+    }).should.throw(
+      "expected cookie 'name2' to have value 'value' but got 'value2'"
+    );
   });
 
   it('#cookie (request)', function () {
-    var req = {
+    const req = {
       headers: {
         'set-cookie': [
           'name=value;',
           'name2=value2; Expires=Wed, 09 Jun 2038 10:18:14 GMT',
-          'name3=value3; Domain=.somedomain.com',
+          'name3=value3; Domain=.somedomain.com'
         ]
       }
     };
@@ -349,33 +365,35 @@ describe('assertions', function () {
 
     (function () {
       req.should.not.have.cookie('name');
-    }).should.throw('expected cookie \'name\' to not exist');
+    }).should.throw("expected cookie 'name' to not exist");
 
     (function () {
       req.should.have.cookie('foo');
-    }).should.throw('expected cookie \'foo\' to exist');
+    }).should.throw("expected cookie 'foo' to exist");
 
     (function () {
       req.should.not.have.cookie('name', 'value');
-    }).should.throw('expected cookie \'name\' to not have value \'value\'');
+    }).should.throw("expected cookie 'name' to not have value 'value'");
 
     (function () {
       req.should.have.cookie('name2', 'value');
-    }).should.throw('expected cookie \'name2\' to have value \'value\' but got \'value2\'');
-
+    }).should.throw(
+      "expected cookie 'name2' to have value 'value' but got 'value2'"
+    );
   });
 
   it('#cookie (agent)', function () {
-    var agent = chai.request.agent();
-    var cookies = [
+    const agent = chai.request.agent();
+    const cookies = [
       'name=value',
       'name2=value2; Expires=Wed, 09 Jun 2038 10:18:14 GMT',
-      'name3=value3; Domain=.somedomain.com',
+      'name3=value3; Domain=.somedomain.com'
     ];
-    if (agent.jar)  // Using superagent.Agent (node)
+    if (agent.jar)
+      // Using superagent.Agent (node)
       agent.jar.setCookies(cookies);
-    else  // using superagent.Request (browser)
-      agent.set('set-cookie', cookies);
+    // using superagent.Request (browser)
+    else agent.set('set-cookie', cookies);
 
     agent.should.have.cookie('name');
     agent.should.have.cookie('name2');
@@ -388,47 +406,50 @@ describe('assertions', function () {
 
     (function () {
       agent.should.not.have.cookie('name');
-    }).should.throw('expected cookie \'name\' to not exist');
+    }).should.throw("expected cookie 'name' to not exist");
 
     (function () {
       agent.should.have.cookie('foo');
-    }).should.throw('expected cookie \'foo\' to exist');
+    }).should.throw("expected cookie 'foo' to exist");
 
     (function () {
       agent.should.not.have.cookie('name', 'value');
-    }).should.throw('expected cookie \'name\' to not have value \'value\'');
+    }).should.throw("expected cookie 'name' to not have value 'value'");
 
     (function () {
       agent.should.have.cookie('name2', 'value');
-    }).should.throw('expected cookie \'name2\' to have value \'value\' but got \'value2\'');
-
+    }).should.throw(
+      "expected cookie 'name2' to have value 'value' but got 'value2'"
+    );
   });
 
   describe('#charset', function () {
-    it("should match charset in content type", function() {
-      var req = { headers: { 'content-type': [ 'text/plain; charset=utf-8' ] } };
-      req.should.to.have.charset("utf-8");
+    it('should match charset in content type', function () {
+      const req = {
+        headers: {'content-type': ['text/plain; charset=utf-8']}
+      };
+      req.should.to.have.charset('utf-8');
 
       (function () {
-        req.should.not.have.charset("utf-8");
+        req.should.not.have.charset('utf-8');
       }).should.throw('expected content type to not have utf-8 charset');
     });
 
-    it("should handle no content type", function() {
-      var req = { headers: {} };
-      req.should.not.have.charset("utf-8");
+    it('should handle no content type', function () {
+      const req = {headers: {}};
+      req.should.not.have.charset('utf-8');
 
       (function () {
-        req.should.to.have.charset("utf-8");
+        req.should.to.have.charset('utf-8');
       }).should.throw('expected content type to have utf-8 charset');
     });
 
-    it("should handle no charset in content type", function() {
-      var req = { headers: { 'content-type': [ 'text/plain' ] } };
-      req.should.not.have.charset("utf-8");
+    it('should handle no charset in content type', function () {
+      const req = {headers: {'content-type': ['text/plain']}};
+      req.should.not.have.charset('utf-8');
 
       (function () {
-        req.should.to.have.charset("utf-8");
+        req.should.to.have.charset('utf-8');
       }).should.throw('expected content type to have utf-8 charset');
     });
   });

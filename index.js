@@ -1,2 +1,2 @@
-import fn from "./lib/http.js";
+import fn from './lib/http.js';
 export default fn;
