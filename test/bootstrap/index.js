@@ -1,6 +1,7 @@
 import * as originalChai from 'chai';
 import * as http from 'http';
-import project from '../../index.js';
+// this import is available from defining `imports` in package.json
+import project from 'chai-http';
 
 global.http = http;
 
