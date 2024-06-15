@@ -2,7 +2,6 @@ import superagent from 'superagent';
 describe('request', function () {
   const isNode = typeof process === 'object';
   const isBrowser = typeof window === 'object';
-  const request = chai.request;
 
   describe('Browser and Node.js', function () {
     it('is present on chai', function () {
@@ -273,8 +272,8 @@ describe('request', function () {
         server.listen = function () {
           throw new Error('listen was called when it shouldnt have been');
         };
-        cachedRequest.get('/').end(function (err, res) {
-          cachedRequest.get('/').end(function (err2, res) {
+        cachedRequest.get('/').end(function (err) {
+          cachedRequest.get('/').end(function (err2) {
             server.close(function () {
               done(err || err2);
             });
@@ -288,7 +287,7 @@ describe('request', function () {
           res.end('hello world');
         });
         const cachedRequest = request.execute(server).keepOpen();
-        cachedRequest.close(function (err) {
+        cachedRequest.close(function () {
           should.not.exist(server.address());
           done();
         });

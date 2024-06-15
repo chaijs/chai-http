@@ -4,13 +4,16 @@ export default [
   {
     ...mocha.configs.flat.recommended,
     languageOptions: {
+      ...mocha.configs.flat.recommended.languageOptions,
       globals: {
+        ...mocha.configs.flat.recommended.languageOptions.globals,
         http: 'readonly',
         should: 'readonly',
         expect: 'readonly',
         chai: 'readonly',
-        global: 'writable'
-      }
+        global: 'writable',
+        request: 'readonly'
+      },
     }
   },
   {

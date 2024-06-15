@@ -65,7 +65,7 @@ describe('assertions', function () {
   it('#header test value', function () {
     const req = {headers: {foo: 'bar'}};
     const res = {
-      getHeader: function (key) {
+      getHeader: function () {
         return 'foo';
       }
     };
@@ -91,7 +91,7 @@ describe('assertions', function () {
   it('#header case insensitive', function () {
     const req = {headers: {foo: 'bar'}};
     const res = {
-      getHeader: function (key) {
+      getHeader: function () {
         return 'foo';
       }
     };
@@ -105,7 +105,7 @@ describe('assertions', function () {
   it('#headers', function () {
     const req = {headers: {foo: 'bar'}};
     const res = {
-      getHeader: function (key) {
+      getHeader: function () {
         return 'foo';
       }
     };
@@ -129,7 +129,7 @@ describe('assertions', function () {
   it('#json', function () {
     const req = {headers: {'content-type': ['application/json']}};
     const res = {
-      getHeader: function (key) {
+      getHeader: function () {
         return 'application/json';
       }
     };
@@ -153,7 +153,7 @@ describe('assertions', function () {
   it('#text', function () {
     const req = {headers: {'content-type': ['text/plain']}};
     const res = {
-      getHeader: function (key) {
+      getHeader: function () {
         return 'text/plain';
       }
     };
@@ -173,7 +173,7 @@ describe('assertions', function () {
   it('#html', function () {
     const req = {headers: {'content-type': ['text/html']}};
     const res = {
-      getHeader: function (key) {
+      getHeader: function () {
         return 'text/html';
       }
     };
@@ -280,11 +280,11 @@ describe('assertions', function () {
 
     (function () {
       req.should.not.have.param('foo');
-    }).should.throw(/expected .* to not have property \'foo\'/);
+    }).should.throw(/expected .* to not have property 'foo'/);
 
     (function () {
       req.should.not.have.param('foo', 'bar');
-    }).should.throw(/expected .* to not have property \'foo\' of \'bar\'/);
+    }).should.throw(/expected .* to not have property 'foo' of 'bar'/);
   });
 
   it('#param (nested)', function () {
@@ -300,12 +300,12 @@ describe('assertions', function () {
 
     (function () {
       req.should.not.have.nested.param('form.name');
-    }).should.throw(/expected .* to not have nested property \'form.name\'/);
+    }).should.throw(/expected .* to not have nested property 'form.name'/);
 
     (function () {
       req.should.not.have.nested.param('form.lastName', 'bob');
     }).should.throw(
-      /expected .* to not have nested property \'form.lastName\' of \'bob\'/
+      /expected .* to not have nested property 'form.lastName' of 'bob'/
     );
   });
 
