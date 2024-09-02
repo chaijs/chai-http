@@ -20,10 +20,15 @@ This is an addon plugin for the [Chai Assertion Library](https://www.chaijs.com/
 Use this plugin as you would all other Chai plugins.
 
 ```js
-import chaiModule from "chai";
+import * as chai from "chai";
 import chaiHttp from "chai-http";
 
-const chai = chaiModule.use(chaiHttp);
+chai.use(chaiHttp);
+
+// if you need to access `request`
+import {default as chaiHttp, request} from "chai-http";
+chai.use(chaiHttp);
+request.get(...).send(...);
 ```
 
 To use Chai HTTP on a web page, please use the latest v4 version for now.
@@ -89,7 +94,7 @@ Once a request is created with a given VERB (get, post, etc), you chain on these
 | `.set(key, value)` | Set request headers  |
 | `.send(data)` |  Set request data (default type is JSON) |
 | `.type(dataType)` | Change the type of the data sent from the `.send()` method (xml, form, etc) |
-| `.attach(field, file, attachment)` | Attach a file | 
+| `.attach(field, file, attachment)` | Attach a file |
 | `.auth(username, password)` | Add auth headers for Basic Authentication |
 | `.query(parmasObject)` |  Chain on some GET parameters |
 
@@ -139,12 +144,12 @@ chai.request.execute(app)
 chai.request.execute(app)
   .get('/protected')
   .auth('user', 'pass')
-  
+
 // Authenticate with Bearer Token
 chai.request.execute(app)
   .get('/protected')
-  .auth(accessToken, { type: 'bearer' })  
-  
+  .auth(accessToken, { type: 'bearer' })
+
 ```
 
 `.query()`
