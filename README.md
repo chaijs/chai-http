@@ -64,7 +64,7 @@ request.execute(app)
   .get('/')
 ```
 
-When passing an `app` to `request`; it will automatically open the server for
+When passing an `app` to `request.execute()`, it will automatically open the server for
 incoming requests (by calling `listen()`) and, once a request has been made
 the server will automatically shut down (by calling `.close()`). If you want to
 keep the server open, perhaps if you're making multiple requests, you must call
@@ -243,7 +243,7 @@ error parameter when signaling completion.
 
 #### Dealing with the response - Promises
 
-If `Promise` is available, `request()` becomes a Promise capable library -
+If `Promise` is available, `request` becomes a Promise capable library -
 and chaining of `then`s becomes possible:
 
 ```js
