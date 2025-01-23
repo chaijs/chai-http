@@ -20,10 +20,19 @@ This is an addon plugin for the [Chai Assertion Library](https://www.chaijs.com/
 Use this plugin as you would all other Chai plugins.
 
 ```js
-import chaiModule from "chai";
+import * as chai from "chai";
 import chaiHttp from "chai-http";
 
-const chai = chaiModule.use(chaiHttp);
+chai.use(chaiHttp);
+
+// if you need to access `request`
+import {default as chaiHttp, request} from "chai-http";
+chai.use(chaiHttp);
+
+request.get(...).send(...);
+
+// or setting up an app
+request.execute(app);
 ```
 
 To use Chai HTTP on a web page, please use the latest v4 version for now.
@@ -49,18 +58,22 @@ port to listen on for a given test.
 __Note:__ This feature is only supported on Node.js, not in web browsers.
 
 ```js
-chai.request.execute(app)
+import {request} from 'chai-http';
+
+request.execute(app)
   .get('/')
 ```
 
-When passing an `app` to `request`; it will automatically open the server for
+When passing an `app` to `request.execute()`, it will automatically open the server for
 incoming requests (by calling `listen()`) and, once a request has been made
 the server will automatically shut down (by calling `.close()`). If you want to
 keep the server open, perhaps if you're making multiple requests, you must call
 `.keepOpen()` after `.request()`, and manually close the server down:
 
 ```js
-const requester = chai.request.Request(app).keepOpen()
+import {request} from 'chai-http';
+
+const requester = request.Request(app).keepOpen()
 
 Promise.all([
   requester.get('/a'),
@@ -76,7 +89,9 @@ Promise.all([
 You may also use a base url as the foundation of your request.
 
 ```js
-chai.request.execute('http://localhost:8080')
+import {request} from 'chai-http';
+
+request.execute('http://localhost:8080')
   .get('/')
 ```
 
@@ -89,7 +104,7 @@ Once a request is created with a given VERB (get, post, etc), you chain on these
 | `.set(key, value)` | Set request headers  |
 | `.send(data)` |  Set request data (default type is JSON) |
 | `.type(dataType)` | Change the type of the data sent from the `.send()` method (xml, form, etc) |
-| `.attach(field, file, attachment)` | Attach a file | 
+| `.attach(field, file, attachment)` | Attach a file |
 | `.auth(username, password)` | Add auth headers for Basic Authentication |
 | `.query(parmasObject)` |  Chain on some GET parameters |
 
@@ -97,8 +112,10 @@ Examples:
 
 `.set()`
 ```js
+import {request} from 'chai-http';
+
 // Set a request header
-chai.request.execute(app)
+request.execute(app)
   .put('/user/me')
   .set('Content-Type', 'application/json')
   .send({ password: '123', confirmPassword: '123' })
@@ -106,16 +123,20 @@ chai.request.execute(app)
 
 `.send()`
 ```js
+import {request} from 'chai-http';
+
 // Send some JSON
-chai.request.execute(app)
+request.execute(app)
   .put('/user/me')
   .send({ password: '123', confirmPassword: '123' })
 ```
 
 `.type()`
 ```js
+import {request} from 'chai-http';
+
 // Send some Form Data
-chai.request.execute(app)
+request.execute(app)
   .post('/user/me')
   .type('form')
   .send({
@@ -127,30 +148,36 @@ chai.request.execute(app)
 
 `.attach()`
 ```js
+import {request} from 'chai-http';
+
 // Attach a file
-chai.request.execute(app)
+request.execute(app)
   .post('/user/avatar')
   .attach('imageField', fs.readFileSync('avatar.png'), 'avatar.png')
 ```
 
 `.auth()`
 ```js
+import {request} from 'chai-http';
+
 // Authenticate with Basic authentication
-chai.request.execute(app)
+request.execute(app)
   .get('/protected')
   .auth('user', 'pass')
-  
+
 // Authenticate with Bearer Token
-chai.request.execute(app)
+request.execute(app)
   .get('/protected')
-  .auth(accessToken, { type: 'bearer' })  
-  
+  .auth(accessToken, { type: 'bearer' })
+
 ```
 
 `.query()`
 ```js
+import {request} from 'chai-http';
+
 // Chain some GET query parameters
-chai.request.execute(app)
+request.execute(app)
   .get('/search')
   .query({name: 'foo', limit: 10}) // /search?name=foo&limit=10
 ```
@@ -166,7 +193,9 @@ const { expect } = chai;
 To make the request and assert on its response, the `end` method can be used:
 
 ```js
-chai.request.execute(app)
+import {request} from 'chai-http';
+
+request.execute(app)
   .put('/user/me')
   .send({ password: '123', confirmPassword: '123' })
   .end((err, res) => {
@@ -188,8 +217,10 @@ accomplished using the
 callback has completed, and the assertions can be verified:
 
 ```js
+import {request} from 'chai-http';
+
 it('fails, as expected', function(done) { // <= Pass in done callback
-  chai.request.execute('http://localhost:8080')
+  request.execute('http://localhost:8080')
   .get('/')
   .end((err, res) => {
     expect(res).to.have.status(123);
@@ -198,7 +229,7 @@ it('fails, as expected', function(done) { // <= Pass in done callback
 });
 
 it('succeeds silently!', () => {   // <= No done callback
-  chai.request.execute('http://localhost:8080')
+  request.execute('http://localhost:8080')
   .get('/')
   .end((err, res) => {
     expect(res).to.have.status(123);    // <= Test completes before this runs
@@ -212,11 +243,13 @@ error parameter when signaling completion.
 
 #### Dealing with the response - Promises
 
-If `Promise` is available, `request()` becomes a Promise capable library -
+If `Promise` is available, `request` becomes a Promise capable library -
 and chaining of `then`s becomes possible:
 
 ```js
-chai.request.execute(app)
+import {request} from 'chai-http';
+
+request.execute(app)
   .put('/user/me')
   .send({ password: '123', confirmPassword: '123' })
   .then((res) => {
@@ -233,8 +266,10 @@ Sometimes you need to keep cookies from one request, and send them with the
 next (for example, when you want to login with the first request, then access an authenticated-only resource later). For this, `.request.agent()` is available:
 
 ```js
+import {request} from 'chai-http';
+
 // Log in
-const agent = chai.request.agent(app)
+const agent = request.agent(app)
 agent
   .post('/session')
   .send({ username: 'me', password: '123' })
@@ -249,7 +284,7 @@ agent
   });
 ```
 
-Note: The server started by `chai.request.agent(app)` will not automatically close following the test(s). You should call `agent.close()` after your tests to ensure your program exits.
+Note: The server started by `request.agent(app)` will not automatically close following the test(s). You should call `agent.close()` after your tests to ensure your program exits.
 
 ## Assertions
 

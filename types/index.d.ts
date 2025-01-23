@@ -5,7 +5,7 @@
 //                 Austin Cawley-Edwards <https://github.com/austince>
 // TypeScript Version: 3.0
 /// <reference types="chai" />
-import * as request from 'superagent';
+import * as superAgentRequest from 'superagent';
 
 // Merge namespace with global chai
 declare global {
@@ -48,8 +48,8 @@ declare global {
   }
 
   namespace ChaiHttp {
-    interface Response extends request.Response {}
-    interface Agent extends request.SuperAgentStatic {
+    interface Response extends superAgentRequest.Response {}
+    interface Agent extends superAgentRequest.SuperAgentStatic {
       keepOpen(): Agent;
       close(callback?: (err: any) => void): Agent;
     }
@@ -59,3 +59,7 @@ declare global {
 declare function chaiHttp(chai: any, utils: any): void;
 
 export default chaiHttp;
+
+declare const request: Chai.ChaiHttpRequest;
+
+export {request};
