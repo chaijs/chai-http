@@ -11,7 +11,8 @@ export default [
         expect: 'readonly',
         chai: 'readonly',
         global: 'writable',
-        request: 'readonly'
+        request: 'readonly',
+        AbortController: 'readonly',
       }
     }
   },
@@ -19,5 +20,9 @@ export default [
     ...js.configs.recommended,
     files: ['**/*.js']
   },
-
+  {
+    rules: {
+      'mocha/no-mocha-arrows': 'off'
+    }
+  }
 ];
