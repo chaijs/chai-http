@@ -58,7 +58,7 @@
     "is-ip": "^5.0.1",
     "methods": "^1.1.2",
     "qs": "^6.12.1",
-    "superagent": "^9"
+    "superagent": "^10.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.3.0",
