@@ -57,7 +57,7 @@
     "is-ip": "^2.0.0",
     "methods": "^1.1.2",
     "qs": "^6.11.2",
-    "superagent": "^8.0.9"
+    "superagent": "^10.2.3"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^5.0.1",
