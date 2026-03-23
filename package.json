@@ -73,7 +73,7 @@
     "npm-run-all2": "^8.0.0",
     "polka": "^1.0.0-next.28",
     "prettier": "^3.2.5",
-    "typescript": "^5.4.5"
+    "typescript": "^6.0.0"
   },
   "engines": {
     "node": ">=18.20.0"
