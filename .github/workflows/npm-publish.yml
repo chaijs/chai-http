@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: 24
@@ -25,16 +27,20 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: 24.x
           registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
+      - run: npm install -g npm@~11.10.0 # Work-around for https://github.com/npm/cli/issues/9151#issuecomment-4131466208
+      - run: npm install -g npm@latest
       - run: npm ci
       - run: npm version ${TAG_NAME} --git-tag-version=false
         env:
           TAG_NAME: ${{ github.ref_name }}
-      - run: npm publish --provenance --access public --tag next
+      - run: npm stage publish --provenance --access public --tag next
         if: "github.event.release.prerelease"
-      - run: npm publish --provenance --access public
+      - run: npm stage publish --provenance --access public
         if: "!github.event.release.prerelease"
