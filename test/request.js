@@ -207,6 +207,49 @@ describe('request', function () {
         .then(done, done);
     });
 
+    it('agent can be used to set default headers', function (done){
+      var agent = request.agent('https://httpbin.org');
+      agent.set("Header-Name", "header_value");
+
+      agent
+        .get('/headers')
+        .then(function (res){
+          res.should.have.status(200);
+          res.body.headers.should.have.property('Header-Name').that.equals("header_value");
+          agent.close();
+        })
+        .then(done, done);
+    });
+
+    it('agent can be used to set default bearer authentication', function (done){
+      var agent = request.agent('https://httpbin.org');
+      agent.set("Authorization", "Bearer test_bearer");
+
+      agent
+        .get('/bearer')
+        .then(function (res){
+          res.should.have.status(200);
+          res.should.be.json;
+          res.body.should.have.property('authenticated').that.equals(true);
+          res.body.should.have.property('token').that.equals("test_bearer");
+          agent.close();
+        })
+        .then(done, done);
+    });
+
+    it('agent can be used to set default basic authentication', function (done){
+      var agent = request.agent('https://httpbin.org');
+      agent.auth("user", "passwd");
+
+      agent
+        .get('/basic-auth/user/passwd')
+        .then(function (res){
+          res.should.have.status(200);
+          agent.close();
+        })
+        .then(done, done);
+    });
+
     it('automatically closes the server down once done with it', function (done) {
       const server = http.createServer(function (_req, res) {
         res.writeHeader(200, {'content-type': 'text/plain'});
