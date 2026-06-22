@@ -34,7 +34,7 @@
   "types": "./types/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git@github.com:chaijs/chai-http.git"
+    "url": "https://github.com/chaijs/chai-http.git"
   },
   "scripts": {
     "build": "npm run build:ts",
