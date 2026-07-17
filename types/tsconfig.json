@@ -1,16 +1,12 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "node20",
     "lib": [
       "es6",
       "dom"
     ],
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "strictNullChecks": false,
-    "strictFunctionTypes": true,
-    "baseUrl": "../",
-    "typeRoots": [],
+    "strict": true,
+    "rootDir": "../",
     "types": [],
     "noEmit": true,
     "forceConsistentCasingInFileNames": true

@@ -1,7 +1,7 @@
 import js from '@eslint/js';
 import mocha from 'eslint-plugin-mocha';
 export default [
-  mocha.configs.flat.recommended,
+  mocha.configs.recommended,
   {
     files: ['test/**/*.js'],
     languageOptions: {
