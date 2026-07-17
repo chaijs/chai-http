@@ -15,9 +15,9 @@ jobs:
     strategy:
       matrix:
         node_version:
-          - 18 # remove May 2025
           - 20 # remove May 2026
           - 22 # remove May 2027
+          - 25
           - x.x.x # safety net; don't remove
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0

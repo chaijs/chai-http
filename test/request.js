@@ -144,7 +144,7 @@ describe('request', function () {
     it('can request a functioned "app"', function (done) {
       const app = function (req, res) {
         req.headers['x-api-key'].should.equal('testing');
-        res.writeHeader(200, {'content-type': 'text/plain'});
+        res.writeHead(200, {'content-type': 'text/plain'});
         res.end('hello universe');
       };
 
@@ -163,7 +163,7 @@ describe('request', function () {
     it('can request an already existing url', function (done) {
       const server = http.createServer(function (req, res) {
         req.headers['x-api-key'].should.equal('test2');
-        res.writeHeader(200, {'content-type': 'text/plain'});
+        res.writeHead(200, {'content-type': 'text/plain'});
         res.end('hello world');
       });
 
@@ -186,7 +186,7 @@ describe('request', function () {
     it('agent can be used to persist cookies', function (done) {
       const app = function (req, res) {
         res.setHeader('Set-Cookie', 'mycookie=test');
-        res.writeHeader(200, {'content-type': 'text/plain'});
+        res.writeHead(200, {'content-type': 'text/plain'});
         res.end('your cookie: ' + req.headers.cookie);
       };
       const agent = request.agent(app);
@@ -209,7 +209,7 @@ describe('request', function () {
 
     it('automatically closes the server down once done with it', function (done) {
       const server = http.createServer(function (_req, res) {
-        res.writeHeader(200, {'content-type': 'text/plain'});
+        res.writeHead(200, {'content-type': 'text/plain'});
         res.end('hello world');
       });
 
@@ -226,7 +226,7 @@ describe('request', function () {
 
     it('can use keepOpen() to not close the server', function (done) {
       const server = http.createServer(function (_req, res) {
-        res.writeHeader(200, {'content-type': 'text/plain'});
+        res.writeHead(200, {'content-type': 'text/plain'});
         res.end('hello world');
       });
       const cachedRequest = request.execute(server).keepOpen();
@@ -244,7 +244,7 @@ describe('request', function () {
 
     it('can close server after using keepOpen()', function (done) {
       const server = http.createServer(function (_req, res) {
-        res.writeHeader(200, {'content-type': 'text/plain'});
+        res.writeHead(200, {'content-type': 'text/plain'});
         res.end('hello world');
       });
       const cachedRequest = request.execute(server).keepOpen();
