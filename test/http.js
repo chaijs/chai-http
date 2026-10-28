@@ -76,8 +76,7 @@ describe('assertions', function () {
 
     (function () {
       req.should.not.have.header('foo', 'bar');
-    }),
-      "expected header 'foo' to not have value bar";
+    }).should.throw("expected header 'foo' to not have value bar");
 
     (function () {
       res.should.not.have.header('bar', 'foo');
@@ -451,6 +450,77 @@ describe('assertions', function () {
       (function () {
         req.should.to.have.charset('utf-8');
       }).should.throw('expected content type to have utf-8 charset');
+    });
+  });
+
+  describe('fetch Response', function () {
+    it('#header', function () {
+      const res = new Response('', {headers: {'X-Foo': 'bar'}});
+      res.should.have.header('x-foo');
+      res.should.have.header('X-Foo', 'bar');
+      res.should.have.header('x-foo', /^b/);
+      res.should.not.have.header('x-missing');
+
+      (function () {
+        res.should.have.header('x-missing');
+      }).should.throw("expected header 'x-missing' to exist");
+    });
+
+    it('#headers', function () {
+      new Response('').should.have.headers;
+    });
+
+    it('#json / #text / #html', function () {
+      new Response('{}', {
+        headers: {'content-type': 'application/json'}
+      }).should.be.json;
+      new Response('', {headers: {'content-type': 'text/html'}}).should.be.html;
+      new Response('', {headers: {'content-type': 'text/plain'}}).should.not.be
+        .json;
+    });
+
+    it('#charset', function () {
+      const res = new Response('', {
+        headers: {'content-type': 'text/plain; charset=utf-8'}
+      });
+      res.should.have.charset('utf-8');
+      res.should.not.have.charset('iso-8859-1');
+    });
+
+    it('#cookie', function () {
+      const headers = new Headers();
+      headers.append('set-cookie', 'name=value');
+      headers.append('set-cookie', 'other=thing; Path=/');
+      const res = new Response('', {headers});
+      res.should.have.cookie('name');
+      res.should.have.cookie('name', 'value');
+      res.should.have.cookie('other', 'thing');
+      res.should.not.have.cookie('missing');
+    });
+
+    it('#status', function () {
+      new Response('', {status: 201}).should.have.status(201);
+    });
+
+    it('#redirect / #redirectTo', function () {
+      // `redirected` and `url` can't be set via the Response constructor
+      const res = new Response('', {status: 200});
+      Object.defineProperties(res, {
+        redirected: {value: true},
+        url: {value: 'http://example.com/'}
+      });
+      res.should.redirect;
+      res.should.redirectTo('http://example.com/');
+      res.should.redirectTo(/example/);
+      res.should.not.redirectTo('http://other.com/');
+
+      (function () {
+        res.should.redirectTo('http://other.com/');
+      }).should.throw(
+        'expected redirect to http://other.com/ but got http://example.com/'
+      );
+
+      new Response('', {status: 200}).should.not.redirect;
     });
   });
 });
