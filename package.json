@@ -56,7 +56,7 @@
     "cookiejar": "^2.1.4",
     "is-ip": "^5.0.1",
     "methods": "^1.1.2",
-    "picoquery": "^1.4.0",
+    "picoquery": "^2.0.0",
     "superagent": "^10.0.0"
   },
   "devDependencies": {
