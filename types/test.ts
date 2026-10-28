@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as http from 'http';
 import * as originalChai from 'chai';
-import ChaiHttp from './index';
+import ChaiHttp from './index.js';
 
 const chai = originalChai.use(ChaiHttp);
 
@@ -60,7 +60,7 @@ chai.request
       data += chunk;
     });
     res.on('end', () => {
-      cb(undefined, new Buffer(data, 'binary'));
+      cb(null, new Buffer(data, 'binary'));
     });
   });
 

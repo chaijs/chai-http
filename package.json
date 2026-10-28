@@ -27,7 +27,7 @@
   "main": "./index.js",
   "exports": {
     ".": {
-      "import": "./index.js",
+      "default": "./index.js",
       "types": "./types/index.d.ts"
     }
   },
@@ -41,7 +41,7 @@
     "build:ts": "cd types && tsc",
     "start": "npm-run-all --parallel watch server",
     "server": "http-server -o -c-1",
-    "test": "nyc --reporter=lcovonly --reporter=text-summary mocha",
+    "test": "c8 --reporter=lcovonly --reporter=text-summary mocha",
     "coverage": "if [ -z \"$COVERALLS_REPO_TOKEN\" ]; then cat coverage/lcov.info | coveralls; fi",
     "eslint": "eslint"
   },
@@ -51,27 +51,28 @@
     "net": "./lib/net.js"
   },
   "dependencies": {
+    "@types/superagent": "^8.1.7",
     "charset": "^1.0.1",
     "cookiejar": "^2.1.4",
     "is-ip": "^5.0.1",
     "methods": "^1.1.2",
     "picoquery": "^1.4.0",
-    "@types/superagent": "^8.1.7",
-    "superagent": "^9"
+    "superagent": "^10.0.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.3.0",
-    "@types/chai": "^4.3.16",
-    "chai": "^5.1.0",
+    "@eslint/js": "^10.0.0",
+    "@types/chai": "^5.0.0",
+    "c8": "^12.0.0",
+    "chai": "^6.0.0",
     "coveralls": "^3.1.1",
-    "eslint": "^9.3.0",
-    "eslint-plugin-mocha": "^10.4.3",
+    "eslint": "^10.0.0",
+    "eslint-plugin-mocha": "^12.0.0",
     "http-server": "^14.1.1",
-    "mocha": "^10.4.0",
-    "npm-run-all2": "^6.2.0",
-    "nyc": "^15.1.0",
+    "mocha": "^12.0.0",
+    "npm-run-all2": "^9.0.0",
+    "polka": "^1.0.0-next.28",
     "prettier": "^3.2.5",
-    "typescript": "^5.4.5"
+    "typescript": "^7.0.0"
   },
   "engines": {
     "node": ">=18.20.0"
