@@ -48,8 +48,7 @@
   "browser": {
     "http": false,
     "https": false,
-    "net": "./lib/net.js",
-    "querystring": "qs"
+    "net": "./lib/net.js"
   },
   "dependencies": {
     "@types/superagent": "^8.1.7",
@@ -57,7 +56,7 @@
     "cookiejar": "^2.1.4",
     "is-ip": "^5.0.1",
     "methods": "^1.1.2",
-    "qs": "^6.12.1",
+    "picoquery": "^1.4.0",
     "superagent": "^10.0.0"
   },
   "devDependencies": {
