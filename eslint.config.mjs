@@ -13,6 +13,8 @@ export default [
         global: 'writable',
         request: 'readonly',
         AbortController: 'readonly',
+        Headers: 'readonly',
+        Response: 'readonly',
       }
     }
   },
